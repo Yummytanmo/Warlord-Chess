@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Auto Git Commit & Push",
+  "description": "Automatically runs tests and commits/pushes to GitHub when a task is completed and all tests pass",
+  "version": "1",
+  "when": {
+    "type": "agentStop"
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "npm test && git add . && git commit -m \"Auto-commit: Task completed with passing tests\" && git push"
+  }
+}
