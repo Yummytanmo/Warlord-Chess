@@ -210,16 +210,16 @@ export class GameManager {
         // currentPlayer is already switched by applyMove, which is correct
       }
     } else if (gameState.turnState && gameState.turnState.phase === 'force_move') {
-       // Similar to extra_move but might enforce specific piece
-       const newTurnState = { ...gameState.turnState };
-       newTurnState.remainingMoves--;
-       
-       if (newTurnState.remainingMoves > 0) {
-         newGameState.currentPlayer = gameState.currentPlayer;
-         newGameState.turnState = newTurnState;
-       } else {
-         newGameState.turnState = undefined;
-       }
+      // Similar to extra_move but might enforce specific piece
+      const newTurnState = { ...gameState.turnState };
+      newTurnState.remainingMoves--;
+
+      if (newTurnState.remainingMoves > 0) {
+        newGameState.currentPlayer = gameState.currentPlayer;
+        newGameState.turnState = newTurnState;
+      } else {
+        newGameState.turnState = undefined;
+      }
     }
 
     // Calculate isCheck and update the last move in history
@@ -344,6 +344,73 @@ export class GameManager {
       turnState: gameState.turnState ? { ...gameState.turnState } : undefined,
       markers: gameState.markers ? { ...gameState.markers } : undefined
     };
+  }
+
+  /**
+   * 应用技能返回的游戏状态变化
+   * 处理棋子移动、移除等操作
+   */
+  private applyGameStateChanges(gameState: GameState, changes: any): void {
+    const newBoard = gameState.board.clone();
+
+    // 处理移除的棋子
+    if (changes.removedPieces && Array.isArray(changes.removedPieces)) {
+      for (const removedPiece of changes.removedPieces) {
+        // 从棋盘上移除
+        newBoard.setPiece(removedPiece.position, null);
+
+        // 在玩家棋子列表中标记为已移除
+        for (const player of gameState.players) {
+          player.pieces = player.pieces.map(p =>
+            p.id === removedPiece.id ? { ...p, isAlive: false } : p
+          );
+        }
+      }
+    }
+
+    // 处理对方将的位置移动（亲征技能）
+    if (changes.opponentKingPosition) {
+      // 找到对手玩家
+      const currentPlayerColor = gameState.currentPlayer;
+      const opponentPlayer = gameState.players.find(p => p.color !== currentPlayerColor);
+
+      if (opponentPlayer) {
+        // 找到对方的将
+        const opponentKing = opponentPlayer.pieces.find(
+          p => p.type === PieceType.KING && p.isAlive
+        );
+
+        if (opponentKing) {
+          const oldPosition = opponentKing.position;
+          const newPosition = changes.opponentKingPosition;
+
+          // 从旧位置移除
+          newBoard.setPiece(oldPosition, null);
+
+          // 更新将的位置
+          const updatedKing = { ...opponentKing, position: newPosition };
+
+          // 放置到新位置
+          newBoard.setPiece(newPosition, updatedKing);
+
+          // 更新玩家棋子列表中的将的位置
+          opponentPlayer.pieces = opponentPlayer.pieces.map(p =>
+            p.id === opponentKing.id ? updatedKing : p
+          );
+        }
+      }
+    }
+
+    // 更新棋盘
+    gameState.board = newBoard;
+
+    // 处理其他可能的状态变化（不包括已处理的特殊字段）
+    const handledKeys = ['removedPieces', 'opponentKingPosition', 'clearedPositions'];
+    for (const key of Object.keys(changes)) {
+      if (!handledKeys.includes(key)) {
+        (gameState as any)[key] = changes[key];
+      }
+    }
   }
 
   /**
@@ -544,15 +611,15 @@ export class GameManager {
 
     const lastMove = history[history.length - 1];
     const checkingPlayer = lastMove.piece.color;
-    
+
     let checks = 0;
-    
+
     // 检查该玩家最近的连续移动
     for (let i = history.length - 1; i >= 0; i -= 2) {
       const move = history[i];
       // 确保是同一玩家的移动
       if (move.piece.color !== checkingPlayer) break;
-      
+
       if (move.isCheck) {
         checks++;
       } else {
@@ -722,7 +789,7 @@ export class GameManager {
     // 应用技能效果到游戏状态
     const newGameState = this.cloneGameState(gameState);
     if (result.gameStateChanges) {
-      Object.assign(newGameState, result.gameStateChanges);
+      this.applyGameStateChanges(newGameState, result.gameStateChanges);
     }
 
     return {

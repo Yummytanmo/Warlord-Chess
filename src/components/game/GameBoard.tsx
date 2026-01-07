@@ -1,8 +1,24 @@
 'use client';
 
 import React from 'react';
+import dynamic from 'next/dynamic';
 import { useGameStore } from '@/store/gameStore';
-import { FallbackBoard } from './FallbackBoard';
+
+// Dynamically import KonvaBoard with SSR disabled (Canvas APIs not available in SSR)
+const KonvaBoard = dynamic(
+  () => import('./board/KonvaBoard').then(mod => ({ default: mod.KonvaBoard })),
+  { 
+    ssr: false,
+    loading: () => (
+      <div className="flex items-center justify-center w-full h-full bg-gray-100 rounded-lg">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">正在加载棋盘...</p>
+        </div>
+      </div>
+    )
+  }
+);
 
 interface GameBoardProps {
   width?: number;
@@ -15,11 +31,6 @@ export const GameBoard: React.FC<GameBoardProps> = ({
 }) => {
   const { gameState } = useGameStore();
 
-  React.useEffect(() => {
-    // For now, always use the fallback board to avoid build issues
-    // TODO: Implement proper Konva.js integration after build is working
-  }, []);
-
   if (!gameState) {
     return (
       <div className="flex items-center justify-center w-full h-full bg-gray-100 rounded-lg" style={{ width, height }}>
@@ -31,6 +42,5 @@ export const GameBoard: React.FC<GameBoardProps> = ({
     );
   }
 
-  // Always use fallback board for now to ensure build works
-  return <FallbackBoard width={width} height={height} />;
+  return <KonvaBoard width={width} height={height} />;
 };
