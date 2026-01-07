@@ -4,36 +4,10 @@ import {
   GameContext, 
   SkillResult, 
   GameState, 
-  Player
+  Player,
+  SkillTrigger,
+  SkillState
 } from '@/types/game';
-
-/**
- * 技能触发时机枚举
- */
-export enum SkillTrigger {
-  BEFORE_MOVE = 'before_move',
-  AFTER_MOVE = 'after_move',
-  ON_CAPTURE = 'on_capture',
-  ON_CHECK = 'on_check',
-  ON_TURN_START = 'on_turn_start',
-  ON_TURN_END = 'on_turn_end',
-  ON_GAME_START = 'on_game_start',
-  MANUAL = 'manual'
-}
-
-/**
- * 技能状态管理接口
- */
-export interface SkillState {
-  skillId: string;
-  isUsed: boolean;
-  isAwakened: boolean;
-  usageCount: number;
-  maxUsages?: number;
-  cooldownTurns: number;
-  lastUsedTurn: number;
-  customData?: Record<string, any>;
-}
 
 /**
  * 技能注册信息

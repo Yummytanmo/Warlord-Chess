@@ -371,11 +371,14 @@ export class ChessMoveValidator implements MoveValidator {
     // 检查背水技能：未过河时可以一步直接过河
     if (!hasRiverCrossed && ruleContext?.moveRules.pawn.canCrossRiverDirectly) {
       const forwardDirection = piece.color === PlayerColor.RED ? -1 : 1;
-      // Check if it's a single forward step that crosses the river
+      // Check if it's a single or double forward step that crosses the river
       const isSingleForwardStep = dx === 0 && dy === forwardDirection;
-      const isCrossingRiver = piece.color === PlayerColor.RED ? to.y <= 4 && from.y > 4 : to.y >= 5 && from.y < 5;
+      const isDoubleForwardStep = dx === 0 && dy === 2 * forwardDirection;
+      
+      // Check if target is across the river
+      const isCrossingRiver = piece.color === PlayerColor.RED ? to.y <= 4 : to.y >= 5;
 
-      if (isSingleForwardStep && isCrossingRiver) {
+      if ((isSingleForwardStep || isDoubleForwardStep) && isCrossingRiver) {
         return { isValid: true, reason: '背水技能：兵直接过河' };
       }
     }
@@ -384,6 +387,12 @@ export class ChessMoveValidator implements MoveValidator {
       // 允许横走两步
       if (Math.abs(dx) === 2 && dy === 0) {
         return { isValid: true, reason: '背水技能：过河兵横走两步' };
+      }
+
+      // 允许一前一横 (对角线)
+      const forwardDir = piece.color === PlayerColor.RED ? -1 : 1;
+      if (Math.abs(dx) === 1 && dy === forwardDir) {
+        return { isValid: true, reason: '背水技能：过河兵前进一步加横走一步' };
       }
     }
 

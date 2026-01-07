@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import * as fc from 'fast-check';
-import { SkillEngine, SkillTrigger, SkillState } from '@/lib/skillEngine';
+import { SkillEngine } from '@/lib/skillEngine';
 import { BaseSkill } from '@/lib/heroes';
 import { 
   SkillType, 
@@ -10,7 +10,9 @@ import {
   Player,
   PlayerColor,
   GamePhase,
-  Hero
+  Hero,
+  SkillTrigger,
+  SkillState
 } from '@/types/game';
 import { ChessBoard } from '@/lib/board';
 

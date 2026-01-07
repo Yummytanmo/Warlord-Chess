@@ -52,6 +52,28 @@ export enum SkillType {
   AWAKENING = 'awakening' // 觉醒技
 }
 
+export enum SkillTrigger {
+  BEFORE_MOVE = 'before_move',
+  AFTER_MOVE = 'after_move',
+  ON_CAPTURE = 'on_capture',
+  ON_CHECK = 'on_check',
+  ON_TURN_START = 'on_turn_start',
+  ON_TURN_END = 'on_turn_end',
+  ON_GAME_START = 'on_game_start',
+  MANUAL = 'manual'
+}
+
+export interface SkillState {
+  skillId: string;
+  isUsed: boolean;
+  isAwakened: boolean;
+  usageCount: number;
+  maxUsages?: number;
+  cooldownTurns: number;
+  lastUsedTurn: number;
+  customData?: Record<string, any>;
+}
+
 export interface Skill {
   id: string;
   name: string;
@@ -85,6 +107,15 @@ export enum GamePhase {
   GAME_OVER = 'game_over'
 }
 
+export interface TurnState {
+  phase: 'normal' | 'extra_move' | 'force_move' | 'skill_interaction';
+  sourceSkillId?: string;
+  requiredPieceId?: string; // ID of piece that MUST be moved
+  bannedPieceTypes?: PieceType[]; // Types that CANNOT be moved
+  remainingMoves: number;
+  context?: any; // Extra data (e.g. tracking "Yue Xia" targets)
+}
+
 export interface Move {
   from: Position;
   to: Position;
@@ -101,6 +132,12 @@ export interface GameState {
   gamePhase: GamePhase;
   moveHistory: Move[];
   winner?: PlayerColor;
+  
+  // For Multi-stage turns
+  turnState?: TurnState;
+
+  // For Hanxin's markers
+  markers?: Record<string, number>; // playerColor -> count
 }
 
 // 棋盘类型定义

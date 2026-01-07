@@ -9,13 +9,14 @@ import {
   Hero,
   PieceType,
   GameError,
-  GameErrorType
+  GameErrorType,
+  SkillTrigger
 } from '@/types/game';
 import { RuleContext, DEFAULT_RULES, createDefaultRuleContext } from '@/types/rules';
 import { ChessBoard } from './board';
 import { ChessMoveValidator } from './moveValidator';
 import { PieceSetup } from './pieceSetup';
-import { SkillEngine, SkillTrigger, globalSkillEngine } from './skillEngine';
+import { SkillEngine, globalSkillEngine } from './skillEngine';
 
 /**
  * 游戏管理器类
@@ -115,6 +116,33 @@ export class GameManager {
       };
     }
 
+    // 验证多阶段回合约束
+    if (gameState.turnState?.requiredPieceId) {
+      if (move.piece.id !== gameState.turnState.requiredPieceId) {
+        return {
+          success: false,
+          error: {
+            type: GameErrorType.INVALID_MOVE,
+            message: '必须移动指定的棋子',
+            context: { requiredPieceId: gameState.turnState.requiredPieceId }
+          }
+        };
+      }
+    }
+
+    if (gameState.turnState?.bannedPieceTypes) {
+      if (gameState.turnState.bannedPieceTypes.includes(move.piece.type)) {
+        return {
+          success: false,
+          error: {
+            type: GameErrorType.INVALID_MOVE,
+            message: '不能移动此类棋子',
+            context: { bannedTypes: gameState.turnState.bannedPieceTypes }
+          }
+        };
+      }
+    }
+
     // 触发移动前技能
     const currentPlayer = this.getCurrentPlayer(gameState);
     const beforeMoveResults = this.skillEngine.triggerSkills(
@@ -167,8 +195,35 @@ export class GameManager {
     // 执行移动
     const newGameState = this.applyMove(gameState, modifiedMove);
 
+    // Handle multi-stage turns
+    if (gameState.turnState && gameState.turnState.phase === 'extra_move') {
+      const newTurnState = { ...gameState.turnState };
+      newTurnState.remainingMoves--;
+
+      if (newTurnState.remainingMoves > 0) {
+        // Player continues their turn
+        newGameState.currentPlayer = gameState.currentPlayer;
+        newGameState.turnState = newTurnState;
+      } else {
+        // Turn sequence complete, clear state
+        newGameState.turnState = undefined;
+        // currentPlayer is already switched by applyMove, which is correct
+      }
+    } else if (gameState.turnState && gameState.turnState.phase === 'force_move') {
+       // Similar to extra_move but might enforce specific piece
+       const newTurnState = { ...gameState.turnState };
+       newTurnState.remainingMoves--;
+       
+       if (newTurnState.remainingMoves > 0) {
+         newGameState.currentPlayer = gameState.currentPlayer;
+         newGameState.turnState = newTurnState;
+       } else {
+         newGameState.turnState = undefined;
+       }
+    }
+
     // Calculate isCheck and update the last move in history
-    const opponentColor = this.getOpponentColor(gameState.currentPlayer);
+    const opponentColor = this.getOpponentColor(newGameState.currentPlayer); // Use newGameState.currentPlayer which handles turn switch
     const isCheck = this.isPlayerInCheck(newGameState, opponentColor);
 
     if (newGameState.moveHistory.length > 0) {
@@ -285,7 +340,9 @@ export class GameManager {
       currentPlayer: gameState.currentPlayer,
       gamePhase: gameState.gamePhase,
       moveHistory: [...gameState.moveHistory],
-      winner: gameState.winner
+      winner: gameState.winner,
+      turnState: gameState.turnState ? { ...gameState.turnState } : undefined,
+      markers: gameState.markers ? { ...gameState.markers } : undefined
     };
   }
 

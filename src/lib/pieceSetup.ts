@@ -128,6 +128,22 @@ export class PieceSetup {
   }
 
   /**
+   * 获取棋子的初始位置
+   * 用于萧何技能"月下"等需要回溯位置的场景
+   */
+  static getInitialPosition(pieceId: string): { x: number, y: number } | null {
+    // 重新生成标准开局配置
+    const standardPieces = this.createStandardSetup();
+    const piece = standardPieces.find(p => p.id === pieceId);
+    
+    if (piece) {
+      return { x: piece.position.x, y: piece.position.y };
+    }
+    
+    return null;
+  }
+
+  /**
    * 检查是否存在将军状态
    * 简化版本，后续会在技能系统中完善
    */
