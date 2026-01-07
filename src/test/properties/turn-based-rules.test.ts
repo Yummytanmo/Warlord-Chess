@@ -133,7 +133,12 @@ describe('Turn-Based Movement Rules Properties', () => {
           
           // 验证移动历史已更新
           expect(result.newGameState.moveHistory.length).toBe(gameState.moveHistory.length + 1);
-          expect(result.newGameState.moveHistory[result.newGameState.moveHistory.length - 1]).toEqual(move);
+          expect(result.newGameState.moveHistory[result.newGameState.moveHistory.length - 1]).toEqual(
+            expect.objectContaining({
+              ...move,
+              isCheck: expect.anything() // We don't care about isCheck value for this test
+            })
+          );
         }
       }
     ), { numRuns: 50 }); // 减少运行次数，因为这个测试更复杂

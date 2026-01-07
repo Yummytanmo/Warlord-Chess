@@ -1,0 +1,74 @@
+
+> warlord-chess@0.1.0 test
+> vitest --run xiangyu-skills
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/yummy/Code/Chess
+
+ ❯ src/test/properties/xiangyu-skills.test.ts  (16 tests | 1 failed) 66ms
+   ❯ src/test/properties/xiangyu-skills.test.ts > Xiang Yu Beishui Skill Properties > Property 4: Beishui skill - crossed pawns cannot move diagonally
+     → Property failed after 1 tests
+{ seed: -458298809, path: "0:1:0", endOnFailure: true }
+Counterexample: [{"pawn":{"id":" ","type":"pawn","color":"black","position":{"x":8,"y":5},"isAlive":true},"gameState":{"board":{"grid":[[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,{"id":" ","type":"pawn","color":"black","position":{"x":8,"y":5},"isAlive":true}],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null]],"BOARD_SIZE":{"width":9,"height":10}},"players":[{"id":"xiangyu_player_black","color":"black","hero":{"id":"xiangyu","name":"项羽","skills":[{"isUsed":false,"id":"xiangyu_beishui","name":"背水","type":"passive","description":"你的兵未过河时，可以一步直接过河；过河后，每次移动可以连走两步，但最多前进一步。"},{"isUsed":false,"id":"xiangyu_bawang","name":"霸王","type":"passive","description":"你的马移动时，不受拌马腿影响（除非马受攻击）；你不能连续两步都选择跳马。"}],"awakened":false,"avatar":"/heroes/xiangyu.jpg","description":"西楚霸王，力拔山兮气盖世。拥有强大的兵种和马匹优势。"},"pieces":[]},{"id":"opponent","color":"red","hero":{"id":"test_hero","name":"测试武将","skills":[],"awakened":false},"pieces":[]}],"currentPlayer":"black","gamePhase":"playing","moveHistory":[]}}]
+Shrunk 2 time(s)
+Got AssertionError: expected true to be false // Object.is equality
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:417:32
+    at Property.predicate (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.js:14:54)
+    at Property.run (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33)
+    at runIt (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30)
+    at check (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11)
+    at Proxy.assert (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17)
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:386:8
+    at file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:781:17)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/properties/xiangyu-skills.test.ts > Xiang Yu Beishui Skill Properties > Property 4: Beishui skill - crossed pawns cannot move diagonally
+Error: Property failed after 1 tests
+{ seed: -458298809, path: "0:1:0", endOnFailure: true }
+Counterexample: [{"pawn":{"id":" ","type":"pawn","color":"black","position":{"x":8,"y":5},"isAlive":true},"gameState":{"board":{"grid":[[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,{"id":" ","type":"pawn","color":"black","position":{"x":8,"y":5},"isAlive":true}],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null]],"BOARD_SIZE":{"width":9,"height":10}},"players":[{"id":"xiangyu_player_black","color":"black","hero":{"id":"xiangyu","name":"项羽","skills":[{"isUsed":false,"id":"xiangyu_beishui","name":"背水","type":"passive","description":"你的兵未过河时，可以一步直接过河；过河后，每次移动可以连走两步，但最多前进一步。"},{"isUsed":false,"id":"xiangyu_bawang","name":"霸王","type":"passive","description":"你的马移动时，不受拌马腿影响（除非马受攻击）；你不能连续两步都选择跳马。"}],"awakened":false,"avatar":"/heroes/xiangyu.jpg","description":"西楚霸王，力拔山兮气盖世。拥有强大的兵种和马匹优势。"},"pieces":[]},{"id":"opponent","color":"red","hero":{"id":"test_hero","name":"测试武将","skills":[],"awakened":false},"pieces":[]}],"currentPlayer":"black","gamePhase":"playing","moveHistory":[]}}]
+Shrunk 2 time(s)
+Got AssertionError: expected true to be false // Object.is equality
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:417:32
+    at Property.predicate (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.js:14:54)
+    at Property.run (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33)
+    at runIt (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30)
+    at check (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11)
+    at Proxy.assert (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17)
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:386:8
+    at file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:781:17)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ ❯ src/test/properties/xiangyu-skills.test.ts:417:32
+    415|         // 验证斜向移动被拒绝
+    416|         const result = moveValidator.validateMove(diagonalMove, gameSt…
+    417|         expect(result.isValid).toBe(false);
+       |                                ^
+    418|         // 错误消息可能是 "斜走" 或 "两步"（当总步数 > 2 时先触发步数…
+    419|         const reason = result.reason || '';
+ ❯ Property.predicate node_modules/fast-check/lib/esm/check/property/Property.js:14:54
+ ❯ Property.run node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33
+ ❯ runIt node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30
+ ❯ check node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11
+ ❯ Proxy.assert node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17
+ ❯ src/test/properties/xiangyu-skills.test.ts:386:8
+ ❯ buildError node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:126:15
+ ❯ throwIfFailed node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:138:11
+ ❯ reportRunDetails node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:151:16
+ ❯ Proxy.assert node_modules/fast-check/lib/esm/check/runner/Runner.js:69:9
+ ❯ src/test/properties/xiangyu-skills.test.ts:386:8
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 15 passed (16)
+   Start at  15:54:32
+   Duration  892ms (transform 87ms, setup 103ms, collect 122ms, tests 66ms, environment 216ms, prepare 169ms)
+

@@ -1,0 +1,3830 @@
+
+> warlord-chess@0.1.0 test
+> vitest --run src/test/properties/xiangyu-skills.test.ts
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/yummy/Code/Chess
+
+stderr | src/test/properties/xiangyu-skills.test.ts > Xiang Yu Beishui Skill Properties > Property 4: Beishui skill - uncrossed pawns can cross river in one step
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+
+stderr | src/test/properties/xiangyu-skills.test.ts > Xiang Yu Beishui Skill Properties > Property 4: Beishui skill - uncrossed pawns normal forward move
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: false,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+
+stderr | src/test/properties/xiangyu-skills.test.ts > Xiang Yu Beishui Skill Properties > Property 4: Beishui skill - crossed pawns can move up to two steps
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -2,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 2,
+  dy: 0
+}
+
+stderr | src/test/properties/xiangyu-skills.test.ts > Xiang Yu Beishui Skill Properties > Property 4: Beishui skill - crossed pawns cannot retreat
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 1
+}
+
+stderr | src/test/properties/xiangyu-skills.test.ts > Xiang Yu Beishui Skill Properties > Property 4: Beishui skill - crossed pawns cannot move diagonally
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: -1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -1,
+  dy: 1
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 1,
+  dy: 1
+}
+
+stderr | src/test/properties/xiangyu-skills.test.ts > Xiang Yu Beishui Skill Properties > Property 4: Beishui skill - crossed pawns forward limit enforcement
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 4
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 4
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -4
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -4
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -2
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: 3
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 0,
+  dy: -3
+}
+
+stderr | src/test/properties/xiangyu-skills.test.ts > Xiang Yu Beishui Skill Properties > Property 4: Beishui skill - total step limit enforcement
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -5,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 3,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: -4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 4,
+  dy: 0
+}
+DEBUG: validatePawnMove {
+  hasRiverCrossed: true,
+  canCrossRiverDirectly: true,
+  canMoveTwoStepsAfterRiver: true,
+  dx: 5,
+  dy: 0
+}
+
+ ✓ src/test/properties/xiangyu-skills.test.ts  (12 tests) 335ms
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  18:11:33
+   Duration  4.61s (transform 279ms, setup 1.07s, collect 389ms, tests 335ms, environment 1.10s, prepare 255ms)
+

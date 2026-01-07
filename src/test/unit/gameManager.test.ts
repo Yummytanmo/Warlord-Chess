@@ -183,6 +183,98 @@ describe('GameManager', () => {
       }
     });
 
+    it('should end game with Long Check Draw after 6 consecutive checking moves', () => {
+      gameState.gamePhase = GamePhase.PLAYING;
+      const redPawn = gameState.players[0].pieces.find(p => p.type === PieceType.PAWN);
+      const blackPawn = gameState.players[1].pieces.find(p => p.type === PieceType.PAWN);
+
+      if (redPawn && blackPawn) {
+        // Simulate 3 checks by Red (total 5 moves involves: RedCheck, BlackMove, RedCheck, BlackMove, RedCheck)
+        // Wait, checkGameEnd requires >= 6 "checks" (which we mapped to 3 checks * 2)
+        // So we need 3 checks by the SAME player.
+        
+        // Sequence:
+        // 1. Red Check
+        // 2. Black Move
+        // 3. Red Check
+        // 4. Black Move
+        // 5. Red Check
+        // -> consecutiveChecks should return 3 * 2 = 6.
+        
+        for (let i = 0; i < 5; i++) {
+          const isRedTurn = i % 2 === 0;
+          const piece = isRedTurn ? redPawn : blackPawn;
+          const direction = isRedTurn ? -1 : 1;
+          
+          const mockMove = {
+            from: piece.position,
+            to: { x: piece.position.x, y: piece.position.y + direction },
+            piece: piece,
+            timestamp: Date.now(),
+            isCheck: isRedTurn // Red moves are checks, Black moves are not
+          };
+          gameState.moveHistory.push(mockMove);
+        }
+        
+        // Ensure current player is updated correctly if needed (checkGameEnd doesn't rely on currentPlayer for this check explicitly, 
+        // but getConsecutiveChecks looks at last move's color)
+        
+        // Last move was Red (i=4). So getConsecutiveChecks looks at Red's moves.
+        // Red moves at i=4, i=2, i=0. All isCheck=true.
+        // So it counts 3 checks -> returns 6.
+        
+        const gameEndResult = gameManager.checkGameEnd(gameState);
+        expect(gameEndResult.isGameOver).toBe(true);
+        expect(gameEndResult.reason).toBe('长将和棋');
+      }
+    });
+    it('should not end game due to long check if moves are not checks', () => {
+      // Setup: 6 moves that are NOT checks
+      gameState.gamePhase = GamePhase.PLAYING;
+      
+      const redPawn = gameState.players[0].pieces.find(p => p.type === PieceType.PAWN);
+      const blackPawn = gameState.players[1].pieces.find(p => p.type === PieceType.PAWN);
+      
+      if (redPawn && blackPawn) {
+        // Create 6 moves (3 rounds)
+        for (let i = 0; i < 6; i++) {
+          const isRedTurn = i % 2 === 0;
+          const piece = isRedTurn ? redPawn : blackPawn;
+          const direction = isRedTurn ? -1 : 1;
+          
+          const move: Move = {
+            from: piece.position,
+            to: { x: piece.position.x, y: piece.position.y + direction },
+            piece: piece,
+            timestamp: Date.now()
+          };
+          
+          // Hack: update position manually to simulate valid sequence without board validation failing 
+          // (assuming pawns can move forward freely in this mock)
+          // Actually, executeMove does validation. 
+          // We need to just mock the history for checkGameEnd to inspect.
+          
+          // Instead of executing moves (which is hard to setup valid 6 moves in a row on a static board),
+          // let's manually populate moveHistory with non-checking moves.
+          
+          const mockMove = {
+            ...move,
+            isCheck: false
+          };
+          gameState.moveHistory.push(mockMove);
+        }
+        
+        const gameEndResult = gameManager.checkGameEnd(gameState);
+        
+        // Should not be "Long Check Draw"
+        // It might be game over for other reasons (e.g. invalid state), but shouldn't be long check
+        if (gameEndResult.isGameOver) {
+          expect(gameEndResult.reason).not.toContain('长将和棋');
+        } else {
+          expect(gameEndResult.isGameOver).toBe(false);
+        }
+      }
+    });
     it('should detect game end when move limit is reached', () => {
       // Set game to playing phase
       gameState.gamePhase = GamePhase.PLAYING;
@@ -224,6 +316,34 @@ describe('GameManager', () => {
       // 在初始状态下，双方都不应该被将军
       expect(isRedInCheck).toBe(false);
       expect(isBlackInCheck).toBe(false);
+    });
+
+    it('should populate isCheck flag in move history', () => {
+      // Arrange: Setup a scenario where a move causes a check
+      // For simplicity, we'll check if the flag exists and defaults to false/undefined for non-checking moves first
+      // since setting up a real check requires complex board manipulation in this unit test context
+      
+      gameState.gamePhase = GamePhase.PLAYING;
+      const redPawn = gameState.players[0].pieces.find(p => p.type === PieceType.PAWN);
+      
+      if (redPawn) {
+        const move: Move = {
+          from: redPawn.position,
+          to: { x: redPawn.position.x, y: redPawn.position.y - 1 },
+          piece: redPawn,
+          timestamp: Date.now()
+        };
+
+        const result = gameManager.executeMove(gameState, move);
+        
+        if (result.success && result.newGameState) {
+          const lastMove = result.newGameState.moveHistory[result.newGameState.moveHistory.length - 1];
+          // Since it's an optional property, we verify it's either defined (boolean) or undefined, 
+          // but specifically we want to know if logic handles it.
+          // For now, let's expect it to be false or undefined as this move is not a check
+          expect(lastMove.isCheck).toBe(false); 
+        }
+      }
     });
   });
 
@@ -286,7 +406,13 @@ describe('GameManager', () => {
         const result = gameManager.executeMove(gameState, move);
         if (result.success && result.newGameState) {
           expect(result.newGameState.moveHistory.length).toBe(initialHistoryLength + 1);
-          expect(result.newGameState.moveHistory[result.newGameState.moveHistory.length - 1]).toEqual(move);
+          
+          const recordedMove = result.newGameState.moveHistory[result.newGameState.moveHistory.length - 1];
+          // We expect the recorded move to be the same as the input move, plus the isCheck flag
+          expect(recordedMove).toEqual(expect.objectContaining({
+            ...move,
+            isCheck: false // Assuming this move doesn't cause a check
+          }));
         }
       }
     });

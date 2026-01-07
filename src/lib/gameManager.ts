@@ -1,9 +1,9 @@
-import { 
-  GameState, 
-  Move, 
-  Position, 
-  Piece, 
-  PlayerColor, 
+import {
+  GameState,
+  Move,
+  Position,
+  Piece,
+  PlayerColor,
   GamePhase,
   Player,
   Hero,
@@ -11,6 +11,7 @@ import {
   GameError,
   GameErrorType
 } from '@/types/game';
+import { RuleContext, DEFAULT_RULES, createDefaultRuleContext } from '@/types/rules';
 import { ChessBoard } from './board';
 import { ChessMoveValidator } from './moveValidator';
 import { PieceSetup } from './pieceSetup';
@@ -24,10 +25,14 @@ export class GameManager {
   private moveValidator: ChessMoveValidator;
   private skillEngine: SkillEngine;
   private turnCounter: number = 0;
+  private playerRuleContexts: Map<PlayerColor, RuleContext>;
 
   constructor(skillEngine?: SkillEngine) {
     this.moveValidator = new ChessMoveValidator();
     this.skillEngine = skillEngine || globalSkillEngine;
+    this.playerRuleContexts = new Map();
+    this.playerRuleContexts.set(PlayerColor.RED, createDefaultRuleContext());
+    this.playerRuleContexts.set(PlayerColor.BLACK, createDefaultRuleContext());
   }
 
   /**
@@ -36,10 +41,10 @@ export class GameManager {
   createNewGame(): GameState {
     const board = new ChessBoard();
     const pieces = PieceSetup.createStandardSetup();
-    
+
     // 将棋子放置到棋盘上
     PieceSetup.setupBoard(board, pieces);
-    
+
     const players: [Player, Player] = [
       {
         id: 'player1',
@@ -57,6 +62,8 @@ export class GameManager {
 
     // 重置技能引擎状态
     this.skillEngine.resetSkillStates();
+    this.playerRuleContexts.set(PlayerColor.RED, createDefaultRuleContext());
+    this.playerRuleContexts.set(PlayerColor.BLACK, createDefaultRuleContext());
     this.turnCounter = 0;
 
     return {
@@ -111,8 +118,8 @@ export class GameManager {
     // 触发移动前技能
     const currentPlayer = this.getCurrentPlayer(gameState);
     const beforeMoveResults = this.skillEngine.triggerSkills(
-      SkillTrigger.BEFORE_MOVE, 
-      gameState, 
+      SkillTrigger.BEFORE_MOVE,
+      gameState,
       { piece: move.piece, move, player: currentPlayer }
     );
 
@@ -138,7 +145,8 @@ export class GameManager {
     }
 
     // 验证移动合法性（包括技能修改后的移动）
-    const validationResult = this.moveValidator.validateMove(modifiedMove, gameState);
+    const ruleContext = this.playerRuleContexts.get(modifiedMove.piece.color) || DEFAULT_RULES;
+    const validationResult = this.moveValidator.validateMove(modifiedMove, gameState, ruleContext);
     if (!validationResult.isValid) {
       return {
         success: false,
@@ -150,13 +158,31 @@ export class GameManager {
       };
     }
 
+    // 检查是否有吃子
+    const targetPiece = gameState.board.getPiece(modifiedMove.to);
+    if (targetPiece && targetPiece.color !== modifiedMove.piece.color) {
+      modifiedMove.capturedPiece = targetPiece;
+    }
+
     // 执行移动
     const newGameState = this.applyMove(gameState, modifiedMove);
-    
+
+    // Calculate isCheck and update the last move in history
+    const opponentColor = this.getOpponentColor(gameState.currentPlayer);
+    const isCheck = this.isPlayerInCheck(newGameState, opponentColor);
+
+    if (newGameState.moveHistory.length > 0) {
+      const lastMoveIndex = newGameState.moveHistory.length - 1;
+      newGameState.moveHistory[lastMoveIndex] = {
+        ...newGameState.moveHistory[lastMoveIndex],
+        isCheck
+      };
+    }
+
     // 触发移动后技能
     const afterMoveResults = this.skillEngine.triggerSkills(
-      SkillTrigger.AFTER_MOVE, 
-      newGameState, 
+      SkillTrigger.AFTER_MOVE,
+      newGameState,
       { piece: modifiedMove.piece, move: modifiedMove, player: currentPlayer }
     );
 
@@ -170,11 +196,11 @@ export class GameManager {
     // 如果有吃子，触发吃子技能
     if (modifiedMove.capturedPiece) {
       this.skillEngine.triggerSkills(
-        SkillTrigger.ON_CAPTURE, 
-        newGameState, 
-        { 
-          piece: modifiedMove.piece, 
-          move: modifiedMove, 
+        SkillTrigger.ON_CAPTURE,
+        newGameState,
+        {
+          piece: modifiedMove.piece,
+          move: modifiedMove,
           player: currentPlayer,
           capturedPiece: modifiedMove.capturedPiece
         }
@@ -197,39 +223,39 @@ export class GameManager {
   private applyMove(gameState: GameState, move: Move): GameState {
     const newGameState = this.cloneGameState(gameState);
     const newBoard = newGameState.board.clone();
-    
+
     // 移除起始位置的棋子
     newBoard.setPiece(move.from, null);
-    
+
     // 在目标位置放置棋子
     const movedPiece = { ...move.piece, position: move.to };
     newBoard.setPiece(move.to, movedPiece);
-    
+
     // 更新玩家的棋子列表
     const currentPlayerIndex = newGameState.currentPlayer === PlayerColor.RED ? 0 : 1;
     const opponentPlayerIndex = 1 - currentPlayerIndex;
-    
+
     // 更新当前玩家的棋子位置
-    newGameState.players[currentPlayerIndex].pieces = 
-      newGameState.players[currentPlayerIndex].pieces.map(p => 
+    newGameState.players[currentPlayerIndex].pieces =
+      newGameState.players[currentPlayerIndex].pieces.map(p =>
         p.id === movedPiece.id ? movedPiece : p
       );
-    
+
     // 如果吃子，移除对方棋子
     if (move.capturedPiece) {
-      newGameState.players[opponentPlayerIndex].pieces = 
-        newGameState.players[opponentPlayerIndex].pieces.map(p => 
+      newGameState.players[opponentPlayerIndex].pieces =
+        newGameState.players[opponentPlayerIndex].pieces.map(p =>
           p.id === move.capturedPiece!.id ? { ...p, isAlive: false } : p
         );
     }
-    
+
     // 更新棋盘和移动历史
     newGameState.board = newBoard;
     newGameState.moveHistory = [...newGameState.moveHistory, move];
-    
+
     // 切换玩家回合
     newGameState.currentPlayer = this.getOpponentColor(gameState.currentPlayer);
-    
+
     return newGameState;
   }
 
@@ -305,7 +331,7 @@ export class GameManager {
     const currentPlayer = this.getCurrentPlayer(gameState);
     const opponentPlayer = this.getOpponentPlayer(gameState);
     const currentKing = currentPlayer.pieces.find(p => p.type === PieceType.KING && p.isAlive);
-    
+
     if (!currentKing) {
       return {
         isGameOver: true,
@@ -316,11 +342,11 @@ export class GameManager {
 
     // 检查当前玩家是否被将军
     const isInCheck = this.isKingInCheck(currentKing, gameState);
-    
+
     if (isInCheck) {
       // 检查是否是困毙（被将军且无法逃脱）
       const canEscapeCheck = this.canEscapeCheck(currentPlayer, gameState);
-      
+
       if (!canEscapeCheck) {
         return {
           isGameOver: true,
@@ -331,7 +357,7 @@ export class GameManager {
     } else {
       // 检查是否是无子可动（困毙的另一种形式）
       const hasValidMoves = this.hasValidMoves(currentPlayer, gameState);
-      
+
       if (!hasValidMoves) {
         return {
           isGameOver: true,
@@ -357,7 +383,7 @@ export class GameManager {
         reason: '达到移动次数上限，和棋'
       };
     }
-    
+
     return { isGameOver: false };
   }
 
@@ -367,17 +393,18 @@ export class GameManager {
   private isKingInCheck(king: Piece, gameState: GameState): boolean {
     const opponentColor = this.getOpponentColor(king.color);
     const opponentPieces = gameState.board.getPiecesByColor(opponentColor);
-    
+
     // 检查是否有对方棋子可以攻击到将
     for (const piece of opponentPieces) {
       if (!piece.isAlive) continue;
-      
-      const validMoves = this.moveValidator.getValidMoves(piece, gameState);
+
+      const ruleContext = this.playerRuleContexts.get(piece.color) || DEFAULT_RULES;
+      const validMoves = this.moveValidator.getValidMoves(piece, gameState, ruleContext);
       if (validMoves.some(move => move.x === king.position.x && move.y === king.position.y)) {
         return true;
       }
     }
-    
+
     return false;
   }
 
@@ -388,9 +415,10 @@ export class GameManager {
     // 尝试所有可能的移动，看是否能逃脱将军
     for (const piece of player.pieces) {
       if (!piece.isAlive) continue;
-      
-      const validMoves = this.moveValidator.getValidMoves(piece, gameState);
-      
+
+      const ruleContext = this.playerRuleContexts.get(piece.color) || DEFAULT_RULES;
+      const validMoves = this.moveValidator.getValidMoves(piece, gameState, ruleContext);
+
       for (const move of validMoves) {
         // 模拟移动
         const testGameState = this.cloneGameState(gameState);
@@ -400,7 +428,7 @@ export class GameManager {
           piece: piece,
           timestamp: Date.now()
         };
-        
+
         const result = this.executeMove(testGameState, testMove);
         if (result.success && result.newGameState) {
           // 检查移动后是否还在被将军
@@ -411,7 +439,7 @@ export class GameManager {
         }
       }
     }
-    
+
     return false;
   }
 
@@ -421,8 +449,9 @@ export class GameManager {
   private hasValidMoves(player: Player, gameState: GameState): boolean {
     for (const piece of player.pieces) {
       if (!piece.isAlive) continue;
-      
-      const validMoves = this.moveValidator.getValidMoves(piece, gameState);
+
+      const ruleContext = this.playerRuleContexts.get(piece.color) || DEFAULT_RULES;
+      const validMoves = this.moveValidator.getValidMoves(piece, gameState, ruleContext);
       if (validMoves.length > 0) {
         // 检查这些移动是否会让自己的将被将军
         for (const move of validMoves) {
@@ -433,7 +462,7 @@ export class GameManager {
             piece: piece,
             timestamp: Date.now()
           };
-          
+
           const result = this.executeMove(testGameState, testMove);
           if (result.success && result.newGameState) {
             const king = result.newGameState.players.find(p => p.color === player.color)?.pieces.find(p => p.type === PieceType.KING && p.isAlive);
@@ -444,27 +473,38 @@ export class GameManager {
         }
       }
     }
-    
+
     return false;
   }
 
   /**
    * 获取连续将军次数
+   * 返回值对应"半回合"数 (checks * 2)，以便与 checkGameEnd 中的 >= 6 阈值匹配
    */
   private getConsecutiveChecks(gameState: GameState): number {
-    let consecutiveChecks = 0;
-    const recentMoves = gameState.moveHistory.slice(-10); // 检查最近10步
+    const history = gameState.moveHistory;
+    if (history.length === 0) return 0;
+
+    const lastMove = history[history.length - 1];
+    const checkingPlayer = lastMove.piece.color;
     
-    // 简化实现：检查最近的移动是否导致将军
-    // 实际实现需要更复杂的逻辑来跟踪连续将军
-    for (let i = recentMoves.length - 1; i >= 0; i--) {
-      // 这里需要检查这个移动是否导致了将军
-      // 为了简化，我们假设如果移动后对方将被攻击，就是将军
-      consecutiveChecks++;
-      if (consecutiveChecks >= 6) break;
+    let checks = 0;
+    
+    // 检查该玩家最近的连续移动
+    for (let i = history.length - 1; i >= 0; i -= 2) {
+      const move = history[i];
+      // 确保是同一玩家的移动
+      if (move.piece.color !== checkingPlayer) break;
+      
+      if (move.isCheck) {
+        checks++;
+      } else {
+        break;
+      }
     }
-    
-    return Math.min(consecutiveChecks, 6);
+
+    // 将将军次数转换为"步数" (1次将军 = 2步: 将军+应将)
+    return checks * 2;
   }
 
   /**
@@ -473,10 +513,10 @@ export class GameManager {
   isPlayerInCheck(gameState: GameState, playerColor: PlayerColor): boolean {
     const player = gameState.players.find(p => p.color === playerColor);
     if (!player) return false;
-    
+
     const king = player.pieces.find(p => p.type === PieceType.KING && p.isAlive);
     if (!king) return false;
-    
+
     return this.isKingInCheck(king, gameState);
   }
 
@@ -484,7 +524,8 @@ export class GameManager {
    * 获取有效移动位置
    */
   getValidMoves(piece: Piece, gameState: GameState): Position[] {
-    return this.moveValidator.getValidMoves(piece, gameState);
+    const ruleContext = this.playerRuleContexts.get(piece.color) || DEFAULT_RULES;
+    return this.moveValidator.getValidMoves(piece, gameState, ruleContext);
   }
 
   /**
@@ -493,19 +534,31 @@ export class GameManager {
   selectHero(gameState: GameState, playerId: string, hero: Hero): GameState {
     const newGameState = this.cloneGameState(gameState);
     const player = newGameState.players.find(p => p.id === playerId);
-    
+
     if (player) {
       player.hero = hero;
-      
+
       // 注册武将的技能到技能引擎
       this.skillEngine.registerPlayerSkills(player);
+
+      // 初始化规则上下文
+      const ruleContext = this.playerRuleContexts.get(player.color)!;
+      // 重置为默认规则
+      Object.assign(ruleContext, createDefaultRuleContext());
+
+      // 应用技能规则
+      player.hero.skills.forEach(skill => {
+        if (skill.applyRules) {
+          skill.applyRules(ruleContext);
+        }
+      });
     }
 
     // 检查是否两个玩家都选择了武将
     const allPlayersSelectedHero = newGameState.players.every(p => p.hero.id !== '');
     if (allPlayersSelectedHero) {
       newGameState.gamePhase = GamePhase.PLAYING;
-      
+
       // 触发游戏开始技能
       for (const player of newGameState.players) {
         this.skillEngine.triggerSkills(SkillTrigger.ON_GAME_START, newGameState, { player });
@@ -525,45 +578,45 @@ export class GameManager {
 
     const newGameState = this.cloneGameState(gameState);
     const lastMove = newGameState.moveHistory.pop()!;
-    
+
     // 恢复棋子位置
     const newBoard = newGameState.board.clone();
-    
+
     // 将棋子移回原位置
     const piece = newBoard.getPiece(lastMove.to);
     if (piece) {
       newBoard.setPiece(lastMove.from, { ...piece, position: lastMove.from });
       newBoard.setPiece(lastMove.to, null);
     }
-    
+
     // 如果有被吃的棋子，恢复它
     if (lastMove.capturedPiece) {
       newBoard.setPiece(lastMove.to, { ...lastMove.capturedPiece, isAlive: true });
-      
+
       // 恢复到对手的棋子列表中
       const opponentPlayerIndex = lastMove.piece.color === PlayerColor.RED ? 1 : 0;
-      newGameState.players[opponentPlayerIndex].pieces = 
-        newGameState.players[opponentPlayerIndex].pieces.map(p => 
+      newGameState.players[opponentPlayerIndex].pieces =
+        newGameState.players[opponentPlayerIndex].pieces.map(p =>
           p.id === lastMove.capturedPiece!.id ? { ...lastMove.capturedPiece!, isAlive: true } : p
         );
     }
-    
+
     // 更新当前玩家的棋子位置
     const currentPlayerIndex = lastMove.piece.color === PlayerColor.RED ? 0 : 1;
-    newGameState.players[currentPlayerIndex].pieces = 
-      newGameState.players[currentPlayerIndex].pieces.map(p => 
+    newGameState.players[currentPlayerIndex].pieces =
+      newGameState.players[currentPlayerIndex].pieces.map(p =>
         p.id === lastMove.piece.id ? { ...lastMove.piece, position: lastMove.from } : p
       );
-    
+
     newGameState.board = newBoard;
-    
+
     // 切换回合
     newGameState.currentPlayer = lastMove.piece.color;
-    
+
     // 回退回合计数器
     this.turnCounter = Math.max(0, this.turnCounter - 1);
     this.skillEngine.updateTurn(this.turnCounter);
-    
+
     return newGameState;
   }
 
@@ -597,7 +650,7 @@ export class GameManager {
 
     // 使用技能
     const result = this.skillEngine.useSkill(skillId, gameState, player);
-    
+
     if (!result.success) {
       return {
         success: false,

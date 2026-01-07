@@ -4,10 +4,7 @@ import {
   GameContext, 
   SkillResult, 
   GameState, 
-  Player, 
-  PlayerColor,
-  GameError,
-  GameErrorType
+  Player
 } from '@/types/game';
 
 /**
@@ -119,7 +116,7 @@ export class SkillEngine {
   /**
    * 检查技能是否可用
    */
-  canUseSkill(skillId: string, gameState: GameState): boolean {
+  canUseSkill(skillId: string, _gameState: GameState): boolean {
     const registration = this.skillRegistry.get(skillId);
     const state = this.skillStates.get(skillId);
     
@@ -328,7 +325,7 @@ export class SkillEngine {
    * 重置技能状态（新游戏时使用）
    */
   resetSkillStates(): void {
-    for (const [skillId, registration] of this.skillRegistry) {
+    for (const [_skillId, registration] of this.skillRegistry) {
       this.initializeSkillState(registration.skill);
     }
     this.currentTurn = 0;

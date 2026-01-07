@@ -1,3 +1,5 @@
+import { RuleContext } from '@/types/rules';
+
 // 基础游戏实体类型定义
 
 export interface Position {
@@ -58,6 +60,7 @@ export interface Skill {
   isUsed: boolean;
   canUse(): boolean;
   execute(context: GameContext): SkillResult;
+  applyRules?(context: RuleContext): void;
 }
 
 export interface GameContext {
@@ -65,12 +68,13 @@ export interface GameContext {
   piece?: Piece;
   move?: Move;
   player?: Player;
+  capturedPiece?: Piece;
 }
 
 export interface SkillResult {
   success: boolean;
   modifiedMove?: Move;
-  gameStateChanges?: Partial<GameState>;
+  gameStateChanges?: any; // Allow any structure for skill-specific changes
   message?: string;
 }
 
@@ -87,6 +91,7 @@ export interface Move {
   piece: Piece;
   capturedPiece?: Piece;
   timestamp: number;
+  isCheck?: boolean;
 }
 
 export interface GameState {
@@ -123,7 +128,8 @@ export interface MoveValidationResult {
 }
 
 export interface MoveValidator {
-  validateMove(move: Move, gameState: GameState): MoveValidationResult;
+  validateMove(move: Move, gameState: GameState, ruleContext?: RuleContext): MoveValidationResult;
+  getValidMoves?(piece: Piece, gameState: GameState, ruleContext?: RuleContext): Position[];
 }
 
 // 错误处理类型
@@ -148,7 +154,7 @@ export interface SocketEvents {
   'move': (move: { from: Position; to: Position }) => void;
   'use-skill': (skillId: string) => void;
   'select-hero': (heroId: string) => void;
-  
+
   // 服务器发送
   'game-state': (gameState: GameState) => void;
   'player-joined': (player: Player) => void;

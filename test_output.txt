@@ -1,0 +1,74 @@
+
+> warlord-chess@0.1.0 test
+> vitest --run src/test/properties/liubang-skills.test.ts
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/yummy/Code/Chess
+
+ ❯ src/test/properties/liubang-skills.test.ts  (14 tests | 1 failed) 242ms
+   ❯ src/test/properties/liubang-skills.test.ts > Liu Bang Genyi and Hongmen Skills Properties > Property 6: Hongmen skill - elephant ignores elephant heart blocking
+     → Property failed after 1 tests
+{ seed: -1731787414, path: "0:0:0:1:0:1:1:0:0", endOnFailure: true }
+Counterexample: [{"elephant":{"id":" ","type":"elephant","color":"red","position":{"x":0,"y":5},"isAlive":true},"gameState":{"board":{"grid":[[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[{"id":" ","type":"elephant","color":"red","position":{"x":0,"y":5},"isAlive":true},null,null,null,null,null,null,null,null],[null,{"id":"blocking-piece","type":"pawn","color":"black","position":{"x":1,"y":6},"isAlive":true},null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null]],"BOARD_SIZE":{"width":9,"height":10}},"players":[{"id":"liubang_player_red","color":"red","hero":{"id":"liubang","name":"刘邦","skills":[{"isUsed":false,"type":"passive","id":"liubang_genyi","name":"更衣","description":"你的将可以出九宫。"},{"isUsed":false,"id":"liubang_qinzheng","name":"亲征","type":"limited","description":"限定技，出牌阶段，你可以强制对方将与你的将在同一条线上，移除移动路径上的阻挡。"},{"isUsed":false,"type":"passive","id":"liubang_hongmen","name":"鸿门","description":"你的士可以出九宫，但不能过河；你的象不受象心限制。"}],"awakened":false,"avatar":"/heroes/liubang.jpg","description":"汉高祖，善于运用计谋和灵活战术。将、士、象具有特殊能力。"},"pieces":[]},{"id":"opponent","color":"black","hero":{"id":"test_hero","name":"测试武将","skills":[],"awakened":false},"pieces":[]}],"currentPlayer":"red","gamePhase":"playing","moveHistory":[]}},{"dx":2,"dy":2}]
+Shrunk 8 time(s)
+Got AssertionError: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string
+    at Proxy.<anonymous> (file:///Users/yummy/Code/Chess/node_modules/@vitest/expect/dist/index.js:1002:17)
+    at Proxy.<anonymous> (file:///Users/yummy/Code/Chess/node_modules/@vitest/expect/dist/index.js:800:17)
+    at Proxy.methodWrapper (/Users/yummy/Code/Chess/node_modules/chai/lib/chai/utils/addMethod.js:57:25)
+    at /Users/yummy/Code/Chess/src/test/properties/liubang-skills.test.ts:502:31
+    at Property.predicate (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.js:14:54)
+    at Property.run (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33)
+    at runIt (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30)
+    at check (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11)
+    at Proxy.assert (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17)
+    at /Users/yummy/Code/Chess/src/test/properties/liubang-skills.test.ts:440:8
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/properties/liubang-skills.test.ts > Liu Bang Genyi and Hongmen Skills Properties > Property 6: Hongmen skill - elephant ignores elephant heart blocking
+Error: Property failed after 1 tests
+{ seed: -1731787414, path: "0:0:0:1:0:1:1:0:0", endOnFailure: true }
+Counterexample: [{"elephant":{"id":" ","type":"elephant","color":"red","position":{"x":0,"y":5},"isAlive":true},"gameState":{"board":{"grid":[[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[{"id":" ","type":"elephant","color":"red","position":{"x":0,"y":5},"isAlive":true},null,null,null,null,null,null,null,null],[null,{"id":"blocking-piece","type":"pawn","color":"black","position":{"x":1,"y":6},"isAlive":true},null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null]],"BOARD_SIZE":{"width":9,"height":10}},"players":[{"id":"liubang_player_red","color":"red","hero":{"id":"liubang","name":"刘邦","skills":[{"isUsed":false,"type":"passive","id":"liubang_genyi","name":"更衣","description":"你的将可以出九宫。"},{"isUsed":false,"id":"liubang_qinzheng","name":"亲征","type":"limited","description":"限定技，出牌阶段，你可以强制对方将与你的将在同一条线上，移除移动路径上的阻挡。"},{"isUsed":false,"type":"passive","id":"liubang_hongmen","name":"鸿门","description":"你的士可以出九宫，但不能过河；你的象不受象心限制。"}],"awakened":false,"avatar":"/heroes/liubang.jpg","description":"汉高祖，善于运用计谋和灵活战术。将、士、象具有特殊能力。"},"pieces":[]},{"id":"opponent","color":"black","hero":{"id":"test_hero","name":"测试武将","skills":[],"awakened":false},"pieces":[]}],"currentPlayer":"red","gamePhase":"playing","moveHistory":[]}},{"dx":2,"dy":2}]
+Shrunk 8 time(s)
+Got AssertionError: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string
+    at Proxy.<anonymous> (file:///Users/yummy/Code/Chess/node_modules/@vitest/expect/dist/index.js:1002:17)
+    at Proxy.<anonymous> (file:///Users/yummy/Code/Chess/node_modules/@vitest/expect/dist/index.js:800:17)
+    at Proxy.methodWrapper (/Users/yummy/Code/Chess/node_modules/chai/lib/chai/utils/addMethod.js:57:25)
+    at /Users/yummy/Code/Chess/src/test/properties/liubang-skills.test.ts:502:31
+    at Property.predicate (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.js:14:54)
+    at Property.run (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33)
+    at runIt (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30)
+    at check (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11)
+    at Proxy.assert (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17)
+    at /Users/yummy/Code/Chess/src/test/properties/liubang-skills.test.ts:440:8
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ ❯ src/test/properties/liubang-skills.test.ts:502:31
+    500|         // 需求 4.5: 刘邦的象移动时，游戏系统应当忽略象心限制
+    501|         expect(result.isValid).toBe(true);
+    502|         expect(result.reason).toContain('鸿门');
+       |                               ^
+    503|       }
+    504|     ), { numRuns: 100 });
+ ❯ Property.predicate node_modules/fast-check/lib/esm/check/property/Property.js:14:54
+ ❯ Property.run node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33
+ ❯ runIt node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30
+ ❯ check node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11
+ ❯ Proxy.assert node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17
+ ❯ src/test/properties/liubang-skills.test.ts:440:8
+ ❯ buildError node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:126:15
+ ❯ throwIfFailed node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:138:11
+ ❯ reportRunDetails node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:151:16
+ ❯ Proxy.assert node_modules/fast-check/lib/esm/check/runner/Runner.js:69:9
+ ❯ src/test/properties/liubang-skills.test.ts:440:8
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 13 passed (14)
+   Start at  17:35:30
+   Duration  3.34s (transform 243ms, setup 435ms, collect 383ms, tests 242ms, environment 970ms, prepare 131ms)
+

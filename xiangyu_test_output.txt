@@ -1,0 +1,302 @@
+
+> warlord-chess@0.1.0 test
+> vitest --run src/test/properties/xiangyu-skills.test.ts
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/yummy/Code/Chess
+
+ ❯ src/test/properties/xiangyu-skills.test.ts  (14 tests | 5 failed) 84ms
+   ❯ src/test/properties/xiangyu-skills.test.ts > Xiang Yu Beishui Skill Properties > Property 4: Beishui skill - uncrossed pawns can cross river in one step
+     → Property failed after 3 tests
+{ seed: -367309163, path: "2:1:0", endOnFailure: true }
+Counterexample: [{"pawn":{"id":" ","type":"pawn","color":"black","position":{"x":0,"y":4},"isAlive":true},"gameState":{"board":{"grid":[[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[{"id":" ","type":"pawn","color":"black","position":{"x":0,"y":4},"isAlive":true},null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null]],"BOARD_SIZE":{"width":9,"height":10}},"players":[{"id":"xiangyu_player_black","color":"black","hero":{"id":"xiangyu","name":"项羽","skills":[{"isUsed":false,"type":"passive","id":"xiangyu_beishui","name":"背水","description":"你的兵未过河时，可以一步直接过河；过河后，每次移动可以连走两步，但最多前进一步。"},{"isUsed":false,"type":"passive","id":"xiangyu_bawang","name":"霸王","description":"你的马移动时，不受拌马腿影响（除非马受攻击）；你不能连续两步都选择跳马。"}],"awakened":false,"avatar":"/heroes/xiangyu.jpg","description":"西楚霸王，力拔山兮气盖世。拥有强大的兵种和马匹优势。"},"pieces":[]},{"id":"opponent","color":"red","hero":{"id":"test_hero","name":"测试武将","skills":[],"awakened":false},"pieces":[]}],"currentPlayer":"black","gamePhase":"playing","moveHistory":[]}}]
+Shrunk 2 time(s)
+Got AssertionError: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string
+    at Proxy.<anonymous> (file:///Users/yummy/Code/Chess/node_modules/@vitest/expect/dist/index.js:1002:17)
+    at Proxy.<anonymous> (file:///Users/yummy/Code/Chess/node_modules/@vitest/expect/dist/index.js:800:17)
+    at Proxy.methodWrapper (/Users/yummy/Code/Chess/node_modules/chai/lib/chai/utils/addMethod.js:57:25)
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:245:31
+    at Property.predicate (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.js:14:54)
+    at Property.run (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33)
+    at runIt (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30)
+    at check (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11)
+    at Proxy.assert (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17)
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:203:8
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+   ❯ src/test/properties/xiangyu-skills.test.ts > Xiang Yu Beishui Skill Properties > Property 4: Beishui skill - crossed pawns forward limit enforcement
+     → Property failed after 2 tests
+{ seed: 319639240, path: "1:0:0:0:1", endOnFailure: true }
+Counterexample: [{"pawn":{"id":" ","type":"pawn","color":"red","position":{"x":0,"y":2},"isAlive":true},"gameState":{"board":{"grid":[[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[{"id":" ","type":"pawn","color":"red","position":{"x":0,"y":2},"isAlive":true},null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null]],"BOARD_SIZE":{"width":9,"height":10}},"players":[{"id":"xiangyu_player_red","color":"red","hero":{"id":"xiangyu","name":"项羽","skills":[{"isUsed":false,"type":"passive","id":"xiangyu_beishui","name":"背水","description":"你的兵未过河时，可以一步直接过河；过河后，每次移动可以连走两步，但最多前进一步。"},{"isUsed":false,"type":"passive","id":"xiangyu_bawang","name":"霸王","description":"你的马移动时，不受拌马腿影响（除非马受攻击）；你不能连续两步都选择跳马。"}],"awakened":false,"avatar":"/heroes/xiangyu.jpg","description":"西楚霸王，力拔山兮气盖世。拥有强大的兵种和马匹优势。"},"pieces":[]},{"id":"opponent","color":"black","hero":{"id":"test_hero","name":"测试武将","skills":[],"awakened":false},"pieces":[]}],"currentPlayer":"red","gamePhase":"playing","moveHistory":[]}},2]
+Shrunk 4 time(s)
+Got AssertionError: expected false to be true // Object.is equality
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:497:82
+    at Property.predicate (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.js:14:54)
+    at Property.run (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33)
+    at runIt (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30)
+    at check (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11)
+    at Proxy.assert (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17)
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:460:8
+    at file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:781:17)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+   ❯ src/test/properties/xiangyu-skills.test.ts > Xiang Yu Beishui Skill Properties > Property 4: Beishui skill - total step limit enforcement
+     → Property failed after 1 tests
+{ seed: 1093751256, path: "0:0:0:0:0:0:0", endOnFailure: true }
+Counterexample: [{"pawn":{"id":" ","type":"pawn","color":"red","position":{"x":0,"y":0},"isAlive":true},"gameState":{"board":{"grid":[[{"id":" ","type":"pawn","color":"red","position":{"x":0,"y":0},"isAlive":true},null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null]],"BOARD_SIZE":{"width":9,"height":10}},"players":[{"id":"xiangyu_player_red","color":"red","hero":{"id":"xiangyu","name":"项羽","skills":[{"isUsed":false,"type":"passive","id":"xiangyu_beishui","name":"背水","description":"你的兵未过河时，可以一步直接过河；过河后，每次移动可以连走两步，但最多前进一步。"},{"isUsed":false,"type":"passive","id":"xiangyu_bawang","name":"霸王","description":"你的马移动时，不受拌马腿影响（除非马受攻击）；你不能连续两步都选择跳马。"}],"awakened":false,"avatar":"/heroes/xiangyu.jpg","description":"西楚霸王，力拔山兮气盖世。拥有强大的兵种和马匹优势。"},"pieces":[]},{"id":"opponent","color":"black","hero":{"id":"test_hero","name":"测试武将","skills":[],"awakened":false},"pieces":[]}],"currentPlayer":"red","gamePhase":"playing","moveHistory":[]}},3]
+Shrunk 6 time(s)
+Got AssertionError: expected '兵/卒只能走一格' to contain '两步'
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:547:31
+    at Property.predicate (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.js:14:54)
+    at Property.run (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33)
+    at runIt (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30)
+    at check (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11)
+    at Proxy.assert (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17)
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:503:8
+    at file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:781:17)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+   ❯ src/test/properties/xiangyu-skills.test.ts > Xiang Yu Beishui Skill Properties > Property 4: Beishui skill - skill only applies to own pieces
+     → Property failed after 1 tests
+{ seed: 703141203, path: "0:0:0:0", endOnFailure: true }
+Counterexample: [{"pawn":{"id":" ","type":"pawn","color":"red","position":{"x":0,"y":5},"isAlive":true},"gameState":{"board":{"grid":[[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[{"id":"opponent-pawn","type":"pawn","color":"black","position":{"x":0,"y":5},"isAlive":true},null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null]],"BOARD_SIZE":{"width":9,"height":10}},"players":[{"id":"xiangyu_player_red","color":"red","hero":{"id":"xiangyu","name":"项羽","skills":[{"isUsed":false,"type":"passive","id":"xiangyu_beishui","name":"背水","description":"你的兵未过河时，可以一步直接过河；过河后，每次移动可以连走两步，但最多前进一步。"},{"isUsed":false,"type":"passive","id":"xiangyu_bawang","name":"霸王","description":"你的马移动时，不受拌马腿影响（除非马受攻击）；你不能连续两步都选择跳马。"}],"awakened":false,"avatar":"/heroes/xiangyu.jpg","description":"西楚霸王，力拔山兮气盖世。拥有强大的兵种和马匹优势。"},"pieces":[]},{"id":"opponent","color":"black","hero":{"id":"test_hero","name":"测试武将","skills":[],"awakened":false},"pieces":[]}],"currentPlayer":"red","gamePhase":"playing","moveHistory":[]}}]
+Shrunk 3 time(s)
+Got AssertionError: expected true to be false // Object.is equality
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:638:32
+    at Property.predicate (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.js:14:54)
+    at Property.run (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33)
+    at runIt (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30)
+    at check (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11)
+    at Proxy.assert (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17)
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:601:8
+    at file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:781:17)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+   ❯ src/test/properties/xiangyu-skills.test.ts > Xiang Yu Bawang Skill Properties > Property 5: Bawang skill - horses ignore leg blocking when not under attack
+     → Property failed after 1 tests
+{ seed: -752578443, path: "0:0:0:1:0:1:0", endOnFailure: true }
+Counterexample: [{"horse":{"id":" ","type":"horse","color":"red","position":{"x":0,"y":0},"isAlive":true},"targetPosition":{"x":2,"y":1},"legPosition":{"x":1,"y":0},"gameState":{"board":{"grid":[[{"id":" ","type":"horse","color":"red","position":{"x":0,"y":0},"isAlive":true},{"id":"blocking-piece","type":"pawn","color":"red","position":{"x":1,"y":0},"isAlive":true},null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null]],"BOARD_SIZE":{"width":9,"height":10}},"players":[{"id":"xiangyu_player_red","color":"red","hero":{"id":"xiangyu","name":"项羽","skills":[{"isUsed":false,"type":"passive","id":"xiangyu_beishui","name":"背水","description":"你的兵未过河时，可以一步直接过河；过河后，每次移动可以连走两步，但最多前进一步。"},{"isUsed":false,"type":"passive","id":"xiangyu_bawang","name":"霸王","description":"你的马移动时，不受拌马腿影响（除非马受攻击）；你不能连续两步都选择跳马。"}],"awakened":false,"avatar":"/heroes/xiangyu.jpg","description":"西楚霸王，力拔山兮气盖世。拥有强大的兵种和马匹优势。"},"pieces":[]},{"id":"opponent","color":"black","hero":{"id":"test_hero","name":"测试武将","skills":[],"awakened":false},"pieces":[]}],"currentPlayer":"red","gamePhase":"playing","moveHistory":[]}}]
+Shrunk 6 time(s)
+Got AssertionError: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string
+    at Proxy.<anonymous> (file:///Users/yummy/Code/Chess/node_modules/@vitest/expect/dist/index.js:1002:17)
+    at Proxy.<anonymous> (file:///Users/yummy/Code/Chess/node_modules/@vitest/expect/dist/index.js:800:17)
+    at Proxy.methodWrapper (/Users/yummy/Code/Chess/node_modules/chai/lib/chai/utils/addMethod.js:57:25)
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:845:31
+    at Property.predicate (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.js:14:54)
+    at Property.run (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33)
+    at runIt (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30)
+    at check (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11)
+    at Proxy.assert (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17)
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:799:8
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/properties/xiangyu-skills.test.ts > Xiang Yu Beishui Skill Properties > Property 4: Beishui skill - uncrossed pawns can cross river in one step
+Error: Property failed after 3 tests
+{ seed: -367309163, path: "2:1:0", endOnFailure: true }
+Counterexample: [{"pawn":{"id":" ","type":"pawn","color":"black","position":{"x":0,"y":4},"isAlive":true},"gameState":{"board":{"grid":[[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[{"id":" ","type":"pawn","color":"black","position":{"x":0,"y":4},"isAlive":true},null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null]],"BOARD_SIZE":{"width":9,"height":10}},"players":[{"id":"xiangyu_player_black","color":"black","hero":{"id":"xiangyu","name":"项羽","skills":[{"isUsed":false,"type":"passive","id":"xiangyu_beishui","name":"背水","description":"你的兵未过河时，可以一步直接过河；过河后，每次移动可以连走两步，但最多前进一步。"},{"isUsed":false,"type":"passive","id":"xiangyu_bawang","name":"霸王","description":"你的马移动时，不受拌马腿影响（除非马受攻击）；你不能连续两步都选择跳马。"}],"awakened":false,"avatar":"/heroes/xiangyu.jpg","description":"西楚霸王，力拔山兮气盖世。拥有强大的兵种和马匹优势。"},"pieces":[]},{"id":"opponent","color":"red","hero":{"id":"test_hero","name":"测试武将","skills":[],"awakened":false},"pieces":[]}],"currentPlayer":"black","gamePhase":"playing","moveHistory":[]}}]
+Shrunk 2 time(s)
+Got AssertionError: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string
+    at Proxy.<anonymous> (file:///Users/yummy/Code/Chess/node_modules/@vitest/expect/dist/index.js:1002:17)
+    at Proxy.<anonymous> (file:///Users/yummy/Code/Chess/node_modules/@vitest/expect/dist/index.js:800:17)
+    at Proxy.methodWrapper (/Users/yummy/Code/Chess/node_modules/chai/lib/chai/utils/addMethod.js:57:25)
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:245:31
+    at Property.predicate (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.js:14:54)
+    at Property.run (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33)
+    at runIt (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30)
+    at check (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11)
+    at Proxy.assert (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17)
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:203:8
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ ❯ src/test/properties/xiangyu-skills.test.ts:245:31
+    243|         // 需求 3.1: 项羽的兵未过河时，可以一步直接过河
+    244|         expect(result.isValid).toBe(true);
+    245|         expect(result.reason).toContain('背水');
+       |                               ^
+    246|       }
+    247|     ), { numRuns: 100 });
+ ❯ Property.predicate node_modules/fast-check/lib/esm/check/property/Property.js:14:54
+ ❯ Property.run node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33
+ ❯ runIt node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30
+ ❯ check node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11
+ ❯ Proxy.assert node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17
+ ❯ src/test/properties/xiangyu-skills.test.ts:203:8
+ ❯ buildError node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:126:15
+ ❯ throwIfFailed node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:138:11
+ ❯ reportRunDetails node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:151:16
+ ❯ Proxy.assert node_modules/fast-check/lib/esm/check/runner/Runner.js:69:9
+ ❯ src/test/properties/xiangyu-skills.test.ts:203:8
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  src/test/properties/xiangyu-skills.test.ts > Xiang Yu Beishui Skill Properties > Property 4: Beishui skill - crossed pawns forward limit enforcement
+Error: Property failed after 2 tests
+{ seed: 319639240, path: "1:0:0:0:1", endOnFailure: true }
+Counterexample: [{"pawn":{"id":" ","type":"pawn","color":"red","position":{"x":0,"y":2},"isAlive":true},"gameState":{"board":{"grid":[[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[{"id":" ","type":"pawn","color":"red","position":{"x":0,"y":2},"isAlive":true},null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null]],"BOARD_SIZE":{"width":9,"height":10}},"players":[{"id":"xiangyu_player_red","color":"red","hero":{"id":"xiangyu","name":"项羽","skills":[{"isUsed":false,"type":"passive","id":"xiangyu_beishui","name":"背水","description":"你的兵未过河时，可以一步直接过河；过河后，每次移动可以连走两步，但最多前进一步。"},{"isUsed":false,"type":"passive","id":"xiangyu_bawang","name":"霸王","description":"你的马移动时，不受拌马腿影响（除非马受攻击）；你不能连续两步都选择跳马。"}],"awakened":false,"avatar":"/heroes/xiangyu.jpg","description":"西楚霸王，力拔山兮气盖世。拥有强大的兵种和马匹优势。"},"pieces":[]},{"id":"opponent","color":"black","hero":{"id":"test_hero","name":"测试武将","skills":[],"awakened":false},"pieces":[]}],"currentPlayer":"red","gamePhase":"playing","moveHistory":[]}},2]
+Shrunk 4 time(s)
+Got AssertionError: expected false to be true // Object.is equality
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:497:82
+    at Property.predicate (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.js:14:54)
+    at Property.run (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33)
+    at runIt (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30)
+    at check (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11)
+    at Proxy.assert (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17)
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:460:8
+    at file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:781:17)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ ❯ src/test/properties/xiangyu-skills.test.ts:497:82
+    495|         expect(result.isValid).toBe(false);
+    496|         // 错误消息可能是 "前进一步" 或 "两步"（当总步数 > 2 时先触发…
+    497|         expect(result.reason?.includes('前进一步') || result.reason?.i…
+       |                                                                                  ^
+    498|       }
+    499|     ), { numRuns: 100 });
+ ❯ Property.predicate node_modules/fast-check/lib/esm/check/property/Property.js:14:54
+ ❯ Property.run node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33
+ ❯ runIt node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30
+ ❯ check node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11
+ ❯ Proxy.assert node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17
+ ❯ src/test/properties/xiangyu-skills.test.ts:460:8
+ ❯ buildError node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:126:15
+ ❯ throwIfFailed node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:138:11
+ ❯ reportRunDetails node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:151:16
+ ❯ Proxy.assert node_modules/fast-check/lib/esm/check/runner/Runner.js:69:9
+ ❯ src/test/properties/xiangyu-skills.test.ts:460:8
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  src/test/properties/xiangyu-skills.test.ts > Xiang Yu Beishui Skill Properties > Property 4: Beishui skill - total step limit enforcement
+Error: Property failed after 1 tests
+{ seed: 1093751256, path: "0:0:0:0:0:0:0", endOnFailure: true }
+Counterexample: [{"pawn":{"id":" ","type":"pawn","color":"red","position":{"x":0,"y":0},"isAlive":true},"gameState":{"board":{"grid":[[{"id":" ","type":"pawn","color":"red","position":{"x":0,"y":0},"isAlive":true},null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null]],"BOARD_SIZE":{"width":9,"height":10}},"players":[{"id":"xiangyu_player_red","color":"red","hero":{"id":"xiangyu","name":"项羽","skills":[{"isUsed":false,"type":"passive","id":"xiangyu_beishui","name":"背水","description":"你的兵未过河时，可以一步直接过河；过河后，每次移动可以连走两步，但最多前进一步。"},{"isUsed":false,"type":"passive","id":"xiangyu_bawang","name":"霸王","description":"你的马移动时，不受拌马腿影响（除非马受攻击）；你不能连续两步都选择跳马。"}],"awakened":false,"avatar":"/heroes/xiangyu.jpg","description":"西楚霸王，力拔山兮气盖世。拥有强大的兵种和马匹优势。"},"pieces":[]},{"id":"opponent","color":"black","hero":{"id":"test_hero","name":"测试武将","skills":[],"awakened":false},"pieces":[]}],"currentPlayer":"red","gamePhase":"playing","moveHistory":[]}},3]
+Shrunk 6 time(s)
+Got AssertionError: expected '兵/卒只能走一格' to contain '两步'
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:547:31
+    at Property.predicate (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.js:14:54)
+    at Property.run (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33)
+    at runIt (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30)
+    at check (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11)
+    at Proxy.assert (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17)
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:503:8
+    at file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:781:17)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ ❯ src/test/properties/xiangyu-skills.test.ts:547:31
+    545|         const result = moveValidator.validateMove(excessiveStepsMove, …
+    546|         expect(result.isValid).toBe(false);
+    547|         expect(result.reason).toContain('两步');
+       |                               ^
+    548|       }
+    549|     ), { numRuns: 100 });
+ ❯ Property.predicate node_modules/fast-check/lib/esm/check/property/Property.js:14:54
+ ❯ Property.run node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33
+ ❯ runIt node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30
+ ❯ check node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11
+ ❯ Proxy.assert node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17
+ ❯ src/test/properties/xiangyu-skills.test.ts:503:8
+ ❯ buildError node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:126:15
+ ❯ throwIfFailed node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:138:11
+ ❯ reportRunDetails node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:151:16
+ ❯ Proxy.assert node_modules/fast-check/lib/esm/check/runner/Runner.js:69:9
+ ❯ src/test/properties/xiangyu-skills.test.ts:503:8
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  src/test/properties/xiangyu-skills.test.ts > Xiang Yu Beishui Skill Properties > Property 4: Beishui skill - skill only applies to own pieces
+Error: Property failed after 1 tests
+{ seed: 703141203, path: "0:0:0:0", endOnFailure: true }
+Counterexample: [{"pawn":{"id":" ","type":"pawn","color":"red","position":{"x":0,"y":5},"isAlive":true},"gameState":{"board":{"grid":[[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[{"id":"opponent-pawn","type":"pawn","color":"black","position":{"x":0,"y":5},"isAlive":true},null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null]],"BOARD_SIZE":{"width":9,"height":10}},"players":[{"id":"xiangyu_player_red","color":"red","hero":{"id":"xiangyu","name":"项羽","skills":[{"isUsed":false,"type":"passive","id":"xiangyu_beishui","name":"背水","description":"你的兵未过河时，可以一步直接过河；过河后，每次移动可以连走两步，但最多前进一步。"},{"isUsed":false,"type":"passive","id":"xiangyu_bawang","name":"霸王","description":"你的马移动时，不受拌马腿影响（除非马受攻击）；你不能连续两步都选择跳马。"}],"awakened":false,"avatar":"/heroes/xiangyu.jpg","description":"西楚霸王，力拔山兮气盖世。拥有强大的兵种和马匹优势。"},"pieces":[]},{"id":"opponent","color":"black","hero":{"id":"test_hero","name":"测试武将","skills":[],"awakened":false},"pieces":[]}],"currentPlayer":"red","gamePhase":"playing","moveHistory":[]}}]
+Shrunk 3 time(s)
+Got AssertionError: expected true to be false // Object.is equality
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:638:32
+    at Property.predicate (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.js:14:54)
+    at Property.run (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33)
+    at runIt (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30)
+    at check (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11)
+    at Proxy.assert (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17)
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:601:8
+    at file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///Users/yummy/Code/Chess/node_modules/@vitest/runner/dist/index.js:781:17)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ ❯ src/test/properties/xiangyu-skills.test.ts:638:32
+    636|         // 验证背水技能只对己方棋子有效
+    637|         const result = beishuiSkill!.execute(context);
+    638|         expect(result.success).toBe(false);
+       |                                ^
+    639|         expect(result.message).toContain('己方');
+    640|       }
+ ❯ Property.predicate node_modules/fast-check/lib/esm/check/property/Property.js:14:54
+ ❯ Property.run node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33
+ ❯ runIt node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30
+ ❯ check node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11
+ ❯ Proxy.assert node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17
+ ❯ src/test/properties/xiangyu-skills.test.ts:601:8
+ ❯ buildError node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:126:15
+ ❯ throwIfFailed node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:138:11
+ ❯ reportRunDetails node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:151:16
+ ❯ Proxy.assert node_modules/fast-check/lib/esm/check/runner/Runner.js:69:9
+ ❯ src/test/properties/xiangyu-skills.test.ts:601:8
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  src/test/properties/xiangyu-skills.test.ts > Xiang Yu Bawang Skill Properties > Property 5: Bawang skill - horses ignore leg blocking when not under attack
+Error: Property failed after 1 tests
+{ seed: -752578443, path: "0:0:0:1:0:1:0", endOnFailure: true }
+Counterexample: [{"horse":{"id":" ","type":"horse","color":"red","position":{"x":0,"y":0},"isAlive":true},"targetPosition":{"x":2,"y":1},"legPosition":{"x":1,"y":0},"gameState":{"board":{"grid":[[{"id":" ","type":"horse","color":"red","position":{"x":0,"y":0},"isAlive":true},{"id":"blocking-piece","type":"pawn","color":"red","position":{"x":1,"y":0},"isAlive":true},null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null]],"BOARD_SIZE":{"width":9,"height":10}},"players":[{"id":"xiangyu_player_red","color":"red","hero":{"id":"xiangyu","name":"项羽","skills":[{"isUsed":false,"type":"passive","id":"xiangyu_beishui","name":"背水","description":"你的兵未过河时，可以一步直接过河；过河后，每次移动可以连走两步，但最多前进一步。"},{"isUsed":false,"type":"passive","id":"xiangyu_bawang","name":"霸王","description":"你的马移动时，不受拌马腿影响（除非马受攻击）；你不能连续两步都选择跳马。"}],"awakened":false,"avatar":"/heroes/xiangyu.jpg","description":"西楚霸王，力拔山兮气盖世。拥有强大的兵种和马匹优势。"},"pieces":[]},{"id":"opponent","color":"black","hero":{"id":"test_hero","name":"测试武将","skills":[],"awakened":false},"pieces":[]}],"currentPlayer":"red","gamePhase":"playing","moveHistory":[]}}]
+Shrunk 6 time(s)
+Got AssertionError: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string
+    at Proxy.<anonymous> (file:///Users/yummy/Code/Chess/node_modules/@vitest/expect/dist/index.js:1002:17)
+    at Proxy.<anonymous> (file:///Users/yummy/Code/Chess/node_modules/@vitest/expect/dist/index.js:800:17)
+    at Proxy.methodWrapper (/Users/yummy/Code/Chess/node_modules/chai/lib/chai/utils/addMethod.js:57:25)
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:845:31
+    at Property.predicate (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.js:14:54)
+    at Property.run (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33)
+    at runIt (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30)
+    at check (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11)
+    at Proxy.assert (file:///Users/yummy/Code/Chess/node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17)
+    at /Users/yummy/Code/Chess/src/test/properties/xiangyu-skills.test.ts:799:8
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ ❯ src/test/properties/xiangyu-skills.test.ts:845:31
+    843|         // 需求 3.3: 项羽的马移动时，不受拌马腿影响
+    844|         expect(result.isValid).toBe(true);
+    845|         expect(result.reason).toContain('霸王');
+       |                               ^
+    846|       }
+    847|     ), { numRuns: 100 });
+ ❯ Property.predicate node_modules/fast-check/lib/esm/check/property/Property.js:14:54
+ ❯ Property.run node_modules/fast-check/lib/esm/check/property/Property.generic.js:46:33
+ ❯ runIt node_modules/fast-check/lib/esm/check/runner/Runner.js:18:30
+ ❯ check node_modules/fast-check/lib/esm/check/runner/Runner.js:62:11
+ ❯ Proxy.assert node_modules/fast-check/lib/esm/check/runner/Runner.js:65:17
+ ❯ src/test/properties/xiangyu-skills.test.ts:799:8
+ ❯ buildError node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:126:15
+ ❯ throwIfFailed node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:138:11
+ ❯ reportRunDetails node_modules/fast-check/lib/esm/check/runner/utils/RunDetailsFormatter.js:151:16
+ ❯ Proxy.assert node_modules/fast-check/lib/esm/check/runner/Runner.js:69:9
+ ❯ src/test/properties/xiangyu-skills.test.ts:799:8
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 9 passed (14)
+   Start at  18:04:26
+   Duration  2.58s (transform 163ms, setup 509ms, collect 218ms, tests 84ms, environment 527ms, prepare 107ms)
+

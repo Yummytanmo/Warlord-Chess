@@ -67,7 +67,7 @@ export const ChessPiece: React.FC<ChessPieceProps> = ({
     if (onDragEnd) {
       const newX = Math.round((e.target.x() - offsetX) / cellSize);
       const newY = Math.round((e.target.y() - offsetY) / cellSize);
-      
+
       // 如果拖拽到无效位置，回到原位置
       if (newX < 0 || newX > 8 || newY < 0 || newY > 9) {
         e.target.to({
@@ -77,7 +77,7 @@ export const ChessPiece: React.FC<ChessPieceProps> = ({
         });
         return;
       }
-      
+
       onDragEnd(piece, newX, newY);
     }
   };
@@ -128,7 +128,7 @@ export const ChessPiece: React.FC<ChessPieceProps> = ({
         shadowOffset={{ x: 1, y: 1 }}
         shadowOpacity={0.3}
       />
-      
+
       {/* 选中状态的外圈 */}
       {isSelected && (
         <Circle
@@ -138,7 +138,7 @@ export const ChessPiece: React.FC<ChessPieceProps> = ({
           dash={[5, 5]}
         />
       )}
-      
+
       {/* 棋子文字 */}
       <Text
         text={getPieceText(piece.type, piece.color)}

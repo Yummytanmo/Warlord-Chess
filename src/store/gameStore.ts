@@ -7,7 +7,8 @@ import {
   PlayerColor, 
   GamePhase,
   Move,
-  GameError
+  GameError,
+  Skill
 } from '@/types/game';
 import { GameManager } from '@/lib/gameManager';
 import { HeroClass, createHeroCopy } from '@/lib/heroes';
@@ -255,6 +256,26 @@ export const useGameStore = create<GameStore>()(
             }
           }
         }
+      },
+
+      getAvailableSkills: () => {
+        const state = get();
+        if (!state.gameState) return [];
+
+        const currentPlayer = state.gameState.players.find(p => p.color === state.gameState!.currentPlayer);
+        if (!currentPlayer) return [];
+
+        return state.gameManager.getAvailableSkills(state.gameState, currentPlayer.id);
+      },
+
+      getSkillStates: () => {
+        const state = get();
+        if (!state.gameState) return [];
+
+        const currentPlayer = state.gameState.players.find(p => p.color === state.gameState!.currentPlayer);
+        if (!currentPlayer) return [];
+
+        return state.gameManager.getSkillStates(state.gameState, currentPlayer.id);
       },
 
       // Actions - 网络相关
