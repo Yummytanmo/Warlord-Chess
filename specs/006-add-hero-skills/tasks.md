@@ -1,92 +1,61 @@
-# Tasks: Implement Hero Skills
+# Tasks: Verify Hero Skills Implementation
 
-**Feature**: Implement Hero Skills
+**Feature**: Verify Hero Skills Correctness
 **Branch**: `006-add-hero-skills`
 **Spec**: `/specs/006-add-hero-skills/spec.md`
 **Plan**: `/specs/006-add-hero-skills/plan.md`
 
 ## Dependencies
 
-- **Story Order**: Foundation -> Xiangyu -> Liubang -> Hanxin -> Xiaohe -> Zhangliang -> Fankui
-- **Critical Path**: GameState updates -> GameManager multi-turn logic -> Specific Skills
+- **Story Order**: Xiangyu -> Liubang -> Hanxin -> Xiaohe -> Zhangliang -> Fankui
+- **Critical Path**: Code Review -> Test Execution
 
 ## Phase 1: Setup
 
-- [x] T001 Verify feature branch 006-add-hero-skills is active
+- [x] T001 Verify feature branch 006-add-hero-skills is active and dependencies are installed
 
-## Phase 2: Foundational
+## Phase 2: Xiangyu Verification (Movement Modifiers)
 
-**Goal**: Extend core systems to support complex skill mechanics (state persistence, multi-stage turns).
+**Goal**: Ensure "Bei Shui" (Pawn 2 steps/Cross river) and "Ba Wang" (Horse mechanics) match spec.
 
-- [x] T002 Update GameState interface in src/types/game.ts to include turnState and markers
-- [x] T003 Update SkillState interface in src/types/game.ts to include customData
-- [x] T004 Implement PieceSetup.getInitialPosition helper in src/lib/pieceSetup.ts
-- [x] T005 Update GameManager.executeMove in src/lib/gameManager.ts to handle multi-stage turns (turnState)
-- [x] T006 [P] Update RuleContext in src/types/rules.ts to ensure all skill flags are present (move modifiers)
+- [x] T002 [US1] Review src/lib/skills/xiangyu.ts against spec.md section 2.1
+- [x] T003 [US1] Run and verify src/test/properties/xiangyu-skills.test.ts
 
-## Phase 3: Xiangyu (Movement Modifiers)
+## Phase 3: Liubang Verification (Palace/River Rules)
 
-**Goal**: Implement "Bei Shui" (Pawn movement) and "Ba Wang" (Horse mechanics).
-**Test Criteria**: Pawn moves 2 steps, Horse ignores limp legs.
+**Goal**: Ensure "Geng Yi" (King out), "Qin Zheng" (Line force), "Hong Men" (Advisor/Elephant) match spec.
 
-- [x] T007 [US1] Create property tests for Xiangyu's skills in src/test/properties/xiangyu-skills.test.ts
-- [x] T008 [US1] Implement Xiangyu's skill logic in src/lib/skills/xiangyu.ts
-- [x] T009 [US1] Update ChessMoveValidator in src/lib/moveValidator.ts to apply Xiangyu's RuleContext flags
+- [x] T004 [US2] Review src/lib/skills/liubang.ts against spec.md section 2.2
+- [x] T005 [US2] Run and verify src/test/properties/liubang-skills.test.ts
 
-## Phase 4: Liubang (Palace/River Rules)
+## Phase 4: Hanxin Verification (Markers & Placement)
 
-**Goal**: Implement "Geng Yi" (King out), "Qin Zheng" (Flying General), "Hong Men" (Advisor/Elephant).
-**Test Criteria**: King leaves palace, Elephant crosses river/ignores eye.
+**Goal**: Ensure "Dian Bing" (Markers/Placement), "Yong Bing" (Swap), "Yi Shan" (Gain marker) match spec.
 
-- [x] T010 [US2] Create property tests for Liubang's skills in src/test/properties/liubang-skills.test.ts
-- [x] T011 [US2] Implement Liubang's skill logic in src/lib/skills/liubang.ts
-- [x] T012 [US2] Update ChessMoveValidator in src/lib/moveValidator.ts to apply Liubang's RuleContext flags
+- [x] T006 [US3] Review src/lib/skills/hanxin.ts against spec.md section 2.3
+- [x] T007 [US3] Run and verify src/test/properties/hanxin-skills.test.ts
 
-## Phase 5: Hanxin (Markers & Placement)
+## Phase 5: Xiaohe Verification (Multi-Stage & Recovery)
 
-**Goal**: Implement "Dian Bing" (Markers/Placement) and "Yong Bing" (Swap).
-**Test Criteria**: Start with no pawns, consume markers to place pawns.
+**Goal**: Ensure "Yue Xia" (Return pieces), "Bai Ye" (Double King move), "Cheng Ye" (Awakening) match spec.
 
-- [x] T013 [US3] Create property tests for Hanxin's skills (markers/placement) in src/test/properties/hanxin-skills.test.ts
-- [x] T014 [US3] Implement Hanxin's skill logic (Dian Bing/Yong Bing) in src/lib/skills/hanxin.ts
-- [x] T015 [US3] Create SkillInteraction component for placing pieces in src/components/game/SkillInteraction.tsx
+- [x] T008 [US4] Review src/lib/skills/xiaohe.ts against spec.md section 2.4
+- [x] T009 [US4] Run and verify src/test/properties/xiaohe-skills.test.ts
 
-## Phase 6: Xiaohe (Multi-Stage & Recovery)
+## Phase 6: Zhangliang Verification (Extra Moves)
 
-**Goal**: Implement "Yue Xia" (Return pieces) and "Bai Ye" (Double King move).
-**Test Criteria**: King moves twice, pieces return to start.
+**Goal**: Ensure "Yun Chou" (King + Other), "Jue Sheng" (Double King on Check), "Shi Lv" (Awakening) match spec.
 
-- [x] T016 [US4] Create property tests for Xiaohe's skills in src/test/properties/xiaohe-skills.test.ts
-- [x] T017 [US4] Implement Xiaohe's skill logic in src/lib/skills/xiaohe.ts
-- [x] T018 [US4] Integrate Xiaohe's skill state with GameManager's turnState logic
+- [x] T010 [US5] Review src/lib/skills/zhangliang.ts against spec.md section 2.5
+- [x] T011 [US5] Run and verify src/test/properties/zhangliang-skills.test.ts
 
-## Phase 7: Zhangliang (Extra Moves)
+## Phase 7: Fankui Verification (Exchange & Resurrection)
 
-**Goal**: Implement "Yun Chou" (King + Other move) and "Jue Sheng" (Double King move on check).
-**Test Criteria**: Turn continues after King move.
+**Goal**: Ensure "Wu Jian" (Exchange), "Hu Zhu" (Resurrection), "Ci Jue" (Awakening) match spec.
 
-- [x] T019 [US5] Create property tests for Zhangliang's skills in src/test/properties/zhangliang-skills.test.ts
-- [x] T020 [US5] Implement Zhangliang's skill logic in src/lib/skills/zhangliang.ts
-- [x] T021 [US5] Implement awakening logic for Shi Lv (Add piece)
+- [x] T012 [US6] Review src/lib/skills/fankui.ts against spec.md section 2.6
+- [x] T013 [US6] Run and verify src/test/properties/fankui-skills.test.ts
 
-## Phase 8: Fankui (Exchange & Resurrection)
+## Phase 8: Final Verification
 
-**Goal**: Implement "Wu Jian" (Exchange) and "Hu Zhu" (Resurrection).
-**Test Criteria**: Pieces exchanged, King resurrected.
-
-- [x] T022 [US6] Create property tests for Fankui's skills in src/test/properties/fankui-skills.test.ts
-- [x] T023 [US6] Implement Fankui's skill logic in src/lib/skills/fankui.ts
-- [x] T024 [US6] Implement Ci Jue awakening logic (Place removed piece)
-
-## Phase 9: Polish & Cross-Cutting
-
-- [x] T025 Run full test suite to ensure no regressions
-- [x] T026 Verify performance of multi-stage turn validation
-- [x] T027 [P] Polish SkillInteraction UI for better feedback
-
-## Implementation Strategy
-
-1.  **Core Extension**: First enable `GameManager` to handle "not ending turn" (turnState).
-2.  **Simple Modifiers**: Implement passive rule changers (Xiangyu/Liubang) to verify RuleContext.
-3.  **Complex Logic**: Implement Active Skills (Hanxin/Fankui) requiring UI and Board manipulation.
-4.  **Multi-Stage**: Implement Turn manipulators (Xiaohe/Zhangliang).
+- [x] T014 Run full test suite to ensure overall system stability

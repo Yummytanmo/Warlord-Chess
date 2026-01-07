@@ -125,13 +125,13 @@ describe('SkillPanel Integration Tests', () => {
     render(<SkillPanel />);
     
     const skillButtons = screen.getAllByRole('button');
-    const genyiButton = skillButtons.find(button => button.textContent?.includes('更衣'));
+    const qinzhengButton = skillButtons.find(button => button.textContent?.includes('亲征'));
     
-    if (genyiButton) {
-      fireEvent.click(genyiButton);
+    if (qinzhengButton) {
+      fireEvent.click(qinzhengButton);
       
       await waitFor(() => {
-        expect(mockUseSkill).toHaveBeenCalledWith('liubang_genyi');
+        expect(mockUseSkill).toHaveBeenCalledWith('liubang_qinzheng');
       });
     }
   });

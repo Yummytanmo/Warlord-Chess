@@ -112,6 +112,8 @@ export const SkillPanel: React.FC<SkillPanelProps> = ({ className = '' }) => {
               const available = isSkillAvailable(skill);
               const used = isSkillUsed(skill);
               const canUse = available && !used;
+              const isPassive = skill.type === SkillType.PASSIVE;
+              const clickable = canUse && !isPassive;
 
               return (
                 <motion.div
@@ -124,12 +126,18 @@ export const SkillPanel: React.FC<SkillPanelProps> = ({ className = '' }) => {
                     <Tooltip.Trigger asChild>
                       <Button
                         variant={canUse ? "default" : "outline"}
-                        onClick={() => canUse && handleSkillUse(skill.id)}
+                        onClick={() => clickable && handleSkillUse(skill.id)}
                         disabled={!canUse}
                         className={`w-full justify-start p-4 h-auto relative overflow-hidden group transition-all duration-200 ${
-                          canUse 
-                            ? `bg-gradient-to-r ${getSkillTypeColor(skill.type)} hover:shadow-lg transform hover:scale-[1.02]` 
-                            : 'bg-gray-100 text-gray-500 cursor-not-allowed'
+                          canUse
+                            ? `bg-gradient-to-r ${getSkillTypeColor(skill.type)}` 
+                            : 'bg-gray-100 text-gray-500'
+                        } ${
+                          clickable 
+                            ? 'hover:shadow-lg transform hover:scale-[1.02] cursor-pointer' 
+                            : canUse 
+                              ? 'cursor-default' 
+                              : 'cursor-not-allowed'
                         }`}
                       >
                         {/* 技能图标和名称 */}
@@ -168,7 +176,7 @@ export const SkillPanel: React.FC<SkillPanelProps> = ({ className = '' }) => {
                         </div>
 
                         {/* 技能特效动画 */}
-                        {canUse && (
+                        {clickable && (
                           <motion.div
                             className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
                             initial={{ x: '-100%' }}

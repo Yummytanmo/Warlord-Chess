@@ -1,4 +1,4 @@
-import { Skill, SkillType, GameContext, SkillResult, SkillTrigger, PieceType } from '@/types/game';
+import { Skill, SkillType, GameContext, SkillResult, SkillTrigger, PieceType, Piece } from '@/types/game';
 import { PieceSetup } from '../pieceSetup';
 
 export const wuJianSkill: Skill = {
@@ -12,9 +12,25 @@ export const wuJianSkill: Skill = {
     const ctx = context as any;
     if (ctx.trigger === SkillTrigger.MANUAL) {
       const { myPieceId, targetPieceId } = ctx.extraParams || {};
-      // Validate same name/type
+      const { gameState, player } = ctx;
+      
+      const myPiece = player.pieces.find((p: Piece) => p.id === myPieceId);
+      if (!myPiece) return { success: false, message: '己方棋子不存在' };
+      
+      const opponent = gameState.players.find((p: any) => p.color !== player.color);
+      const targetPiece = opponent?.pieces.find((p: Piece) => p.id === targetPieceId);
+      
+      if (!targetPiece) return { success: false, message: '对方棋子不存在' };
+      
+      if (myPiece.type !== targetPiece.type) return { success: false, message: '棋子类型不同' };
+      
       // Remove both
-      // ...
+      gameState.board.setPiece(myPiece.position, null);
+      gameState.board.setPiece(targetPiece.position, null);
+      
+      myPiece.isAlive = false;
+      targetPiece.isAlive = false;
+      
       return { success: true };
     }
     return { success: true };
@@ -31,34 +47,23 @@ export const huZhuSkill: Skill = {
   execute: (context: GameContext): SkillResult => {
     const ctx = context as any;
     if (ctx.trigger === SkillTrigger.ON_CAPTURE && ctx.capturedPiece?.type === PieceType.KING) {
-       const { gameState, move, capturedPiece, player } = ctx;
-       // Revive King at move.to (where it died)
-       // Wait, move.to is where Attacker is now.
-       // King was at move.to before move.
-       // So King goes back to move.to?
-       // "将其退回至上一步位置" -> Where it was? Yes.
-       // "令攻击其的子回到初始位置" -> Attacker (move.piece) goes to Initial.
+       const { gameState, move, capturedPiece } = ctx;
        
        const board = gameState.board;
        const attacker = move.piece;
        
-       // 1. Move Attacker to Initial
        const initialPos = PieceSetup.getInitialPosition(attacker.id);
        if (initialPos) {
-         board.setPiece(move.to, null); // Remove attacker from current pos
-         // Check if initial pos occupied?
-         // Spec doesn't say. Assume kill or overwrite.
-         board.setPiece(initialPos, { ...attacker, position: initialPos });
+         board.setPiece(move.to, null);
+         // Move attacker back
+         attacker.position = initialPos;
+         board.setPiece(initialPos, attacker);
        }
        
-       // 2. Revive King at move.to
+       // Revive King
        capturedPiece.isAlive = true;
+       capturedPiece.position = move.to; // Restore to where it was (which is move.to before move? No, capturedPiece was at move.to)
        board.setPiece(move.to, capturedPiece);
-       
-       // Update player lists logic handled by game manager or we do it here?
-       // GameManager.applyMove handles logic.
-       // Here we are modifying state post-move.
-       // We need to ensure piece references in player.pieces are updated.
        
        return { success: true, gameStateChanges: { board } };
     }
@@ -70,8 +75,55 @@ export const ciJueSkill: Skill = {
   id: 'fankui-cijue',
   name: '赐爵',
   type: SkillType.AWAKENING,
-  description: '...',
+  description: '在两个限定技都使用后，你可以将一个被移除的子添加在棋盘上任何位置',
   isUsed: false,
   canUse: () => true,
-  execute: () => ({ success: true })
+  execute: (context: GameContext): SkillResult => {
+    const ctx = context as any;
+    const { skillEngine, player, gameState, extraParams } = ctx;
+    
+    // Check awakening condition
+    // Triggered usually by MANUAL attempt or ON_TURN_START check?
+    // Awakening skills can be passive (auto awaken) or active.
+    // Spec: "Awakening skill... you CAN place...". Active.
+    // Condition: "After both limited skills used".
+    
+    // Manual activation
+    if (ctx.trigger === SkillTrigger.MANUAL) {
+       // Check usage of WuJian and HuZhu
+       const s1 = skillEngine.getSkillState(wuJianSkill.id);
+       const s2 = skillEngine.getSkillState(huZhuSkill.id);
+       
+       if (!s1?.isUsed || !s2?.isUsed) {
+         return { success: false, message: '限定技未全部使用' };
+       }
+       
+       // Awaken if not already (or just allow use)
+       if (!ctx.skillState.isAwakened) {
+         ctx.skillEngine.awakenSkill(ciJueSkill.id);
+       }
+       
+       // Place piece
+       const { pieceId, position } = extraParams || {};
+       if (!position || !gameState.board.isValidPosition(position)) return { success: false, message: '位置无效' };
+       if (gameState.board.getPiece(position)) return { success: false, message: '位置已有棋子' };
+       
+       // Find removed piece
+       // Ideally passing ID.
+       // For MVP, just assume valid type/id passed or create new?
+       // Spec: "Place a removed piece".
+       // We should find it in player.pieces where isAlive=false.
+       
+       const removedPiece = player.pieces.find((p: Piece) => p.id === pieceId && !p.isAlive);
+       if (!removedPiece) return { success: false, message: '棋子未找到或存活' };
+       
+       removedPiece.isAlive = true;
+       removedPiece.position = position;
+       gameState.board.setPiece(position, removedPiece);
+       
+       return { success: true };
+    }
+    
+    return { success: true };
+  }
 };

@@ -1,4 +1,5 @@
-import { Skill, SkillType, GameContext, SkillResult, PieceType, SkillTrigger } from '@/types/game';
+import { Skill, SkillType, GameContext, SkillResult, PieceType, SkillTrigger, Piece, PlayerColor } from '@/types/game';
+import { PieceSetup } from '../pieceSetup';
 
 export const yunChouSkill: Skill = {
   id: 'zhangliang-yunchou',
@@ -35,31 +36,41 @@ export const jueShengSkill: Skill = {
   type: SkillType.LIMITED,
   description: '限定技，在你第一次被叫将后可以连续移动两次将',
   isUsed: false,
-  canUse: () => true, // Check logic handled in execute or canUse with state
+  canUse: () => true, // canUse should ideally check customData
   execute: (context: GameContext): SkillResult => {
     const ctx = context as any;
+    const { skillState, player, gameState } = ctx;
+
+    // Track checks
     if (ctx.trigger === SkillTrigger.ON_CHECK) {
-       // Logic to enable skill availability?
-       // Limited skills are usually manual.
-       // But "After being checked" implies reaction.
-       // Or "On your turn, if you were checked last turn?"
-       // Spec: "在你第一次被叫将后".
-       // Maybe it sets a state "Can use JueSheng".
-       // And then use manual trigger to activate "Double Move King"?
-       // Or is it passive? "Can move King twice".
-       // It acts like a passive modifier for the next turn.
+       if (skillState) {
+         if (!skillState.customData) skillState.customData = { checkCount: 0 };
+         skillState.customData.checkCount = (skillState.customData.checkCount || 0) + 1;
+       }
+       return { success: true };
+    }
+
+    // Manual Activation
+    if (ctx.trigger === SkillTrigger.MANUAL) {
+       if (!skillState?.customData?.checkCount || skillState.customData.checkCount === 0) {
+         return { success: false, message: '尚未被叫将' };
+       }
        
-       // Implementation:
-       // ON_CHECK -> Update skill state (mark as available/triggered).
-       // MANUAL -> Activate to get extra move?
-       // Simpler: ON_CHECK -> Set internal flag.
-       // When moving King -> Trigger extra move.
-       // Since it's Limited, it happens once.
-       
-       // Let's assume Manual activation for simplicity or Passive trigger on next King move?
-       // "Limited" usually implies Manual.
-       // User clicks "JueSheng" -> TurnState set to "King must move 2 times"?
-       // But user must be in check? Or "After being checked" (history).
+       // Enable double king move
+       const king = PieceSetup.findKing(player.pieces, player.color);
+       if (!king) return { success: false, message: '将不存在' };
+
+       return {
+         success: true,
+         gameStateChanges: {
+           turnState: {
+             phase: 'force_move',
+             remainingMoves: 2,
+             requiredPieceId: king.id
+           }
+         }
+       };
+    }
     return { success: true };
   }
 };
@@ -73,22 +84,41 @@ export const shiLvSkill: Skill = {
   canUse: () => true,
   execute: (context: GameContext): SkillResult => {
     const ctx = context as any;
+    const { skillState, gameState, player, extraParams } = ctx;
+
     // Awakening trigger
     if (ctx.trigger === SkillTrigger.ON_CAPTURE && ctx.piece?.type === PieceType.KING) {
-       // Check if already awakened handled by SkillEngine?
-       // Yes, canTriggerSkill checks isAwakened.
-       // But here we want to BECOME awakened.
-       // SkillEngine doesn't auto-awaken. We need to call awakenSkill?
-       // Or return gameStateChanges?
-       // SkillEngine.awakenSkill(id).
-       ctx.skillEngine.awakenSkill(shiLvSkill.id);
+       if (ctx.skillEngine.awakenSkill(shiLvSkill.id)) {
+         // Store captured type
+         if (skillState) {
+           skillState.customData = { capturedType: ctx.capturedPiece?.type };
+         }
+       }
        return { success: true };
     }
     
     // Active use
     if (ctx.trigger === SkillTrigger.MANUAL) {
-       // Place piece logic
-       // ...
+       const capturedType = skillState?.customData?.capturedType;
+       if (!capturedType) return { success: false, message: '未记录吃子类型' };
+       
+       const pos = extraParams?.position;
+       if (!pos || !gameState.board.isValidPosition(pos)) return { success: false, message: '位置无效' };
+       if (!gameState.board.isInPalace(pos, player.color)) return { success: false, message: '必须在九宫内' };
+       if (gameState.board.getPiece(pos)) return { success: false, message: '位置已有棋子' };
+       
+       // Add piece
+        const newPiece: Piece = {
+          id: `zhangliang-shilv-${Date.now()}`,
+          type: capturedType,
+          color: player.color,
+          position: pos,
+          isAlive: true
+        };
+        gameState.board.setPiece(pos, newPiece);
+        player.pieces.push(newPiece);
+        
+        return { success: true };
     }
     return { success: true };
   }
