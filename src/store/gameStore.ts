@@ -6,12 +6,12 @@ import {
   Position, 
   PlayerColor, 
   GamePhase,
-  Hero,
-  Move
+  Move,
+  GameError
 } from '@/types/game';
-import { ChessBoard } from '@/lib/board';
-import { ChessMoveValidator } from '@/lib/moveValidator';
-import { PieceSetup } from '@/lib/pieceSetup';
+import { GameManager } from '@/lib/gameManager';
+import { HeroClass, createHeroCopy } from '@/lib/heroes';
+import toast from 'react-hot-toast';
 
 interface GameStore {
   // 游戏状态
@@ -21,68 +21,48 @@ interface GameStore {
   isOnline: boolean;
   roomId: string | null;
   
-  // 游戏逻辑
-  moveValidator: ChessMoveValidator;
+  // 游戏管理器
+  gameManager: GameManager;
   
   // UI状态
   isHeroSelectionOpen: boolean;
-  availableHeroes: Hero[];
   
-  // Actions
+  // 错误状态
+  lastError: GameError | null;
+  
+  // Actions - 游戏控制
   initializeGame: () => void;
+  startNewGame: () => void;
   selectPiece: (piece: Piece | null) => void;
-  movePiece: (from: Position, to: Position) => void;
-  useSkill: (skillId: string) => void;
-  selectHero: (playerId: string, heroId: string) => void;
+  movePiece: (from: Position, to: Position) => boolean;
+  undoLastMove: () => void;
   
-  // 网络相关
+  // Actions - 武将和技能
+  selectHero: (playerId: string, hero: HeroClass) => void;
+  useSkill: (skillId: string) => void;
+  getAvailableSkills: () => Skill[];
+  getSkillStates: () => any[];
+  
+  // Actions - 网络相关
   connectToRoom: (roomId: string) => void;
   disconnectFromRoom: () => void;
   updateGameState: (gameState: GameState) => void;
   
-  // UI控制
+  // Actions - UI控制
   setHeroSelectionOpen: (open: boolean) => void;
-  setAvailableHeroes: (heroes: Hero[]) => void;
+  clearError: () => void;
+  
+  // Getters
+  getCurrentPlayer: () => PlayerColor | null;
+  getOpponentPlayer: () => PlayerColor | null;
+  isCurrentPlayerTurn: (piece: Piece) => boolean;
+  canUndoMove: () => boolean;
 }
 
 // 初始游戏状态
 const createInitialGameState = (): GameState => {
-  const board = new ChessBoard();
-  const pieces = PieceSetup.createStandardSetup();
-  
-  // 将棋子放置到棋盘上
-  PieceSetup.setupBoard(board, pieces);
-  
-  return {
-    board,
-    players: [
-      {
-        id: 'player1',
-        color: PlayerColor.RED,
-        hero: {
-          id: '',
-          name: '',
-          skills: [],
-          awakened: false
-        },
-        pieces: PieceSetup.getPiecesByColor(pieces, PlayerColor.RED)
-      },
-      {
-        id: 'player2',
-        color: PlayerColor.BLACK,
-        hero: {
-          id: '',
-          name: '',
-          skills: [],
-          awakened: false
-        },
-        pieces: PieceSetup.getPiecesByColor(pieces, PlayerColor.BLACK)
-      }
-    ],
-    currentPlayer: PlayerColor.RED,
-    gamePhase: GamePhase.PLAYING, // 暂时跳过武将选择阶段
-    moveHistory: []
-  };
+  const gameManager = new GameManager();
+  return gameManager.createNewGame();
 };
 
 export const useGameStore = create<GameStore>()(
@@ -94,17 +74,31 @@ export const useGameStore = create<GameStore>()(
       validMoves: [],
       isOnline: false,
       roomId: null,
-      moveValidator: new ChessMoveValidator(),
+      gameManager: new GameManager(),
       isHeroSelectionOpen: false,
-      availableHeroes: [],
+      lastError: null,
 
-      // Actions
+      // Actions - 游戏控制
       initializeGame: () => {
+        const gameState = createInitialGameState();
         set({ 
-          gameState: createInitialGameState(),
+          gameState,
           selectedPiece: null,
-          validMoves: []
+          validMoves: [],
+          lastError: null
         });
+      },
+
+      startNewGame: () => {
+        const state = get();
+        const gameState = state.gameManager.createNewGame();
+        set({ 
+          gameState,
+          selectedPiece: null,
+          validMoves: [],
+          lastError: null
+        });
+        toast.success('新游戏开始！');
       },
 
       selectPiece: (piece: Piece | null) => {
@@ -114,128 +108,207 @@ export const useGameStore = create<GameStore>()(
           return;
         }
 
-        // 只能选择当前玩家的棋子
-        if (piece.color === state.gameState.currentPlayer) {
-          // 计算有效移动位置
-          const validMoves = state.moveValidator.getValidMoves(piece, state.gameState);
-          set({ selectedPiece: piece, validMoves });
-        } else {
-          // 如果不是当前玩家的棋子，清除选择
+        // 检查是否是当前玩家的回合
+        if (!state.isCurrentPlayerTurn(piece)) {
+          toast.error('不是您的回合！');
           set({ selectedPiece: null, validMoves: [] });
-        }
-      },
-
-      movePiece: (from: Position, to: Position) => {
-        const state = get();
-        if (!state.gameState || !state.selectedPiece) return;
-
-          // 创建移动对象
-          const capturedPiece = state.gameState.board.getPiece(to);
-          const move: Move = {
-            from,
-            to,
-            piece: state.selectedPiece,
-            capturedPiece: capturedPiece || undefined,
-            timestamp: Date.now()
-          };
-
-        // 验证移动是否合法
-        const validationResult = state.moveValidator.validateMove(move, state.gameState);
-        if (!validationResult.isValid) {
-          console.warn('非法移动:', validationResult.reason);
           return;
         }
 
+        // 计算有效移动位置
+        const validMoves = state.gameManager.getValidMoves(piece, state.gameState);
+        set({ selectedPiece: piece, validMoves });
+      },
+
+      movePiece: (from: Position, to: Position): boolean => {
+        const state = get();
+        if (!state.gameState || !state.selectedPiece) {
+          return false;
+        }
+
+        // 创建移动对象
+        const capturedPiece = state.gameState.board.getPiece(to);
+        const move: Move = {
+          from,
+          to,
+          piece: state.selectedPiece,
+          capturedPiece: capturedPiece || undefined,
+          timestamp: Date.now()
+        };
+
         if (state.isOnline && state.roomId) {
-          // 发送到服务器
+          // 网络游戏 - 发送到服务器
           // TODO: 实现WebSocket通信
           console.log('Sending move to server:', { from, to });
+          return true;
         } else {
           // 本地游戏 - 执行移动
-          const newGameState = { ...state.gameState };
-          const newBoard = newGameState.board.clone();
+          const result = state.gameManager.executeMove(state.gameState, move);
           
-          // 移除起始位置的棋子
-          newBoard.setPiece(from, null);
-          
-          // 在目标位置放置棋子
-          const movedPiece = { ...state.selectedPiece, position: to };
-          newBoard.setPiece(to, movedPiece);
-          
-          // 更新玩家的棋子列表
-          const currentPlayerIndex = newGameState.currentPlayer === PlayerColor.RED ? 0 : 1;
-          const opponentPlayerIndex = 1 - currentPlayerIndex;
-          
-          // 更新当前玩家的棋子位置
-          newGameState.players[currentPlayerIndex].pieces = 
-            newGameState.players[currentPlayerIndex].pieces.map(p => 
-              p.id === movedPiece.id ? movedPiece : p
-            );
-          
-          // 如果吃子，移除对方棋子
-          if (move.capturedPiece) {
-            newGameState.players[opponentPlayerIndex].pieces = 
-              newGameState.players[opponentPlayerIndex].pieces.map(p => 
-                p.id === move.capturedPiece!.id ? { ...p, isAlive: false } : p
-              );
+          if (result.success && result.newGameState) {
+            // 检查游戏是否结束
+            const gameEndResult = state.gameManager.checkGameEnd(result.newGameState);
+            if (gameEndResult.isGameOver) {
+              result.newGameState.gamePhase = GamePhase.GAME_OVER;
+              result.newGameState.winner = gameEndResult.winner;
+              
+              // 根据结束原因显示不同的通知
+              if (gameEndResult.winner) {
+                const winnerName = gameEndResult.winner === PlayerColor.RED ? '红方' : '黑方';
+                toast.success(`🎉 游戏结束！${winnerName}获胜！\n原因：${gameEndResult.reason}`);
+              } else {
+                toast('🤝 游戏结束！' + gameEndResult.reason);
+              }
+            } else {
+              // 检查是否被将军
+              const opponentColor = result.newGameState.currentPlayer;
+              if (state.gameManager.isPlayerInCheck(result.newGameState, opponentColor)) {
+                const playerName = opponentColor === PlayerColor.RED ? '红方' : '黑方';
+                toast.error(`⚠️ ${playerName}被将军！`);
+              }
+            }
+
+            set({ 
+              gameState: result.newGameState,
+              selectedPiece: null,
+              validMoves: [],
+              lastError: null
+            });
+            return true;
+          } else {
+            // 移动失败
+            if (result.error) {
+              set({ lastError: result.error });
+              toast.error(result.error.message);
+            }
+            return false;
           }
-          
-          // 更新棋盘和移动历史
-          newGameState.board = newBoard;
-          newGameState.moveHistory.push(move);
-          
-          // 切换玩家
-          newGameState.currentPlayer = 
-            state.gameState.currentPlayer === PlayerColor.RED 
-              ? PlayerColor.BLACK 
-              : PlayerColor.RED;
-          
+        }
+      },
+
+      undoLastMove: () => {
+        const state = get();
+        if (!state.gameState || !state.canUndoMove()) {
+          toast.error('无法撤销移动');
+          return;
+        }
+
+        const newGameState = state.gameManager.undoLastMove(state.gameState);
+        if (newGameState) {
           set({ 
             gameState: newGameState,
             selectedPiece: null,
-            validMoves: []
+            validMoves: [],
+            lastError: null
           });
+          toast.success('已撤销上一步移动');
+        }
+      },
+
+      // Actions - 武将和技能
+      selectHero: (playerId: string, hero: HeroClass) => {
+        const state = get();
+        if (!state.gameState) return;
+
+        // 创建武将的深拷贝以避免状态共享
+        const heroCopy = createHeroCopy(hero);
+        
+        const newGameState = state.gameManager.selectHero(state.gameState, playerId, heroCopy);
+        set({ gameState: newGameState });
+        
+        if (newGameState.gamePhase === GamePhase.PLAYING) {
+          toast.success('武将选择完成，游戏开始！');
         }
       },
 
       useSkill: (skillId: string) => {
         const state = get();
-        if (!state.gameState) return;
+        if (!state.gameState) {
+          toast.error('游戏未开始');
+          return;
+        }
 
-        // TODO: 实现技能使用逻辑
-        console.log('Using skill:', skillId);
+        const currentPlayer = state.gameState.players.find(p => p.color === state.gameState!.currentPlayer);
+        if (!currentPlayer) {
+          toast.error('无法获取当前玩家');
+          return;
+        }
+
+        if (state.isOnline && state.roomId) {
+          // 网络游戏 - 发送到服务器
+          console.log('Sending skill use to server:', skillId);
+          // TODO: 实现WebSocket通信
+        } else {
+          // 本地游戏 - 执行技能
+          const result = state.gameManager.useSkill(state.gameState, currentPlayer.id, skillId);
+          
+          if (result.success && result.newGameState) {
+            set({ 
+              gameState: result.newGameState,
+              lastError: null
+            });
+            toast.success('技能使用成功！');
+          } else {
+            if (result.error) {
+              set({ lastError: result.error });
+              toast.error(result.error.message);
+            }
+          }
+        }
       },
 
-      selectHero: (playerId: string, heroId: string) => {
-        const state = get();
-        if (!state.gameState) return;
-
-        // TODO: 实现武将选择逻辑
-        console.log('Selecting hero:', { playerId, heroId });
-      },
-
-      // 网络相关
+      // Actions - 网络相关
       connectToRoom: (roomId: string) => {
         set({ isOnline: true, roomId });
+        toast.success(`已连接到房间: ${roomId}`);
         // TODO: 实现WebSocket连接
       },
 
       disconnectFromRoom: () => {
         set({ isOnline: false, roomId: null });
+        toast('已断开网络连接');
         // TODO: 断开WebSocket连接
       },
 
       updateGameState: (gameState: GameState) => {
-        set({ gameState });
+        set({ gameState, lastError: null });
       },
 
-      // UI控制
+      // Actions - UI控制
       setHeroSelectionOpen: (open: boolean) => {
         set({ isHeroSelectionOpen: open });
       },
 
-      setAvailableHeroes: (heroes: Hero[]) => {
-        set({ availableHeroes: heroes });
+      clearError: () => {
+        set({ lastError: null });
+      },
+
+      // Getters
+      getCurrentPlayer: () => {
+        const state = get();
+        return state.gameState?.currentPlayer || null;
+      },
+
+      getOpponentPlayer: () => {
+        const state = get();
+        if (!state.gameState) return null;
+        return state.gameState.currentPlayer === PlayerColor.RED 
+          ? PlayerColor.BLACK 
+          : PlayerColor.RED;
+      },
+
+      isCurrentPlayerTurn: (piece: Piece) => {
+        const state = get();
+        if (!state.gameState) return false;
+        return piece.color === state.gameState.currentPlayer;
+      },
+
+      canUndoMove: () => {
+        const state = get();
+        return !!(state.gameState && 
+                 state.gameState.moveHistory.length > 0 && 
+                 !state.isOnline &&
+                 state.gameState.gamePhase === GamePhase.PLAYING);
       }
     }),
     {
