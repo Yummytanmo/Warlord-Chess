@@ -3,12 +3,11 @@ import * as fc from 'fast-check';
 import { useGameStore } from '@/store/gameStore';
 import { 
   GameState, 
-  Piece, 
-  Position, 
   PlayerColor, 
   PieceType,
   GamePhase 
 } from '@/types/game';
+import { ChessBoard } from '@/lib/board';
 
 /**
  * Feature: sanguo-xiangqi, Property 16: UI状态同步
@@ -114,37 +113,7 @@ describe('UI State Synchronization Properties', () => {
         
         // 创建完整的游戏状态
         const fullGameState: GameState = {
-          board: {
-            grid: Array(10).fill(null).map(() => Array(9).fill(null)),
-            BOARD_SIZE: { width: 9, height: 10 },
-            getPiece: function(position: Position) {
-              if (!this.isValidPosition(position)) return null;
-              return this.grid[position.y][position.x];
-            },
-            setPiece: function(position: Position, piece: Piece | null) {
-              if (!this.isValidPosition(position)) return;
-              this.grid[position.y][position.x] = piece;
-            },
-            isValidPosition: function(position: Position) {
-              return position.x >= 0 && position.x < 9 && 
-                     position.y >= 0 && position.y < 10;
-            },
-            isInPalace: function(position: Position, color: PlayerColor) {
-              const palaceX = position.x >= 3 && position.x <= 5;
-              if (color === PlayerColor.RED) {
-                return palaceX && position.y >= 7 && position.y <= 9;
-              } else {
-                return palaceX && position.y >= 0 && position.y <= 2;
-              }
-            },
-            hasRiverCrossed: function(position: Position, color: PlayerColor) {
-              if (color === PlayerColor.RED) {
-                return position.y < 5;
-              } else {
-                return position.y > 4;
-              }
-            }
-          },
+          board: new ChessBoard(),
           players: [
             {
               id: 'player1',

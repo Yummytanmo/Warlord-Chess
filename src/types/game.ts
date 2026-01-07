@@ -107,6 +107,13 @@ export interface Board {
   isValidPosition(position: Position): boolean;
   isInPalace(position: Position, color: PlayerColor): boolean;
   hasRiverCrossed(position: Position, color: PlayerColor): boolean;
+  getAllPieces(): Piece[];
+  getPiecesByColor(color: PlayerColor): Piece[];
+  clear(): void;
+  clone(): Board;
+  isPathBlocked(from: Position, to: Position): boolean;
+  getDistance(from: Position, to: Position): number;
+  isOnSameLine(pos1: Position, pos2: Position): boolean;
 }
 
 // 移动验证相关类型
