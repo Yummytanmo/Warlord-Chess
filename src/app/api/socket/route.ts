@@ -87,9 +87,8 @@ export async function GET(req: NextRequest) {
   }
 }
 
-/**
- * Export the Socket.IO server instance for use in other parts of the app
- */
-export function getSocketServer(): SocketIOServer | null {
-  return io;
-}
+// Note: We intentionally do not export additional fields from this route file
+// because Next.js App Router only allows HTTP method handlers and supported
+// route exports (e.g., runtime/config). Adding other exports causes build
+// failures in production (e.g., Vercel). If you need the server instance,
+// move this helper to a separate module and import it where needed.
