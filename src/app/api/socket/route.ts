@@ -9,7 +9,6 @@
  */
 
 import { NextRequest } from 'next/server';
-import { Server as HTTPServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 import { setupSocketHandlers } from '@/lib/multiplayer/socketServer';
 
