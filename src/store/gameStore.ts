@@ -25,6 +25,10 @@ import {
   requestUndo as socketRequestUndo,
   respondUndo as socketRespondUndo,
   surrender as socketSurrender,
+  requestRestart as socketRequestRestart,
+  respondRestart as socketRespondRestart,
+  requestReselect as socketRequestReselect,
+  respondReselect as socketRespondReselect,
   onGameStateUpdate,
   onPlayerStatus,
   onGameEnd,
@@ -32,6 +36,10 @@ import {
   onDrawResponded,
   onUndoRequested,
   onUndoResponded,
+  onRestartRequested,
+  onRestartResponded,
+  onReselectRequested,
+  onReselectResponded,
   getSocket
 } from '@/lib/multiplayer/socketClient';
 import type { GameMovePayload, UseSkillPayload } from '@/types/multiplayer';
@@ -105,6 +113,18 @@ interface GameStore {
   rejectUndo: () => void;
   surrender: () => void;
 
+  // Restart/Reselect state
+  restartRequestReceived: boolean;
+  reselectRequestReceived: boolean;
+
+  // Actions - Restart/Reselect
+  requestRestart: () => void;
+  acceptRestart: () => void;
+  rejectRestart: () => void;
+  requestReselect: () => void;
+  acceptReselect: () => void;
+  rejectReselect: () => void;
+
   // Actions - UI控制
   setHeroSelectionOpen: (open: boolean) => void;
   clearError: () => void;
@@ -142,6 +162,8 @@ export const useGameStore = create<GameStore>()(
       // Draw/Undo state
       drawRequestReceived: false,
       undoRequestReceived: false,
+      restartRequestReceived: false,
+      reselectRequestReceived: false,
       requestingPlayerName: null,
 
       // Actions - 游戏控制
@@ -532,6 +554,76 @@ export const useGameStore = create<GameStore>()(
         }
       },
 
+      // Actions - Restart/Reselect
+      requestRestart: () => {
+        const state = get();
+        if (!state.isOnline || !state.roomId) {
+          // Local game restart
+          state.startNewGame();
+          return;
+        }
+        socketRequestRestart({ roomId: state.roomId }, (response) => {
+          if (response.success) {
+            toast.success('已发送重新开始请求');
+          } else {
+            toast.error(response.error || '请求失败');
+          }
+        });
+      },
+
+      acceptRestart: () => {
+        const state = get();
+        if (!state.isOnline || !state.roomId) return;
+        socketRespondRestart({ roomId: state.roomId, accept: true }, (response) => {
+          if (!response.success) toast.error(response.error || '操作失败');
+          set({ restartRequestReceived: false, requestingPlayerName: null });
+        });
+      },
+
+      rejectRestart: () => {
+        const state = get();
+        if (!state.isOnline || !state.roomId) return;
+        socketRespondRestart({ roomId: state.roomId, accept: false }, (response) => {
+          if (!response.success) toast.error(response.error || '操作失败');
+          set({ restartRequestReceived: false, requestingPlayerName: null });
+        });
+      },
+
+      requestReselect: () => {
+        const state = get();
+        if (!state.isOnline || !state.roomId) {
+          // Local game reselect - just reset
+          const newState = state.gameManager.resetToHeroSelection(state.gameState?.players || []);
+          set({ gameState: newState });
+          return;
+        }
+        socketRequestReselect({ roomId: state.roomId }, (response) => {
+          if (response.success) {
+            toast.success('已发送重选武将请求');
+          } else {
+            toast.error(response.error || '请求失败');
+          }
+        });
+      },
+
+      acceptReselect: () => {
+        const state = get();
+        if (!state.isOnline || !state.roomId) return;
+        socketRespondReselect({ roomId: state.roomId, accept: true }, (response) => {
+          if (!response.success) toast.error(response.error || '操作失败');
+          set({ reselectRequestReceived: false, requestingPlayerName: null });
+        });
+      },
+
+      rejectReselect: () => {
+        const state = get();
+        if (!state.isOnline || !state.roomId) return;
+        socketRespondReselect({ roomId: state.roomId, accept: false }, (response) => {
+          if (!response.success) toast.error(response.error || '操作失败');
+          set({ reselectRequestReceived: false, requestingPlayerName: null });
+        });
+      },
+
       // Actions - 网络相关
       connectToRoom: (roomId: string, playerColor: PlayerColor) => {
         // Initialize Socket.IO connection
@@ -642,6 +734,54 @@ export const useGameStore = create<GameStore>()(
           }
         });
 
+        // Listen for restart requests
+        const cleanupRestartRequest = onRestartRequested(({ requestingPlayerId }) => {
+          const state = get();
+          const player = state.gameState?.players.find(p => p.id === requestingPlayerId);
+          set({
+            restartRequestReceived: true,
+            requestingPlayerName: player?.displayName || '对手'
+          });
+        });
+
+        const cleanupRestartResponse = onRestartResponded(({ accepted }) => {
+          if (accepted) {
+            toast.success('对方同意了重新开始请求');
+            // Perform local restart
+            const state = get();
+            if (state.gameState) {
+              const newState = state.gameManager.restartGame(state.gameState.players);
+              set({ gameState: newState });
+            }
+          } else {
+            toast.error('对方拒绝了重新开始请求');
+          }
+        });
+
+        // Listen for reselect requests
+        const cleanupReselectRequest = onReselectRequested(({ requestingPlayerId }) => {
+          const state = get();
+          const player = state.gameState?.players.find(p => p.id === requestingPlayerId);
+          set({
+            reselectRequestReceived: true,
+            requestingPlayerName: player?.displayName || '对手'
+          });
+        });
+
+        const cleanupReselectResponse = onReselectResponded(({ accepted }) => {
+          if (accepted) {
+            toast.success('对方同意了重选武将请求');
+            // Perform local reselect
+            const state = get();
+            if (state.gameState) {
+              const newState = state.gameManager.resetToHeroSelection(state.gameState.players);
+              set({ gameState: newState });
+            }
+          } else {
+            toast.error('对方拒绝了重选武将请求');
+          }
+        });
+
         // Store cleanup function
         socketListenersCleanup = () => {
           cleanupGameState();
@@ -651,6 +791,10 @@ export const useGameStore = create<GameStore>()(
           cleanupDrawResponse();
           cleanupUndoRequest();
           cleanupUndoResponse();
+          cleanupRestartRequest();
+          cleanupRestartResponse();
+          cleanupReselectRequest();
+          cleanupReselectResponse();
         };
 
         set({ isOnline: true, roomId, playerColor });
@@ -672,7 +816,9 @@ export const useGameStore = create<GameStore>()(
           roomId: null,
           playerColor: null,
           drawRequestReceived: false,
-          undoRequestReceived: false
+          undoRequestReceived: false,
+          restartRequestReceived: false,
+          reselectRequestReceived: false
         });
         toast('已断开网络连接');
       },

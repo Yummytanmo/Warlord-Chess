@@ -15,6 +15,8 @@ import { MultiplayerHeroSelection } from '@/components/game/MultiplayerHeroSelec
 import { DualHeroInfoPanel } from '@/components/game/DualHeroInfoPanel';
 import { DrawOfferDialog } from '@/components/game/DrawOfferDialog';
 import { UndoRequestDialog } from '@/components/game/UndoRequestDialog';
+import { RestartRequestDialog } from '@/components/game/RestartRequestDialog';
+import { ReselectRequestDialog } from '@/components/game/ReselectRequestDialog';
 import { GamePhase, PlayerColor } from '@/types/game';
 
 export default function RoomPage() {
@@ -29,11 +31,17 @@ export default function RoomPage() {
     initializeGame,
     drawRequestReceived,
     undoRequestReceived,
+    restartRequestReceived,
+    reselectRequestReceived,
     requestingPlayerName,
     acceptDraw,
     rejectDraw,
     acceptUndo,
-    rejectUndo
+    rejectUndo,
+    acceptRestart,
+    rejectRestart,
+    acceptReselect,
+    rejectReselect
   } = useGameStore();
   const playerColor = useGameStore(state => state.playerColor);
   const [room, setRoom] = useState<Room | null>(null);
@@ -402,6 +410,20 @@ export default function RoomPage() {
         isOpen={undoRequestReceived}
         onAccept={acceptUndo}
         onReject={rejectUndo}
+        requestingPlayerName={requestingPlayerName || '对手'}
+      />
+
+      <RestartRequestDialog
+        isOpen={restartRequestReceived}
+        onAccept={acceptRestart}
+        onReject={rejectRestart}
+        requestingPlayerName={requestingPlayerName || '对手'}
+      />
+
+      <ReselectRequestDialog
+        isOpen={reselectRequestReceived}
+        onAccept={acceptReselect}
+        onReject={rejectReselect}
         requestingPlayerName={requestingPlayerName || '对手'}
       />
     </main>

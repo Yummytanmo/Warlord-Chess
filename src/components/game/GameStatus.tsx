@@ -13,7 +13,9 @@ import {
   Trophy,
   Swords,
   Shield,
-  Target
+  Target,
+  RefreshCw,
+  Users
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import toast from 'react-hot-toast';
@@ -30,7 +32,9 @@ export const GameStatus: React.FC<GameStatusProps> = ({ className = '' }) => {
     canUndoMove,
     requestDraw,
     requestUndo,
-    surrender
+    surrender,
+    requestRestart,
+    requestReselect
   } = useGameStore();
 
   if (!gameState) {
@@ -294,6 +298,29 @@ export const GameStatus: React.FC<GameStatusProps> = ({ className = '' }) => {
         >
           <Trophy className="w-4 h-4" />
           认输
+        </Button>
+      </div>
+
+      {/* 更多操作 */}
+      <div className="flex gap-2 pt-2 border-t border-gray-200">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={requestRestart}
+          className="flex-1 flex items-center gap-2"
+        >
+          <RefreshCw className="w-4 h-4" />
+          重开
+        </Button>
+
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={requestReselect}
+          className="flex-1 flex items-center gap-2"
+        >
+          <Users className="w-4 h-4" />
+          重选
         </Button>
       </div>
     </motion.div>

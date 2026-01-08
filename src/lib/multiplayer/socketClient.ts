@@ -302,6 +302,66 @@ export function surrender(
   sock.emit('game:surrender', payload, callback);
 }
 
+/**
+ * Request a game restart
+ */
+export function requestRestart(
+  payload: { roomId: string },
+  callback: (response: { success: boolean; error?: string }) => void
+): void {
+  const sock = getSocket();
+  if (!sock) {
+    callback({ success: false, error: 'Socket not initialized' });
+    return;
+  }
+  sock.emit('game:restart:request', payload, callback);
+}
+
+/**
+ * Respond to a restart request
+ */
+export function respondRestart(
+  payload: { roomId: string; accept: boolean },
+  callback: (response: { success: boolean; error?: string }) => void
+): void {
+  const sock = getSocket();
+  if (!sock) {
+    callback({ success: false, error: 'Socket not initialized' });
+    return;
+  }
+  sock.emit('game:restart:response', payload, callback);
+}
+
+/**
+ * Request to reselect hero
+ */
+export function requestReselect(
+  payload: { roomId: string },
+  callback: (response: { success: boolean; error?: string }) => void
+): void {
+  const sock = getSocket();
+  if (!sock) {
+    callback({ success: false, error: 'Socket not initialized' });
+    return;
+  }
+  sock.emit('game:reselect:request', payload, callback);
+}
+
+/**
+ * Respond to a reselect request
+ */
+export function respondReselect(
+  payload: { roomId: string; accept: boolean },
+  callback: (response: { success: boolean; error?: string }) => void
+): void {
+  const sock = getSocket();
+  if (!sock) {
+    callback({ success: false, error: 'Socket not initialized' });
+    return;
+  }
+  sock.emit('game:reselect:response', payload, callback);
+}
+
 // ============================================================================
 // Typed event listeners
 // ============================================================================
@@ -352,6 +412,54 @@ export function onUndoResponded(
   if (!sock) return () => { };
   sock.on('game:undo:response', callback);
   return () => sock.off('game:undo:response', callback);
+}
+
+/**
+ * Listen for restart requests
+ */
+export function onRestartRequested(
+  callback: (data: { requestingPlayerId: string }) => void
+): () => void {
+  const sock = getSocket();
+  if (!sock) return () => { };
+  sock.on('game:restart:request', callback);
+  return () => sock.off('game:restart:request', callback);
+}
+
+/**
+ * Listen for restart responses
+ */
+export function onRestartResponded(
+  callback: (data: { accepted: boolean }) => void
+): () => void {
+  const sock = getSocket();
+  if (!sock) return () => { };
+  sock.on('game:restart:response', callback);
+  return () => sock.off('game:restart:response', callback);
+}
+
+/**
+ * Listen for reselect requests
+ */
+export function onReselectRequested(
+  callback: (data: { requestingPlayerId: string }) => void
+): () => void {
+  const sock = getSocket();
+  if (!sock) return () => { };
+  sock.on('game:reselect:request', callback);
+  return () => sock.off('game:reselect:request', callback);
+}
+
+/**
+ * Listen for reselect responses
+ */
+export function onReselectResponded(
+  callback: (data: { accepted: boolean }) => void
+): () => void {
+  const sock = getSocket();
+  if (!sock) return () => { };
+  sock.on('game:reselect:response', callback);
+  return () => sock.off('game:reselect:response', callback);
 }
 
 /**

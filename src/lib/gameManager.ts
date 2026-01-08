@@ -222,9 +222,23 @@ export class GameManager {
       }
     }
 
-    // Calculate isCheck and update the last move in history
+    // Calculate isCheck for opponent
     const opponentColor = this.getOpponentColor(newGameState.currentPlayer); // Use newGameState.currentPlayer which handles turn switch
     const isCheck = this.isPlayerInCheck(newGameState, opponentColor);
+
+    // CRITICAL: Check if this move left the current player in check (Suicide check)
+    // We need to check the player who made the move (which is now the opponent of newGameState.currentPlayer)
+    const playerWhoMovedColor = modifiedMove.piece.color;
+    if (this.isPlayerInCheck(newGameState, playerWhoMovedColor)) {
+      return {
+        success: false,
+        error: {
+          type: GameErrorType.INVALID_MOVE,
+          message: '不能送将！(将帅不能正对或被将军)',
+          context: { move: modifiedMove }
+        }
+      };
+    }
 
     if (newGameState.moveHistory.length > 0) {
       const lastMoveIndex = newGameState.moveHistory.length - 1;
@@ -517,6 +531,25 @@ export class GameManager {
     for (const piece of opponentPieces) {
       if (!piece.isAlive) continue;
 
+      // 特殊处理：将帅照面（飞将）
+      // 如果对方是将被且在同一列，检查中间是否有棋子
+      if (piece.type === PieceType.KING && piece.position.x === king.position.x) {
+        const minY = Math.min(piece.position.y, king.position.y);
+        const maxY = Math.max(piece.position.y, king.position.y);
+        let hasObstacle = false;
+
+        for (let y = minY + 1; y < maxY; y++) {
+          if (gameState.board.getPiece({ x: king.position.x, y })) {
+            hasObstacle = true;
+            break;
+          }
+        }
+
+        if (!hasObstacle) {
+          return true; // 飞将！
+        }
+      }
+
       const ruleContext = this.playerRuleContexts.get(piece.color) || DEFAULT_RULES;
       const validMoves = this.moveValidator.getValidMoves(piece, gameState, ruleContext);
       if (validMoves.some(move => move.x === king.position.x && move.y === king.position.y)) {
@@ -790,6 +823,7 @@ export class GameManager {
     return {
       success: true,
       newGameState
+
     };
   }
 
@@ -822,5 +856,95 @@ export class GameManager {
    */
   getSkillEngine(): SkillEngine {
     return this.skillEngine;
+  }
+  /**
+   * 重新开始游戏（保持玩家和武将）
+   */
+  restartGame(players: Player[]): GameState {
+    const board = new ChessBoard();
+    const pieces = PieceSetup.createStandardSetup();
+    PieceSetup.setupBoard(board, pieces);
+
+    // 重置玩家状态（保留武将，但重置棋子）
+    const newPlayers: [Player, Player] = [
+      {
+        ...players[0],
+        pieces: PieceSetup.getPiecesByColor(pieces, players[0].color),
+        // 重新注册技能（因为规则上下文会被重置）
+      },
+      {
+        ...players[1],
+        pieces: PieceSetup.getPiecesByColor(pieces, players[1].color),
+      }
+    ];
+
+    // 重置技能引擎状态
+    this.skillEngine.resetSkillStates();
+    this.playerRuleContexts.set(PlayerColor.RED, createDefaultRuleContext());
+    this.playerRuleContexts.set(PlayerColor.BLACK, createDefaultRuleContext());
+    this.turnCounter = 0;
+
+    // 重新应用武将技能
+    for (const player of newPlayers) {
+      this.skillEngine.registerPlayerSkills(player);
+      const ruleContext = this.playerRuleContexts.get(player.color)!;
+      player.hero.skills.forEach(skill => {
+        if (skill.applyRules) {
+          skill.applyRules(ruleContext);
+        }
+      });
+    }
+
+    const newGameState: GameState = {
+      board,
+      players: newPlayers,
+      currentPlayer: PlayerColor.RED,
+      gamePhase: GamePhase.PLAYING,
+      moveHistory: []
+    };
+
+    // 触发游戏开始技能
+    for (const player of newGameState.players) {
+      this.skillEngine.triggerSkills(SkillTrigger.ON_GAME_START, newGameState, { player });
+    }
+
+    return newGameState;
+  }
+
+  /**
+   * 重置到武将选择阶段
+   */
+  resetToHeroSelection(players: Player[]): GameState {
+    const board = new ChessBoard();
+    const pieces = PieceSetup.createStandardSetup();
+    PieceSetup.setupBoard(board, pieces);
+
+    // 重置玩家状态（清除武将）
+    const newPlayers: [Player, Player] = [
+      {
+        ...players[0],
+        hero: this.createEmptyHero(),
+        pieces: PieceSetup.getPiecesByColor(pieces, players[0].color)
+      },
+      {
+        ...players[1],
+        hero: this.createEmptyHero(),
+        pieces: PieceSetup.getPiecesByColor(pieces, players[1].color)
+      }
+    ];
+
+    // 重置技能引擎状态
+    this.skillEngine.resetSkillStates();
+    this.playerRuleContexts.set(PlayerColor.RED, createDefaultRuleContext());
+    this.playerRuleContexts.set(PlayerColor.BLACK, createDefaultRuleContext());
+    this.turnCounter = 0;
+
+    return {
+      board,
+      players: newPlayers,
+      currentPlayer: PlayerColor.RED,
+      gamePhase: GamePhase.HERO_SELECTION,
+      moveHistory: []
+    };
   }
 }

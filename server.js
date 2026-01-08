@@ -546,6 +546,100 @@ app.prepare().then(() => {
       }
     });
 
+    // Handle restart request
+    socket.on('game:restart:request', (payload, callback) => {
+      try {
+        const roomId = socketToRoom.get(socket.id);
+        const sessionId = socketToSession.get(socket.id);
+        if (!roomId || !sessionId) {
+          callback({ success: false, error: 'Not in a room' });
+          return;
+        }
+
+        callback({ success: true });
+
+        // Broadcast request to other player
+        socket.to(roomId).emit('game:restart:request', {
+          requestingPlayerId: sessionId
+        });
+
+        console.log(`🔄 Restart requested in room: ${roomId}`);
+      } catch (error) {
+        console.error('Error requesting restart:', error);
+        callback({ success: false, error: 'Failed to request restart' });
+      }
+    });
+
+    // Handle restart response
+    socket.on('game:restart:response', (payload, callback) => {
+      try {
+        const roomId = socketToRoom.get(socket.id);
+        if (!roomId) {
+          callback({ success: false, error: 'Not in a room' });
+          return;
+        }
+
+        callback({ success: true });
+
+        // Broadcast response to requester
+        socket.to(roomId).emit('game:restart:response', {
+          accepted: payload.accept
+        });
+
+        console.log(`🔄 Restart ${payload.accept ? 'accepted' : 'rejected'} in room: ${roomId}`);
+      } catch (error) {
+        console.error('Error responding to restart:', error);
+        callback({ success: false, error: 'Failed to respond to restart' });
+      }
+    });
+
+    // Handle reselect request
+    socket.on('game:reselect:request', (payload, callback) => {
+      try {
+        const roomId = socketToRoom.get(socket.id);
+        const sessionId = socketToSession.get(socket.id);
+        if (!roomId || !sessionId) {
+          callback({ success: false, error: 'Not in a room' });
+          return;
+        }
+
+        callback({ success: true });
+
+        // Broadcast request to other player
+        socket.to(roomId).emit('game:reselect:request', {
+          requestingPlayerId: sessionId
+        });
+
+        console.log(`👥 Reselect requested in room: ${roomId}`);
+      } catch (error) {
+        console.error('Error requesting reselect:', error);
+        callback({ success: false, error: 'Failed to request reselect' });
+      }
+    });
+
+    // Handle reselect response
+    socket.on('game:reselect:response', (payload, callback) => {
+      try {
+        const roomId = socketToRoom.get(socket.id);
+        if (!roomId) {
+          callback({ success: false, error: 'Not in a room' });
+          return;
+        }
+
+        callback({ success: true });
+
+        // Broadcast response to requester
+        socket.to(roomId).emit('game:reselect:response', {
+          accepted: payload.accept
+        });
+
+        console.log(`👥 Reselect ${payload.accept ? 'accepted' : 'rejected'} in room: ${roomId}`);
+      } catch (error) {
+        console.error('Error responding to reselect:', error);
+        callback({ success: false, error: 'Failed to respond to reselect' });
+      }
+    });
+
     // Handle disconnection
     socket.on('disconnect', () => {
       console.log('❌ Client disconnected:', socket.id);
