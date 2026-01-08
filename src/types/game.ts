@@ -35,6 +35,8 @@ export interface Player {
   color: PlayerColor;
   hero: Hero;
   pieces: Piece[];
+  displayName?: string;
+  isConnected?: boolean;
 }
 
 // 武将系统类型定义
@@ -132,7 +134,7 @@ export interface GameState {
   gamePhase: GamePhase;
   moveHistory: Move[];
   winner?: PlayerColor;
-  
+
   // For Multi-stage turns
   turnState?: TurnState;
 

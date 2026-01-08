@@ -393,6 +393,159 @@ app.prepare().then(() => {
       }
     });
 
+    // Handle draw request
+    socket.on('game:draw:request', (payload, callback) => {
+      try {
+        const roomId = socketToRoom.get(socket.id);
+        const sessionId = socketToSession.get(socket.id);
+        if (!roomId || !sessionId) {
+          callback({ success: false, error: 'Not in a room' });
+          return;
+        }
+
+        const room = rooms.get(roomId);
+        if (!room) {
+          callback({ success: false, error: 'Room not found' });
+          return;
+        }
+
+        callback({ success: true });
+
+        // Broadcast draw request to other player
+        socket.to(roomId).emit('game:draw:request', {
+          requestingPlayerId: sessionId
+        });
+
+        console.log(`🤝 Draw requested in room: ${roomId}`);
+      } catch (error) {
+        console.error('Error requesting draw:', error);
+        callback({ success: false, error: 'Failed to request draw' });
+      }
+    });
+
+    // Handle draw response
+    socket.on('game:draw:response', (payload, callback) => {
+      try {
+        const roomId = socketToRoom.get(socket.id);
+        if (!roomId) {
+          callback({ success: false, error: 'Not in a room' });
+          return;
+        }
+
+        const room = rooms.get(roomId);
+        if (!room) {
+          callback({ success: false, error: 'Room not found' });
+          return;
+        }
+
+        callback({ success: true });
+
+        // Broadcast response to requester
+        socket.to(roomId).emit('game:draw:response', {
+          accepted: payload.accept
+        });
+
+        // If accepted, end the game
+        if (payload.accept) {
+          room.status = 'ended';
+          io.to(roomId).emit('game:end', {
+            result: 'draw',
+            timestamp: Date.now()
+          });
+        }
+
+        console.log(`🤝 Draw ${payload.accept ? 'accepted' : 'rejected'} in room: ${roomId}`);
+      } catch (error) {
+        console.error('Error responding to draw:', error);
+        callback({ success: false, error: 'Failed to respond to draw' });
+      }
+    });
+
+    // Handle undo request
+    socket.on('game:undo:request', (payload, callback) => {
+      try {
+        const roomId = socketToRoom.get(socket.id);
+        const sessionId = socketToSession.get(socket.id);
+        if (!roomId || !sessionId) {
+          callback({ success: false, error: 'Not in a room' });
+          return;
+        }
+
+        callback({ success: true });
+
+        // Broadcast undo request to other player
+        socket.to(roomId).emit('game:undo:request', {
+          requestingPlayerId: sessionId
+        });
+
+        console.log(`↩️ Undo requested in room: ${roomId}`);
+      } catch (error) {
+        console.error('Error requesting undo:', error);
+        callback({ success: false, error: 'Failed to request undo' });
+      }
+    });
+
+    // Handle undo response
+    socket.on('game:undo:response', (payload, callback) => {
+      try {
+        const roomId = socketToRoom.get(socket.id);
+        if (!roomId) {
+          callback({ success: false, error: 'Not in a room' });
+          return;
+        }
+
+        callback({ success: true });
+
+        // Broadcast response to requester
+        socket.to(roomId).emit('game:undo:response', {
+          accepted: payload.accept
+        });
+
+        console.log(`↩️ Undo ${payload.accept ? 'accepted' : 'rejected'} in room: ${roomId}`);
+      } catch (error) {
+        console.error('Error responding to undo:', error);
+        callback({ success: false, error: 'Failed to respond to undo' });
+      }
+    });
+
+    // Handle surrender
+    socket.on('game:surrender', (payload, callback) => {
+      try {
+        const roomId = socketToRoom.get(socket.id);
+        const sessionId = socketToSession.get(socket.id);
+        if (!roomId || !sessionId) {
+          callback({ success: false, error: 'Not in a room' });
+          return;
+        }
+
+        const room = rooms.get(roomId);
+        if (!room) {
+          callback({ success: false, error: 'Room not found' });
+          return;
+        }
+
+        // Find surrendering player's color
+        const player = room.players.find(p => p.sessionId === sessionId);
+        const winner = player?.color === 'red' ? 'black' : 'red';
+
+        room.status = 'ended';
+
+        callback({ success: true });
+
+        // Broadcast game end with surrender result
+        io.to(roomId).emit('game:end', {
+          result: 'surrender',
+          winner,
+          timestamp: Date.now()
+        });
+
+        console.log(`🏳️ Surrender in room: ${roomId}, winner: ${winner}`);
+      } catch (error) {
+        console.error('Error surrendering:', error);
+        callback({ success: false, error: 'Failed to surrender' });
+      }
+    });
+
     // Handle disconnection
     socket.on('disconnect', () => {
       console.log('❌ Client disconnected:', socket.id);

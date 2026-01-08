@@ -491,14 +491,9 @@ export class GameManager {
       }
     }
 
-    // 检查是否是长将（连续将军超过3次）
-    const consecutiveChecks = this.getConsecutiveChecks(gameState);
-    if (consecutiveChecks >= 6) { // 双方各3次
-      return {
-        isGameOver: true,
-        reason: '长将和棋'
-      };
-    }
+    // 移除长将判和检测
+    // const consecutiveChecks = this.getConsecutiveChecks(gameState);
+    // if (consecutiveChecks >= 6) { ... }
 
     // 检查是否达到移动次数上限（防止无限对局）
     if (gameState.moveHistory.length >= 200) {

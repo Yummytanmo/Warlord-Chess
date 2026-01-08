@@ -4,14 +4,17 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast';
-import { initializeSocket, joinRoom, onPlayerStatus, onGameStateUpdate } from '@/lib/multiplayer/socketClient';
+import { initializeSocket, joinRoom, onPlayerStatus, onGameStateUpdate, onError } from '@/lib/multiplayer/socketClient';
 import { getSessionId, setCurrentRoomId, getDisplayName } from '@/lib/multiplayer/sessionUtils';
 import { useGameStore } from '@/store/gameStore';
 import type { Room } from '@/types/multiplayer';
 import { GameBoard } from '@/components/game/GameBoard';
 import { GameStatus } from '@/components/game/GameStatus';
-import { SkillPanel } from '@/components/game/SkillPanel';
+
 import { MultiplayerHeroSelection } from '@/components/game/MultiplayerHeroSelection';
+import { DualHeroInfoPanel } from '@/components/game/DualHeroInfoPanel';
+import { DrawOfferDialog } from '@/components/game/DrawOfferDialog';
+import { UndoRequestDialog } from '@/components/game/UndoRequestDialog';
 import { GamePhase, PlayerColor } from '@/types/game';
 
 export default function RoomPage() {
@@ -19,7 +22,19 @@ export default function RoomPage() {
   const router = useRouter();
   const roomId = params.roomId as string;
 
-  const { gameState, connectToRoom, updateGameState, initializeGame } = useGameStore();
+  const {
+    gameState,
+    connectToRoom,
+    updateGameState,
+    initializeGame,
+    drawRequestReceived,
+    undoRequestReceived,
+    requestingPlayerName,
+    acceptDraw,
+    rejectDraw,
+    acceptUndo,
+    rejectUndo
+  } = useGameStore();
   const playerColor = useGameStore(state => state.playerColor);
   const [room, setRoom] = useState<Room | null>(null);
   const [isJoining, setIsJoining] = useState(true);
@@ -77,6 +92,10 @@ export default function RoomPage() {
 
     onGameStateUpdate(({ gameState: newState }) => {
       updateGameState(newState);
+    });
+
+    onError(({ message }) => {
+      toast.error(`连接错误: ${message}`);
     });
 
     // Listen for room updates (when second player joins)
@@ -292,8 +311,9 @@ export default function RoomPage() {
               </div>
             ))}
             {room && room.players.length < 2 && (
-              <div className="bg-gray-100 rounded-lg p-3 border-2 border-dashed border-gray-300 flex items-center justify-center">
-                <p className="text-gray-500">等待玩家...</p>
+              <div className="bg-gray-100 rounded-lg p-3 border-2 border-dashed border-gray-300 flex flex-col items-center justify-center min-h-[80px]">
+                <div className="animate-pulse text-4xl mb-2">👤</div>
+                <p className="text-gray-500 font-medium">等待玩家加入...</p>
               </div>
             )}
           </div>
@@ -338,13 +358,17 @@ export default function RoomPage() {
 
                   {/* Board */}
                   <div className="bg-white rounded-xl shadow-lg p-4">
-                    <GameBoard width={600} height={700} />
+                    <GameBoard
+                      width={600}
+                      height={700}
+                      flipBoard={playerColor === PlayerColor.BLACK}
+                    />
                   </div>
                 </div>
 
                 {/* 右侧面板 - 技能面板 */}
                 <div className="xl:col-span-1 space-y-4">
-                  <SkillPanel />
+                  <DualHeroInfoPanel myColor={playerColor || PlayerColor.RED} isMyTurn={isMyTurn || false} />
                 </div>
               </div>
             )}
@@ -367,6 +391,19 @@ export default function RoomPage() {
           </div>
         )}
       </div>
+      <DrawOfferDialog
+        isOpen={drawRequestReceived}
+        onAccept={acceptDraw}
+        onReject={rejectDraw}
+        requestingPlayerName={requestingPlayerName || '对手'}
+      />
+
+      <UndoRequestDialog
+        isOpen={undoRequestReceived}
+        onAccept={acceptUndo}
+        onReject={rejectUndo}
+        requestingPlayerName={requestingPlayerName || '对手'}
+      />
     </main>
   );
 }

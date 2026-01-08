@@ -6,6 +6,7 @@ import {
   PIECE_CONFIG,
   LAYER_NAMES,
   gridToPixel,
+  getDisplayPos,
 } from './constants';
 
 interface PieceLayerProps {
@@ -39,13 +40,15 @@ const getPieceText = (type: PieceType, color: PlayerColor): string => {
  * - Add capture animations (scale/fade out)
  * - Consider using react-konva's `to` prop for declarative animations
  */
-export const PieceLayer: React.FC<PieceLayerProps> = ({
+export const PieceLayer: React.FC<PieceLayerProps & { flipBoard?: boolean }> = ({
   pieces,
   selectedPieceId,
   onPieceClick,
+  flipBoard = false,
 }) => {
   const renderPiece = (piece: Piece) => {
-    const pos = gridToPixel(piece.position.x, piece.position.y);
+    const displayPos = getDisplayPos(piece.position.x, piece.position.y, flipBoard);
+    const pos = gridToPixel(displayPos.x, displayPos.y);
     const isSelected = piece.id === selectedPieceId;
     const colorConfig = piece.color === PlayerColor.RED ? COLORS.red : COLORS.black;
     const pieceText = getPieceText(piece.type, piece.color);

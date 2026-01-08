@@ -227,9 +227,132 @@ export function leaveRoom(roomId: string): void {
   sock.emit('room:leave', { roomId });
 }
 
+/**
+ * Request a draw
+ */
+export function requestDraw(
+  payload: { roomId: string },
+  callback: (response: { success: boolean; error?: string }) => void
+): void {
+  const sock = getSocket();
+  if (!sock) {
+    callback({ success: false, error: 'Socket not initialized' });
+    return;
+  }
+  sock.emit('game:draw:request', payload, callback);
+}
+
+/**
+ * Respond to a draw request
+ */
+export function respondDraw(
+  payload: { roomId: string; accept: boolean },
+  callback: (response: { success: boolean; error?: string }) => void
+): void {
+  const sock = getSocket();
+  if (!sock) {
+    callback({ success: false, error: 'Socket not initialized' });
+    return;
+  }
+  sock.emit('game:draw:response', payload, callback);
+}
+
+/**
+ * Request an undo
+ */
+export function requestUndo(
+  payload: { roomId: string },
+  callback: (response: { success: boolean; error?: string }) => void
+): void {
+  const sock = getSocket();
+  if (!sock) {
+    callback({ success: false, error: 'Socket not initialized' });
+    return;
+  }
+  sock.emit('game:undo:request', payload, callback);
+}
+
+/**
+ * Respond to an undo request
+ */
+export function respondUndo(
+  payload: { roomId: string; accept: boolean },
+  callback: (response: { success: boolean; error?: string }) => void
+): void {
+  const sock = getSocket();
+  if (!sock) {
+    callback({ success: false, error: 'Socket not initialized' });
+    return;
+  }
+  sock.emit('game:undo:response', payload, callback);
+}
+
+/**
+ * Surrender the game
+ */
+export function surrender(
+  payload: { roomId: string },
+  callback: (response: { success: boolean; error?: string }) => void
+): void {
+  const sock = getSocket();
+  if (!sock) {
+    callback({ success: false, error: 'Socket not initialized' });
+    return;
+  }
+  sock.emit('game:surrender', payload, callback);
+}
+
 // ============================================================================
 // Typed event listeners
 // ============================================================================
+
+/**
+ * Listen for draw requests
+ */
+export function onDrawRequested(
+  callback: (data: { requestingPlayerId: string }) => void
+): () => void {
+  const sock = getSocket();
+  if (!sock) return () => { };
+  sock.on('game:draw:request', callback);
+  return () => sock.off('game:draw:request', callback);
+}
+
+/**
+ * Listen for draw responses
+ */
+export function onDrawResponded(
+  callback: (data: { accepted: boolean }) => void
+): () => void {
+  const sock = getSocket();
+  if (!sock) return () => { };
+  sock.on('game:draw:response', callback);
+  return () => sock.off('game:draw:response', callback);
+}
+
+/**
+ * Listen for undo requests
+ */
+export function onUndoRequested(
+  callback: (data: { requestingPlayerId: string }) => void
+): () => void {
+  const sock = getSocket();
+  if (!sock) return () => { };
+  sock.on('game:undo:request', callback);
+  return () => sock.off('game:undo:request', callback);
+}
+
+/**
+ * Listen for undo responses
+ */
+export function onUndoResponded(
+  callback: (data: { accepted: boolean }) => void
+): () => void {
+  const sock = getSocket();
+  if (!sock) return () => { };
+  sock.on('game:undo:response', callback);
+  return () => sock.off('game:undo:response', callback);
+}
 
 /**
  * Listen for room created event
@@ -293,7 +416,7 @@ export function onPlayerStatus(
  */
 export function onGameEnd(
   callback: (data: {
-    result: 'checkmate' | 'stalemate' | 'forfeit' | 'timeout';
+    result: 'checkmate' | 'stalemate' | 'forfeit' | 'timeout' | 'draw' | 'surrender';
     winner?: PlayerColor;
   }) => void
 ): () => void {

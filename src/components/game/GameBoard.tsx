@@ -7,7 +7,7 @@ import { useGameStore } from '@/store/gameStore';
 // Dynamically import KonvaBoard with SSR disabled (Canvas APIs not available in SSR)
 const KonvaBoard = dynamic(
   () => import('./board/KonvaBoard').then(mod => ({ default: mod.KonvaBoard })),
-  { 
+  {
     ssr: false,
     loading: () => (
       <div className="flex items-center justify-center w-full h-full bg-gray-100 rounded-lg">
@@ -23,11 +23,13 @@ const KonvaBoard = dynamic(
 interface GameBoardProps {
   width?: number;
   height?: number;
+  flipBoard?: boolean;
 }
 
-export const GameBoard: React.FC<GameBoardProps> = ({ 
-  width = 800, 
-  height = 900 
+export const GameBoard: React.FC<GameBoardProps> = ({
+  width = 800,
+  height = 900,
+  flipBoard = false
 }) => {
   const { gameState } = useGameStore();
 
@@ -42,5 +44,5 @@ export const GameBoard: React.FC<GameBoardProps> = ({
     );
   }
 
-  return <KonvaBoard width={width} height={height} />;
+  return <KonvaBoard width={width} height={height} flipBoard={flipBoard} />;
 };

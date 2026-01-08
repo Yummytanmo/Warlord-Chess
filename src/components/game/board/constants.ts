@@ -21,7 +21,7 @@ export const COLORS = {
   gridLine: '#8b4513', // Saddle brown
   river: '#b0e0e6', // Powder blue
   riverText: '#4a4a4a', // Dark gray
-  
+
   // Pieces
   red: {
     fill: '#dc2626', // Crimson
@@ -35,7 +35,7 @@ export const COLORS = {
     text: '#f9fafb', // Off-white for text
     selected: '#fbbf24', // Amber for selection
   },
-  
+
   // Interactions
   validMove: '#22c55e', // Green
   validMoveOpacity: 0.6,
@@ -51,15 +51,15 @@ export const PIECE_CONFIG = {
   fontSize: 28,
   fontFamily: 'KaiTi, STKaiti, SimSun, serif', // Traditional Chinese fonts
   fontStyle: 'bold',
-  
+
   // Animation
   animationDuration: 0.3, // seconds
-  
+
   // Effects
   shadowBlur: 10,
   shadowOpacity: 0.3,
   shadowOffsetY: 3,
-  
+
   // Selection effect
   selectionStrokeWidth: 4,
   selectionPulseScale: 1.1,
@@ -70,7 +70,7 @@ export const GRID_CONFIG = {
   lineWidth: 2,
   riverHeight: 15, // Height of the river visual indicator
   riverY: 4.5, // Y position of river (between row 4 and 5)
-  
+
   // Palace (九宫格) diagonal lines
   palaceLines: [
     // Red palace (top)
@@ -112,7 +112,7 @@ export function gridToPixel(gridX: number, gridY: number): { x: number; y: numbe
 export function pixelToGrid(pixelX: number, pixelY: number): { x: number; y: number } {
   const gridX = Math.round((pixelX - BOARD_PADDING) / GRID_SIZE);
   const gridY = Math.round((pixelY - BOARD_PADDING) / GRID_SIZE);
-  
+
   // Clamp to valid board range
   return {
     x: Math.max(0, Math.min(BOARD_COLS - 1, gridX)),
@@ -125,4 +125,18 @@ export function pixelToGrid(pixelX: number, pixelY: number): { x: number; y: num
  */
 export function isValidGridPosition(x: number, y: number): boolean {
   return x >= 0 && x < BOARD_COLS && y >= 0 && y < BOARD_ROWS;
+}
+
+/**
+ * Get display position based on board flip state
+ * If flipped (Black player view), rotates the board 180 degrees
+ */
+export function getDisplayPos(x: number, y: number, flip: boolean): { x: number; y: number } {
+  if (flip) {
+    return {
+      x: BOARD_COLS - 1 - x,
+      y: BOARD_ROWS - 1 - y,
+    };
+  }
+  return { x, y };
 }

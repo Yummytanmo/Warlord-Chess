@@ -10,29 +10,41 @@ import { Zap, Lock, Star, Clock, Sparkles } from 'lucide-react';
 
 interface SkillPanelProps {
   className?: string;
+  playerId?: string;
+  viewOnly?: boolean;
+  compact?: boolean;
 }
 
-export const SkillPanel: React.FC<SkillPanelProps> = ({ className = '' }) => {
-  const { 
-    gameState, 
-    useSkill, 
+export const SkillPanel: React.FC<SkillPanelProps> = ({
+  className = '',
+  playerId,
+  viewOnly = false,
+  compact = false
+}) => {
+  const {
+    gameState,
+    useSkill,
     getAvailableSkills,
-    getCurrentPlayer 
+    getCurrentPlayer
   } = useGameStore();
 
-  const currentPlayer = getCurrentPlayer();
-  const availableSkills = getAvailableSkills();
-
-  if (!gameState || !currentPlayer) {
+  if (!gameState) {
     return null;
   }
 
-  const currentPlayerData = gameState.players.find(p => p.color === currentPlayer);
-  if (!currentPlayerData) {
+  // Determine which player to show
+  // If playerId is provided, find that player
+  // Otherwise default to current turn player (legacy behavior)
+  let targetPlayer = playerId
+    ? gameState.players.find(p => p.id === playerId)
+    : gameState.players.find(p => p.color === getCurrentPlayer());
+
+  if (!targetPlayer) {
     return null;
   }
 
   const handleSkillUse = (skillId: string) => {
+    if (viewOnly) return;
     useSkill(skillId);
   };
 
@@ -82,7 +94,12 @@ export const SkillPanel: React.FC<SkillPanelProps> = ({ className = '' }) => {
   };
 
   const isSkillAvailable = (skill: Skill) => {
-    return availableSkills.some(s => s.id === skill.id);
+    // If viewOnly, we don't check availability for usage, but we might want to show if it's generally available
+    // For simplicity, if viewOnly, we consider it "available" for display purposes (colored) unless it's used
+    if (viewOnly) return true;
+
+    const available = getAvailableSkills();
+    return available.some(s => s.id === skill.id);
   };
 
   const isSkillUsed = (skill: Skill) => {
@@ -92,28 +109,34 @@ export const SkillPanel: React.FC<SkillPanelProps> = ({ className = '' }) => {
   return (
     <Tooltip.Provider>
       <motion.div
-        className={`bg-white rounded-xl shadow-lg border border-gray-200 p-4 ${className}`}
+        className={`bg-white rounded-xl shadow-lg border border-gray-200 ${compact ? 'p-2' : 'p-4'} ${className}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
-        {/* 面板标题 */}
-        <div className="flex items-center gap-2 mb-4">
-          <div className={`w-3 h-3 rounded-full ${currentPlayer === PlayerColor.RED ? 'bg-red-500' : 'bg-gray-800'}`} />
-          <h3 className="text-lg font-semibold text-gray-800">
-            {currentPlayerData.hero.name || '未选择'} - 技能面板
-          </h3>
-        </div>
+        {/* 面板标题 - Only show if not compact or explicitly requested */}
+        {!compact && (
+          <div className="flex items-center gap-2 mb-4">
+            <div className={`w-3 h-3 rounded-full ${targetPlayer.color === PlayerColor.RED ? 'bg-red-500' : 'bg-gray-800'}`} />
+            <h3 className="text-lg font-semibold text-gray-800">
+              {targetPlayer.hero.name || '未选择'} - 技能面板
+            </h3>
+          </div>
+        )}
 
         {/* 技能列表 */}
         <div className="space-y-3">
           <AnimatePresence>
-            {currentPlayerData.hero.skills.map((skill, index) => {
+            {targetPlayer.hero.skills.map((skill, index) => {
               const available = isSkillAvailable(skill);
               const used = isSkillUsed(skill);
-              const canUse = available && !used;
+              const canUse = available && !used && !viewOnly;
               const isPassive = skill.type === SkillType.PASSIVE;
               const clickable = canUse && !isPassive;
+
+              // In viewOnly mode, we want to show colors but not allow interaction
+              // If viewOnly is true, we use colored background if not used
+              const showColor = viewOnly ? !used : canUse;
 
               return (
                 <motion.div
@@ -125,33 +148,28 @@ export const SkillPanel: React.FC<SkillPanelProps> = ({ className = '' }) => {
                   <Tooltip.Root>
                     <Tooltip.Trigger asChild>
                       <Button
-                        variant={canUse ? "default" : "outline"}
+                        variant={showColor ? "default" : "outline"}
                         onClick={() => clickable && handleSkillUse(skill.id)}
-                        disabled={!canUse}
-                        className={`w-full justify-start p-4 h-auto relative overflow-hidden group transition-all duration-200 ${
-                          canUse
-                            ? `bg-gradient-to-r ${getSkillTypeColor(skill.type)}` 
+                        disabled={!canUse && !viewOnly} // Don't disable in viewOnly so tooltip works, but handle click
+                        className={`w-full justify-start ${compact ? 'p-2' : 'p-4'} h-auto relative overflow-hidden group transition-all duration-200 ${showColor
+                            ? `bg-gradient-to-r ${getSkillTypeColor(skill.type)} ${viewOnly ? 'opacity-90 cursor-default' : ''}`
                             : 'bg-gray-100 text-gray-500'
-                        } ${
-                          clickable 
-                            ? 'hover:shadow-lg transform hover:scale-[1.02] cursor-pointer' 
-                            : canUse 
-                              ? 'cursor-default' 
-                              : 'cursor-not-allowed'
-                        }`}
+                          } ${clickable
+                            ? 'hover:shadow-lg transform hover:scale-[1.02] cursor-pointer'
+                            : 'cursor-default'
+                          }`}
                       >
                         {/* 技能图标和名称 */}
                         <div className="flex items-center gap-3 flex-1">
-                          <div className={`p-2 rounded-lg ${canUse ? 'bg-white/20' : 'bg-gray-200'}`}>
+                          <div className={`p-2 rounded-lg ${showColor ? 'bg-white/20' : 'bg-gray-200'}`}>
                             {getSkillIcon(skill.type)}
                           </div>
-                          
+
                           <div className="flex-1 text-left">
                             <div className="flex items-center gap-2">
-                              <span className="font-semibold">{skill.name}</span>
-                              <span className={`text-xs px-2 py-1 rounded-full ${
-                                canUse ? 'bg-white/20 text-white' : 'bg-gray-300 text-gray-600'
-                              }`}>
+                              <span className={`font-semibold ${compact ? 'text-sm' : ''}`}>{skill.name}</span>
+                              <span className={`text-xs px-2 py-1 rounded-full ${showColor ? 'bg-white/20 text-white' : 'bg-gray-300 text-gray-600'
+                                }`}>
                                 {getSkillTypeText(skill.type)}
                               </span>
                             </div>
@@ -162,14 +180,14 @@ export const SkillPanel: React.FC<SkillPanelProps> = ({ className = '' }) => {
                             {used && (
                               <div className="flex items-center gap-1 text-xs">
                                 <Lock className="w-3 h-3" />
-                                <span>已使用</span>
+                                {!compact && <span>已使用</span>}
                               </div>
                             )}
-                            
-                            {skill.type === SkillType.AWAKENING && !currentPlayerData.hero.awakened && (
+
+                            {skill.type === SkillType.AWAKENING && !targetPlayer.hero.awakened && (
                               <div className="flex items-center gap-1 text-xs">
                                 <Clock className="w-3 h-3" />
-                                <span>未觉醒</span>
+                                {!compact && <span>未觉醒</span>}
                               </div>
                             )}
                           </div>
@@ -191,9 +209,9 @@ export const SkillPanel: React.FC<SkillPanelProps> = ({ className = '' }) => {
                         )}
                       </Button>
                     </Tooltip.Trigger>
-                    
+
                     <Tooltip.Content
-                      className="max-w-xs p-3 bg-gray-900 text-white rounded-lg shadow-xl"
+                      className="max-w-xs p-3 bg-gray-900 text-white rounded-lg shadow-xl z-50"
                       sideOffset={5}
                     >
                       <div className="space-y-2">
@@ -206,13 +224,13 @@ export const SkillPanel: React.FC<SkillPanelProps> = ({ className = '' }) => {
                         <p className="text-sm text-gray-300 leading-relaxed">
                           {skill.description}
                         </p>
-                        
+
                         {/* 技能状态信息 */}
                         <div className="pt-2 border-t border-gray-700">
                           <div className="flex items-center justify-between text-xs">
                             <span>状态:</span>
-                            <span className={used ? 'text-red-400' : canUse ? 'text-green-400' : 'text-yellow-400'}>
-                              {used ? '已使用' : canUse ? '可用' : '不可用'}
+                            <span className={used ? 'text-red-400' : (canUse || (viewOnly && !used)) ? 'text-green-400' : 'text-yellow-400'}>
+                              {used ? '已使用' : viewOnly ? '仅查看' : canUse ? '可用' : '不可用'}
                             </span>
                           </div>
                         </div>
@@ -226,8 +244,8 @@ export const SkillPanel: React.FC<SkillPanelProps> = ({ className = '' }) => {
           </AnimatePresence>
         </div>
 
-        {/* 技能使用提示 */}
-        {availableSkills.length === 0 && (
+        {/* 技能使用提示 - Only show if not viewOnly */}
+        {!viewOnly && isSkillAvailable.length === 0 && (
           <motion.div
             className="mt-4 p-3 bg-gray-50 rounded-lg text-center"
             initial={{ opacity: 0 }}

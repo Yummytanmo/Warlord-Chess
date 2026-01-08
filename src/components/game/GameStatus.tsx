@@ -4,12 +4,12 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '@/store/gameStore';
 import { PlayerColor, GamePhase, Move } from '@/types/game';
-import { 
-  Clock, 
-  User, 
-  Crown, 
-  History, 
-  RotateCcw, 
+import {
+  Clock,
+  User,
+  Crown,
+  History,
+  RotateCcw,
   Trophy,
   Swords,
   Shield,
@@ -23,13 +23,14 @@ interface GameStatusProps {
 }
 
 export const GameStatus: React.FC<GameStatusProps> = ({ className = '' }) => {
-  const { 
-    gameState, 
+  const {
+    gameState,
     getCurrentPlayer,
     getOpponentPlayer,
-    undoLastMove,
     canUndoMove,
-    startNewGame
+    requestDraw,
+    requestUndo,
+    surrender
   } = useGameStore();
 
   if (!gameState) {
@@ -41,27 +42,17 @@ export const GameStatus: React.FC<GameStatusProps> = ({ className = '' }) => {
   const currentPlayerData = gameState.players.find(p => p.color === currentPlayer);
   const opponentPlayerData = gameState.players.find(p => p.color === opponentPlayer);
 
-  const handleUndoMove = () => {
-    if (canUndoMove()) {
-      undoLastMove();
-    } else {
-      toast.error('无法撤销移动');
-    }
-  };
 
-  const handleNewGame = () => {
-    startNewGame();
-  };
 
   const formatMoveHistory = (move: Move, index: number) => {
     const moveNumber = Math.floor(index / 2) + 1;
     const isRedMove = move.piece.color === PlayerColor.RED;
     const prefix = isRedMove ? `${moveNumber}.` : `${moveNumber}...`;
-    
+
     const fromPos = `${String.fromCharCode(97 + move.from.x)}${9 - move.from.y}`;
     const toPos = `${String.fromCharCode(97 + move.to.x)}${9 - move.to.y}`;
     const capture = move.capturedPiece ? 'x' : '-';
-    
+
     return `${prefix} ${fromPos}${capture}${toPos}`;
   };
 
@@ -112,7 +103,7 @@ export const GameStatus: React.FC<GameStatusProps> = ({ className = '' }) => {
           {getGamePhaseIcon(gameState.gamePhase)}
           <h3 className="text-lg font-semibold text-gray-800">游戏状态</h3>
         </div>
-        
+
         <div className="flex items-center gap-2 text-sm text-gray-600">
           <span>{getGamePhaseText(gameState.gamePhase)}</span>
         </div>
@@ -124,13 +115,13 @@ export const GameStatus: React.FC<GameStatusProps> = ({ className = '' }) => {
         {currentPlayerData && (
           <motion.div
             className={`p-3 rounded-lg bg-gradient-to-r ${getPlayerStatusColor(
-              PlayerColor.RED, 
+              PlayerColor.RED,
               currentPlayer === PlayerColor.RED
             )} text-white`}
             animate={{
               scale: currentPlayer === PlayerColor.RED ? 1.02 : 1,
-              boxShadow: currentPlayer === PlayerColor.RED 
-                ? '0 4px 20px rgba(239, 68, 68, 0.3)' 
+              boxShadow: currentPlayer === PlayerColor.RED
+                ? '0 4px 20px rgba(239, 68, 68, 0.3)'
                 : '0 2px 10px rgba(0, 0, 0, 0.1)'
             }}
             transition={{ duration: 0.3 }}
@@ -147,7 +138,7 @@ export const GameStatus: React.FC<GameStatusProps> = ({ className = '' }) => {
                   </div>
                 </div>
               </div>
-              
+
               {currentPlayer === PlayerColor.RED && (
                 <motion.div
                   className="flex items-center gap-1"
@@ -166,13 +157,13 @@ export const GameStatus: React.FC<GameStatusProps> = ({ className = '' }) => {
         {opponentPlayerData && (
           <motion.div
             className={`p-3 rounded-lg bg-gradient-to-r ${getPlayerStatusColor(
-              PlayerColor.BLACK, 
+              PlayerColor.BLACK,
               currentPlayer === PlayerColor.BLACK
             )} text-white`}
             animate={{
               scale: currentPlayer === PlayerColor.BLACK ? 1.02 : 1,
-              boxShadow: currentPlayer === PlayerColor.BLACK 
-                ? '0 4px 20px rgba(55, 65, 81, 0.3)' 
+              boxShadow: currentPlayer === PlayerColor.BLACK
+                ? '0 4px 20px rgba(55, 65, 81, 0.3)'
                 : '0 2px 10px rgba(0, 0, 0, 0.1)'
             }}
             transition={{ duration: 0.3 }}
@@ -189,7 +180,7 @@ export const GameStatus: React.FC<GameStatusProps> = ({ className = '' }) => {
                   </div>
                 </div>
               </div>
-              
+
               {currentPlayer === PlayerColor.BLACK && (
                 <motion.div
                   className="flex items-center gap-1"
@@ -237,7 +228,7 @@ export const GameStatus: React.FC<GameStatusProps> = ({ className = '' }) => {
           <h4 className="font-medium text-gray-800">移动历史</h4>
           <span className="text-sm text-gray-500">({gameState.moveHistory.length} 步)</span>
         </div>
-        
+
         <div className="max-h-32 overflow-y-auto bg-gray-50 rounded-lg p-3">
           {gameState.moveHistory.length > 0 ? (
             <div className="space-y-1">
@@ -252,13 +243,12 @@ export const GameStatus: React.FC<GameStatusProps> = ({ className = '' }) => {
                     transition={{ delay: index * 0.05 }}
                   >
                     <span>{formatMoveHistory(move, actualIndex)}</span>
-                    <span className={`w-2 h-2 rounded-full ${
-                      move.piece.color === PlayerColor.RED ? 'bg-red-400' : 'bg-gray-600'
-                    }`} />
+                    <span className={`w-2 h-2 rounded-full ${move.piece.color === PlayerColor.RED ? 'bg-red-400' : 'bg-gray-600'
+                      }`} />
                   </motion.div>
                 );
               })}
-              
+
               {gameState.moveHistory.length > 6 && (
                 <div className="text-xs text-gray-500 text-center pt-1">
                   ... 还有 {gameState.moveHistory.length - 6} 步历史记录
@@ -278,22 +268,32 @@ export const GameStatus: React.FC<GameStatusProps> = ({ className = '' }) => {
         <Button
           variant="outline"
           size="sm"
-          onClick={handleUndoMove}
+          onClick={requestUndo}
           disabled={!canUndoMove()}
           className="flex-1 flex items-center gap-2"
         >
           <RotateCcw className="w-4 h-4" />
-          撤销
+          悔棋
         </Button>
-        
+
         <Button
           variant="outline"
           size="sm"
-          onClick={handleNewGame}
+          onClick={requestDraw}
           className="flex-1 flex items-center gap-2"
         >
           <Swords className="w-4 h-4" />
-          新游戏
+          提和
+        </Button>
+
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={surrender}
+          className="flex-1 flex items-center gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+        >
+          <Trophy className="w-4 h-4" />
+          认输
         </Button>
       </div>
     </motion.div>

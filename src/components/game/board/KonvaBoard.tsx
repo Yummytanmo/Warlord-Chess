@@ -7,7 +7,7 @@ import { Piece } from '@/types/game';
 import { BackgroundLayer } from './BackgroundLayer';
 import { HighlightLayer } from './HighlightLayer';
 import { PieceLayer } from './PieceLayer';
-import { BOARD_WIDTH, BOARD_HEIGHT, pixelToGrid } from './constants';
+import { BOARD_WIDTH, BOARD_HEIGHT, BOARD_COLS, BOARD_ROWS, pixelToGrid } from './constants';
 
 interface KonvaBoardProps {
   width?: number;
@@ -18,16 +18,17 @@ interface KonvaBoardProps {
  * KonvaBoard - Main canvas-based board component using react-konva
  * Manages the Stage and all layers, handles responsive sizing and interactions
  */
-export const KonvaBoard: React.FC<KonvaBoardProps> = ({
+export const KonvaBoard: React.FC<KonvaBoardProps & { flipBoard?: boolean }> = ({
   width: propWidth,
   height: propHeight,
+  flipBoard = false,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({
     width: propWidth || BOARD_WIDTH,
     height: propHeight || BOARD_HEIGHT,
   });
-  
+
   const {
     gameState,
     selectedPiece,
@@ -83,7 +84,7 @@ export const KonvaBoard: React.FC<KonvaBoardProps> = ({
       // Convert click position to grid coordinates
       const stage = e.target.getStage();
       const pointerPosition = stage.getPointerPosition();
-      
+
       if (!pointerPosition) return;
 
       // Account for scaling
@@ -92,14 +93,21 @@ export const KonvaBoard: React.FC<KonvaBoardProps> = ({
         pointerPosition.y / scale
       );
 
+      // Transform grid coordinates if board is flipped
+      // If flipped, the clicked visual position (x, y) corresponds to (8-x, 9-y) in logical grid
+      const logicalPos = flipBoard ? {
+        x: BOARD_COLS - 1 - gridPos.x,
+        y: BOARD_ROWS - 1 - gridPos.y
+      } : gridPos;
+
       // Check if this is a valid move
       if (selectedPiece) {
         const isValidMove = validMoves.some(
-          move => move.x === gridPos.x && move.y === gridPos.y
+          move => move.x === logicalPos.x && move.y === logicalPos.y
         );
-        
+
         if (isValidMove) {
-          movePiece(selectedPiece.position, gridPos);
+          movePiece(selectedPiece.position, logicalPos);
         } else {
           // Click on empty cell with no valid move - deselect
           selectPiece(null);
@@ -142,16 +150,18 @@ export const KonvaBoard: React.FC<KonvaBoardProps> = ({
         onTap={handleStageClick}
       >
         <BackgroundLayer />
-        
+
         <HighlightLayer
           selectedPosition={selectedPiece?.position || null}
           validMoves={validMoves}
+          flipBoard={flipBoard}
         />
-        
+
         <PieceLayer
           pieces={allPieces}
           selectedPieceId={selectedPiece?.id || null}
           onPieceClick={handlePieceClick}
+          flipBoard={flipBoard}
         />
       </Stage>
     </div>

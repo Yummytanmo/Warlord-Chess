@@ -7,6 +7,7 @@ import {
   PIECE_CONFIG,
   LAYER_NAMES,
   gridToPixel,
+  getDisplayPos,
 } from './constants';
 
 interface HighlightLayerProps {
@@ -18,14 +19,16 @@ interface HighlightLayerProps {
  * HighlightLayer - Renders selection highlights and valid move indicators
  * Updates frequently based on player interactions
  */
-export const HighlightLayer: React.FC<HighlightLayerProps> = ({
+export const HighlightLayer: React.FC<HighlightLayerProps & { flipBoard?: boolean }> = ({
   selectedPosition,
   validMoves,
+  flipBoard = false,
 }) => {
   const renderSelection = () => {
     if (!selectedPosition) return null;
 
-    const pos = gridToPixel(selectedPosition.x, selectedPosition.y);
+    const displayPos = getDisplayPos(selectedPosition.x, selectedPosition.y, flipBoard);
+    const pos = gridToPixel(displayPos.x, displayPos.y);
 
     return (
       <React.Fragment key="selection">
@@ -39,7 +42,7 @@ export const HighlightLayer: React.FC<HighlightLayerProps> = ({
           opacity={0.4}
           listening={false}
         />
-        
+
         {/* Selection ring */}
         <Circle
           x={pos.x}
@@ -55,7 +58,8 @@ export const HighlightLayer: React.FC<HighlightLayerProps> = ({
 
   const renderValidMoves = () => {
     return validMoves.map((move, index) => {
-      const pos = gridToPixel(move.x, move.y);
+      const displayPos = getDisplayPos(move.x, move.y, flipBoard);
+      const pos = gridToPixel(displayPos.x, displayPos.y);
 
       return (
         <Circle

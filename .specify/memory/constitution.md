@@ -1,168 +1,50 @@
-<!--
-同步影响报告：
-版本变更: 0.0.0 → 1.0.0
-修改原则: 无（初始宪法创建）
-新增章节: 所有章节（初始创建）
-  - 核心原则（5条原则）
-  - 开发工作流
-  - 质量标准
-  - 治理机制
-移除章节: 无
-模板状态:
-  ✅ plan-template.md - 宪法检查章节已存在，与测试优先和游戏质量原则对齐
-  ✅ spec-template.md - 用户场景与测试章节与玩家中心原则对齐
-  ✅ tasks-template.md - 阶段结构与测试优先和增量交付原则对齐
-  ⚠️  未找到commands/目录 - 跳过命令文件验证
-后续待办: 无
--->
+# [PROJECT_NAME] Constitution
+<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
 
-# 楚汉棋战项目宪法
+## Core Principles
 
-## 核心原则
+### [PRINCIPLE_1_NAME]
+<!-- Example: I. Library-First -->
+[PRINCIPLE_1_DESCRIPTION]
+<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
 
-### 一、玩家体验至上
+### [PRINCIPLE_2_NAME]
+<!-- Example: II. CLI Interface -->
+[PRINCIPLE_2_DESCRIPTION]
+<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
 
-每个功能必须提升玩家体验和游戏乐趣。实现决策优先考虑：
-- 流畅、响应迅速的游戏体验，保持60fps渲染
-- 直观的UI，减少学习成本
-- 桌面和移动设备的无障碍访问
-- 所有游戏动作的清晰视觉反馈
+### [PRINCIPLE_3_NAME]
+<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
+[PRINCIPLE_3_DESCRIPTION]
+<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
 
-**理由**：象棋游戏的成败取决于玩家体验。没有优秀用户体验的技术卓越会导致项目被放弃。使用Konva.js的Canvas渲染实现流畅的60fps，响应式设计确保可访问性。
+### [PRINCIPLE_4_NAME]
+<!-- Example: IV. Integration Testing -->
+[PRINCIPLE_4_DESCRIPTION]
+<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
 
-### 二、测试优先开发（不可协商）
+### [PRINCIPLE_5_NAME]
+<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
+[PRINCIPLE_5_DESCRIPTION]
+<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
 
-所有游戏逻辑和核心功能必须遵循TDD工作流：
-1. 编写捕获需求的测试（游戏规则使用属性测试）
-2. 验证测试失败并有清晰的错误信息
-3. 实现最少代码使测试通过
-4. 在保持测试通过的前提下重构
+## [SECTION_2_NAME]
+<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
 
-**理由**：象棋规则复杂，存在许多边界情况。使用fast-check进行属性测试能确保手动测试无法达到的全面验证。这对以下方面尤为关键：
-- 所有棋子类型的移动验证
-- 英雄技能交互
-- 游戏状态转换
+[SECTION_2_CONTENT]
+<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
 
-### 三、类型安全与可靠性
+## [SECTION_3_NAME]
+<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
 
-必须在整个项目中使用启用严格模式的TypeScript。所有代码必须：
-- 为游戏状态、棋子、移动和技能定义显式接口
-- 对变体类型使用可辨识联合类型（棋子类型、英雄技能）
-- 避免使用`any`类型，除非在正确类型化的集成边界
-- 提交前通过类型检查
+[SECTION_3_CONTENT]
+<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
 
-**理由**：象棋游戏状态复杂，包含许多相互关联的实体。类型安全可防止游戏过程中的运行时错误，特别是在结合传统象棋规则与英雄技能时。游戏过程中发生运行时错误的代价很高（输掉游戏、玩家挫败感）。
+## Governance
+<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-### 四、性能优先架构
+[GOVERNANCE_RULES]
+<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
 
-游戏渲染和状态管理必须在以下场景保持60fps：
-- 棋子移动和动画
-- 技能效果渲染
-- 棋盘状态更新
-- 多个同时进行的动画
-
-性能要求：
-- 通过Konva.js进行Canvas渲染以实现高效的2D图形
-- 使用Zustand进行轻量级、高性能的状态管理
-- 动画帧预算≤16ms以达到60fps目标
-- 对非关键UI组件进行懒加载
-
-**理由**：实时游戏体验对象棋至关重要。延迟的棋子移动或卡顿的动画会破坏沉浸感并让玩家沮丧。Konva.js提供硬件加速渲染，同时保持可管理的包体积。
-
-### 五、增量功能交付
-
-功能必须以独立可测试、可部署的增量方式交付：
-- MVP优先：先实现基础象棋规则，再添加英雄技能
-- 每个英雄可以独立开发和测试
-- 新增游戏模式时不破坏现有功能
-- 核心游戏逻辑与UI渲染清晰分离
-
-**理由**：楚汉英雄技能增加了显著的复杂性。增量交付允许：
-- 对核心玩法获得早期玩家反馈
-- 独立进行英雄平衡和迭代
-- 降低破坏性变更的风险
-- 当功能失败时有明确的回滚点
-
-## 开发工作流
-
-### 分支与提交
-
-- 功能分支必须遵循模式：`feature/###-简短描述`
-- 提交必须通过所有测试和类型检查
-- 预提交钩子强制执行代码检查和类型检查（禁止--no-verify）
-- 提交信息遵循约定式提交格式
-
-### 代码审查要求
-
-所有PR必须包含：
-- 通过的测试套件（单元测试、属性测试，以及适用的e2e测试）
-- 零错误的类型检查
-- 对面向用户的更改更新文档
-- 对渲染/动画更改进行性能验证
-
-### 测试标准
-
-各层的测试覆盖率要求：
-- **游戏逻辑（moveValidator、skillEngine）**：必须进行属性测试，≥95%覆盖率
-- **状态管理（gameStore、gameManager）**：必须进行集成测试，≥90%覆盖率
-- **UI组件**：逻辑必须进行单元测试，视觉回归可选，≥80%覆盖率
-- **E2E**：关键用户旅程（游戏开始 → 移动 → 胜利条件）
-
-## 质量标准
-
-### 性能预算
-
-- 初始页面加载：3G连接≤2秒
-- 可交互时间：≤3秒
-- 动画帧时间：≤16ms（60fps）
-- 包体积：≤500KB（主包），≤200KB（每个路由）
-
-### 无障碍要求
-
-- 所有游戏操作支持键盘导航
-- 游戏状态通知支持屏幕阅读器
-- 最低符合WCAG 2.1 AA标准
-- 颜色对比度≥4.5:1
-
-### 浏览器支持
-
-- 现代常青浏览器（Chrome、Firefox、Safari、Edge）
-- 移动浏览器（iOS Safari 14+、Chrome Android）
-- 不需要支持IE11
-
-## 治理机制
-
-### 宪法权威
-
-本宪法优先于所有其他开发实践和约定。当出现冲突时：
-1. 宪法原则优先
-2. plan.md中的技术上下文提供实现指导
-3. 功能规范在宪法范围内定义具体需求
-
-### 修订程序
-
-宪法修订需要：
-1. 书面提案，包含理由和影响分析
-2. 团队审查和批准
-3. 遵循语义化版本的版本升级：
-   - 主版本（MAJOR）：原则移除或不兼容的变更
-   - 次版本（MINOR）：新原则或扩展指导
-   - 修订版（PATCH）：澄清或措辞改进
-4. 更新依赖模板（plan、spec、tasks）
-5. 如有破坏性变更影响现有代码，需提供迁移计划
-
-### 合规与执行
-
-- 所有PR必须在合并前验证宪法合规性
-- plan-template.md中的宪法检查关卡必须在第0阶段前通过
-- 复杂度违规必须在复杂度跟踪表中说明理由
-- 每季度审查宪法以确保相关性
-
-### 开发指导
-
-- 功能规划工作流：参见`.specify/templates/plan-template.md`
-- 规范格式：参见`.specify/templates/spec-template.md`
-- 任务分解：参见`.specify/templates/tasks-template.md`
-- 运行时指导：参见`README.md`和项目文档
-
-**版本**: 1.0.0 | **批准日期**: 2026-01-07 | **最后修订**: 2026-01-07
+**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
+<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
