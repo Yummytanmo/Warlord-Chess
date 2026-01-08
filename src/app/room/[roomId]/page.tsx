@@ -175,13 +175,52 @@ export default function RoomPage() {
     };
   }, [roomId]);
 
-  const handleCopyUrl = () => {
-    if (shareUrl) {
-      navigator.clipboard.writeText(shareUrl).then(() => {
+  const fallbackCopy = () => {
+    if (typeof document === 'undefined' || !shareUrl) return;
+
+    try {
+      const textarea = document.createElement('textarea');
+      textarea.value = shareUrl;
+      textarea.style.position = 'fixed';
+      textarea.style.top = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textarea);
+
+      if (successful) {
         setCopied(true);
         toast.success('链接已复制到剪贴板！');
         setTimeout(() => setCopied(false), 2000);
-      });
+      } else {
+        toast.error('复制失败，请手动复制。');
+      }
+    } catch (err) {
+      console.error('Fallback copy failed', err);
+      toast.error('复制失败，请手动复制。');
+    }
+  };
+
+  const handleCopyUrl = () => {
+    if (!shareUrl) return;
+
+    const clipboard = typeof navigator !== 'undefined' ? navigator.clipboard : undefined;
+
+    if (clipboard && clipboard.writeText) {
+      clipboard
+        .writeText(shareUrl)
+        .then(() => {
+          setCopied(true);
+          toast.success('链接已复制到剪贴板！');
+          setTimeout(() => setCopied(false), 2000);
+        })
+        .catch((err) => {
+          console.warn('Clipboard API copy failed, falling back', err);
+          fallbackCopy();
+        });
+    } else {
+      fallbackCopy();
     }
   };
 
