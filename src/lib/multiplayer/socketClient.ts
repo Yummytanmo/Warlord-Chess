@@ -42,7 +42,14 @@ const SOCKET_PATH = '/api/socket/io';
  * @returns Socket.IO client instance
  */
 export function initializeSocket(): Socket {
-  if (socket && socket.connected) {
+  // If socket already exists, return it even if not connected
+  // This prevents creating a new socket that would invalidate the server's socketToRoom mapping
+  // Socket.IO will handle reconnection automatically
+  if (socket) {
+    // If socket exists but is disconnected, try to reconnect
+    if (!socket.connected && !socket.disconnected) {
+      socket.connect();
+    }
     return socket;
   }
 
@@ -256,7 +263,7 @@ export function onGameStateUpdate(
   callback: (data: { gameState: GameState; lastMove?: Move }) => void
 ): () => void {
   const sock = getSocket();
-  if (!sock) return () => {};
+  if (!sock) return () => { };
 
   sock.on('game:state', callback);
   return () => sock.off('game:state', callback);
@@ -274,7 +281,7 @@ export function onPlayerStatus(
   }) => void
 ): () => void {
   const sock = getSocket();
-  if (!sock) return () => {};
+  if (!sock) return () => { };
 
   sock.on('player:status', callback);
   return () => sock.off('player:status', callback);
@@ -291,7 +298,7 @@ export function onGameEnd(
   }) => void
 ): () => void {
   const sock = getSocket();
-  if (!sock) return () => {};
+  if (!sock) return () => { };
 
   sock.on('game:end', callback);
   return () => sock.off('game:end', callback);

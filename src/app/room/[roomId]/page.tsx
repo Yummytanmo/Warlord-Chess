@@ -1,18 +1,18 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast';
-import { initializeSocket, joinRoom, onRoomJoined, onPlayerStatus, onGameStateUpdate } from '@/lib/multiplayer/socketClient';
-import { getSessionId, setCurrentRoomId, getCurrentRoomId, getDisplayName } from '@/lib/multiplayer/sessionUtils';
+import { initializeSocket, joinRoom, onPlayerStatus, onGameStateUpdate } from '@/lib/multiplayer/socketClient';
+import { getSessionId, setCurrentRoomId, getDisplayName } from '@/lib/multiplayer/sessionUtils';
 import { useGameStore } from '@/store/gameStore';
 import type { Room } from '@/types/multiplayer';
 import { GameBoard } from '@/components/game/GameBoard';
 import { GameStatus } from '@/components/game/GameStatus';
 import { SkillPanel } from '@/components/game/SkillPanel';
 import { MultiplayerHeroSelection } from '@/components/game/MultiplayerHeroSelection';
-import { GamePhase } from '@/types/game';
+import { GamePhase, PlayerColor } from '@/types/game';
 
 export default function RoomPage() {
   const params = useParams();
@@ -26,6 +26,9 @@ export default function RoomPage() {
   const [error, setError] = useState<string | null>(null);
   const [shareUrl, setShareUrl] = useState('');
   const [copied, setCopied] = useState(false);
+
+  // Track if we've already connected to prevent duplicate calls
+  const hasConnectedRef = useRef(false);
 
   useEffect(() => {
     if (!roomId) {
@@ -41,19 +44,28 @@ export default function RoomPage() {
     const sessionId = getSessionId();
     const displayName = getDisplayName() || '玩家';
 
-    // Setup event listeners
-    onRoomJoined(({ room: joinedRoom, yourColor }) => {
+    // Helper function to handle successful room join (prevents duplicate calls)
+    const handleRoomJoinSuccess = (joinedRoom: Room, yourColor: PlayerColor, isReconnect: boolean = false) => {
       setRoom(joinedRoom);
       setIsJoining(false);
       setCurrentRoomId(joinedRoom.id);
-      connectToRoom(joinedRoom.id, yourColor);
+
+      // Only call connectToRoom if not already connected
+      if (!hasConnectedRef.current) {
+        hasConnectedRef.current = true;
+        connectToRoom(joinedRoom.id, yourColor);
+
+        if (!isReconnect) {
+          toast.success(`已加入房间！你是 ${yourColor === 'red' ? '红方' : '黑方'}`);
+        }
+      }
 
       if (joinedRoom.gameState) {
         updateGameState(joinedRoom.gameState);
       }
+    };
 
-      toast.success(`已加入房间！你是 ${yourColor === 'red' ? '红方' : '黑方'}`);
-    });
+    // Setup event listeners
 
     onPlayerStatus(({ status, displayName: playerName }) => {
       if (status === 'connected') {
@@ -69,25 +81,22 @@ export default function RoomPage() {
 
     // Listen for room updates (when second player joins)
     if (socket) {
-      // Handle automatic reconnection
+      // Handle automatic reconnection - only rejoin if we were previously connected
       socket.on('connect', () => {
-        console.log('Socket connected/reconnected, verifying room membership...');
-        const currentSessionId = getSessionId();
-        const currentDisplayName = getDisplayName() || 'Player';
-        
-        joinRoom({ roomId, sessionId: currentSessionId, displayName: currentDisplayName }, (response) => {
-          if (response.success && response.room && response.yourColor) {
-            console.log('✅ Automatically re-joined room');
-            setRoom(response.room);
-            connectToRoom(response.room.id, response.yourColor);
-            
-            if (response.room.gameState) {
-              updateGameState(response.room.gameState);
+        if (hasConnectedRef.current) {
+          console.log('Socket reconnected, re-joining room to update server mapping...');
+          const currentSessionId = getSessionId();
+          const currentDisplayName = getDisplayName() || 'Player';
+
+          joinRoom({ roomId, sessionId: currentSessionId, displayName: currentDisplayName }, (response) => {
+            if (response.success && response.room && response.yourColor) {
+              console.log('✅ Automatically re-joined room');
+              handleRoomJoinSuccess(response.room, response.yourColor, true);
+            } else {
+              console.warn('Silent rejoin failed:', response.message);
             }
-          } else {
-             console.warn('Silent rejoin failed:', response.message);
-          }
-        });
+          });
+        }
       });
 
       socket.on('room:update', ({ room: updatedRoom }) => {
@@ -114,42 +123,15 @@ export default function RoomPage() {
       });
     }
 
-    // Check if already in this room (page refresh)
-    const currentRoom = getCurrentRoomId();
-    if (currentRoom === roomId) {
-      // Rejoin
-      joinRoom({ roomId, sessionId, displayName }, (response) => {
-        if (response.success && response.room && response.yourColor) {
-          setRoom(response.room);
-          setIsJoining(false);
-          connectToRoom(response.room.id, response.yourColor);
-
-          if (response.room.gameState) {
-            updateGameState(response.room.gameState);
-          }
-        } else {
-          setError(response.message || '重新加入房间失败');
-          setIsJoining(false);
-        }
-      });
-    } else {
-      // Join for first time
-      joinRoom({ roomId, sessionId, displayName }, (response) => {
-        if (response.success && response.room && response.yourColor) {
-          setRoom(response.room);
-          setIsJoining(false);
-          setCurrentRoomId(response.room.id);
-          connectToRoom(response.room.id, response.yourColor);
-
-          if (response.room.gameState) {
-            updateGameState(response.room.gameState);
-          }
-        } else {
-          setError(response.message || '加入房间失败');
-          setIsJoining(false);
-        }
-      });
-    }
+    // Join room (handles both first join and page refresh)
+    joinRoom({ roomId, sessionId, displayName }, (response) => {
+      if (response.success && response.room && response.yourColor) {
+        handleRoomJoinSuccess(response.room, response.yourColor, false);
+      } else {
+        setError(response.message || '加入房间失败');
+        setIsJoining(false);
+      }
+    });
 
     // Set share URL
     const url = typeof window !== 'undefined' ? window.location.href : '';
@@ -157,13 +139,14 @@ export default function RoomPage() {
 
     // Cleanup
     return () => {
-      // Remove room:update listener
+      // Remove listeners
       if (socket) {
         socket.off('room:update');
+        socket.off('connect');
       }
       // Don't disconnect on unmount, only on explicit leave
     };
-  }, [roomId, connectToRoom, updateGameState]);
+  }, [roomId]);
 
   const handleCopyUrl = () => {
     if (shareUrl) {
@@ -266,11 +249,10 @@ export default function RoomPage() {
                 />
                 <button
                   onClick={handleCopyUrl}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    copied
-                      ? 'bg-green-600 text-white'
-                      : 'bg-blue-600 text-white hover:bg-blue-700'
-                  }`}
+                  className={`px-4 py-2 rounded-lg transition-colors ${copied
+                    ? 'bg-green-600 text-white'
+                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                    }`}
                 >
                   {copied ? '✓ 已复制' : '复制链接'}
                 </button>
@@ -338,11 +320,10 @@ export default function RoomPage() {
                 {/* 中间 - 游戏棋盘 */}
                 <div className="xl:col-span-2 flex flex-col items-center">
                   {/* Turn Indicator */}
-                  <div className={`w-full max-w-[600px] mb-4 px-6 py-3 rounded-lg text-center font-semibold transition-all ${
-                    isMyTurn
-                      ? 'bg-green-100 border-2 border-green-500 text-green-800'
-                      : 'bg-gray-100 border-2 border-gray-300 text-gray-600'
-                  }`}>
+                  <div className={`w-full max-w-[600px] mb-4 px-6 py-3 rounded-lg text-center font-semibold transition-all ${isMyTurn
+                    ? 'bg-green-100 border-2 border-green-500 text-green-800'
+                    : 'bg-gray-100 border-2 border-gray-300 text-gray-600'
+                    }`}>
                     {isMyTurn ? (
                       <span className="flex items-center justify-center gap-2">
                         <span className="animate-pulse">▶</span>
