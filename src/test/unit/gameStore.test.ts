@@ -248,10 +248,10 @@ describe('GameStore', () => {
 
     it('should not allow undo in online games', () => {
       const state = useGameStore.getState();
-      
+
       // 设置为在线游戏
-      state.connectToRoom('test-room');
-      
+      state.connectToRoom('test-room', 'red');
+
       expect(useGameStore.getState().canUndoMove()).toBe(false);
     });
   });
@@ -259,9 +259,9 @@ describe('GameStore', () => {
   describe('Network Functionality', () => {
     it('should connect to room', () => {
       const state = useGameStore.getState();
-      
-      state.connectToRoom('test-room-123');
-      
+
+      state.connectToRoom('test-room-123', 'red');
+
       const newState = useGameStore.getState();
       expect(newState.isOnline).toBe(true);
       expect(newState.roomId).toBe('test-room-123');
@@ -269,11 +269,11 @@ describe('GameStore', () => {
 
     it('should disconnect from room', () => {
       const state = useGameStore.getState();
-      
+
       // 先连接
-      state.connectToRoom('test-room-123');
+      state.connectToRoom('test-room-123', 'red');
       expect(useGameStore.getState().isOnline).toBe(true);
-      
+
       // 然后断开
       state.disconnectFromRoom();
       

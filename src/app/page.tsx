@@ -1,21 +1,52 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { useGameStore } from '@/store/gameStore';
 import { HeroSelection } from '@/components/game/HeroSelection';
 import { SkillPanel } from '@/components/game/SkillPanel';
 import { GameStatus } from '@/components/game/GameStatus';
 import { GameBoard } from '@/components/game/GameBoard';
 import { GamePhase } from '@/types/game';
+import { initializeSocket, createRoom } from '@/lib/multiplayer/socketClient';
+import { getSessionId, getDisplayName } from '@/lib/multiplayer/sessionUtils';
 
 export default function Home() {
   const { gameState, initializeGame, lastError, clearError, startNewGame } = useGameStore();
+  const router = useRouter();
+  const [isCreatingRoom, setIsCreatingRoom] = useState(false);
 
   useEffect(() => {
     // 初始化游戏
     initializeGame();
   }, [initializeGame]);
+
+  // 处理创建多人房间
+  const handleCreateRoom = () => {
+    setIsCreatingRoom(true);
+
+    // Initialize socket connection
+    initializeSocket();
+
+    // Get session ID and display name
+    const sessionId = getSessionId();
+    const displayName = getDisplayName() || '玩家1';
+
+    // Create room
+    createRoom({ sessionId, displayName }, (response) => {
+      setIsCreatingRoom(false);
+
+      if (response.success && response.room) {
+        toast.success(`房间已创建！房间ID: ${response.room.id.substring(0, 8)}...`);
+        // Navigate to room page
+        router.push(`/room/${response.room.id}`);
+      } else {
+        toast.error(response.error || '创建房间失败');
+      }
+    });
+  };
 
   // 处理错误显示
   useEffect(() => {
@@ -64,7 +95,18 @@ export default function Home() {
             楚汉棋战
           </h1>
           <h2 className="text-2xl font-semibold text-gray-600 mb-4">Warlord Chess</h2>
-          <p className="text-lg text-gray-700">结合楚汉英雄技能的创新象棋游戏</p>
+          <p className="text-lg text-gray-700 mb-4">结合楚汉英雄技能的创新象棋游戏</p>
+
+          {/* 多人游戏按钮 */}
+          <div className="flex justify-center gap-4">
+            <button
+              onClick={handleCreateRoom}
+              disabled={isCreatingRoom}
+              className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+            >
+              {isCreatingRoom ? '创建中...' : '🎮 创建多人房间'}
+            </button>
+          </div>
         </div>
 
         {/* 游戏内容 */}

@@ -1,18 +1,50 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { 
-  GameState, 
-  Piece, 
-  Position, 
-  PlayerColor, 
+import {
+  GameState,
+  Piece,
+  Position,
+  PlayerColor,
   GamePhase,
   Move,
   GameError,
   Skill
 } from '@/types/game';
 import { GameManager } from '@/lib/gameManager';
+import { ChessBoard } from '@/lib/board';
 import { HeroClass, createHeroCopy } from '@/lib/heroes';
 import toast from 'react-hot-toast';
+import {
+  initializeSocket,
+  disconnectSocket,
+  makeMove as socketMakeMove,
+  useSkill as socketUseSkill,
+  selectHero as socketSelectHero,
+  onGameStateUpdate,
+  onPlayerStatus,
+  onGameEnd,
+  getSocket
+} from '@/lib/multiplayer/socketClient';
+import type { GameMovePayload, UseSkillPayload } from '@/types/multiplayer';
+
+/**
+ * 从序列化的gameState重建Board实例
+ * Socket.IO传输会丢失类方法，需要重新实例化
+ */
+function reconstructBoard(serializedGameState: any): GameState {
+  const board = new ChessBoard();
+
+  // 复制grid数据
+  if (serializedGameState.board && serializedGameState.board.grid) {
+    board.grid = serializedGameState.board.grid;
+  }
+
+  // 返回带有正确Board实例的gameState
+  return {
+    ...serializedGameState,
+    board
+  };
+}
 
 interface GameStore {
   // 游戏状态
@@ -21,7 +53,8 @@ interface GameStore {
   validMoves: Position[];
   isOnline: boolean;
   roomId: string | null;
-  
+  playerColor: PlayerColor | null; // Player's color in multiplayer
+
   // 游戏管理器
   gameManager: GameManager;
   
@@ -45,7 +78,7 @@ interface GameStore {
   getSkillStates: () => any[];
   
   // Actions - 网络相关
-  connectToRoom: (roomId: string) => void;
+  connectToRoom: (roomId: string, playerColor: PlayerColor) => void;
   disconnectFromRoom: () => void;
   updateGameState: (gameState: GameState) => void;
   
@@ -66,6 +99,9 @@ const createInitialGameState = (): GameState => {
   return gameManager.createNewGame();
 };
 
+// Store listener cleanup functions
+let socketListenersCleanup: (() => void) | null = null;
+
 export const useGameStore = create<GameStore>()(
   devtools(
     (set, get) => ({
@@ -75,6 +111,7 @@ export const useGameStore = create<GameStore>()(
       validMoves: [],
       isOnline: false,
       roomId: null,
+      playerColor: null,
       gameManager: new GameManager(),
       isHeroSelectionOpen: false,
       lastError: null,
@@ -139,8 +176,55 @@ export const useGameStore = create<GameStore>()(
 
         if (state.isOnline && state.roomId) {
           // 网络游戏 - 发送到服务器
-          // TODO: 实现WebSocket通信
-          console.log('Sending move to server:', { from, to });
+          // Optimistic update: apply move locally
+          const result = state.gameManager.executeMove(state.gameState, move);
+
+          if (result.success && result.newGameState) {
+            set({
+              gameState: result.newGameState,
+              selectedPiece: null,
+              validMoves: [],
+              lastError: null
+            });
+
+            // Check if game ended
+            const gameEndResult = state.gameManager.checkGameEnd(result.newGameState);
+            if (gameEndResult.isGameOver) {
+              // Game ended - notify server
+              const socket = getSocket();
+              if (socket) {
+                socket.emit('game:end', {
+                  result: gameEndResult.reason === 'checkmate' ? 'checkmate' :
+                         gameEndResult.reason === 'stalemate' ? 'stalemate' : 'draw',
+                  winner: gameEndResult.winner
+                });
+              }
+            }
+
+            // Send move to server with full game state
+            const payload: GameMovePayload = {
+              move,
+              gameState: result.newGameState,
+              gameStateHash: JSON.stringify(result.newGameState).slice(0, 32) // Simple hash
+            };
+
+            socketMakeMove(payload, (response) => {
+              if (!response.success) {
+                // Rollback on server rejection
+                if (response.correctState) {
+                  set({ gameState: response.correctState });
+                }
+                toast.error(response.error || '移动失败');
+              }
+            });
+          } else {
+            // Invalid move locally
+            if (result.error) {
+              toast.error(result.error.message);
+            }
+            return false;
+          }
+
           return true;
         } else {
           // 本地游戏 - 执行移动
@@ -211,14 +295,42 @@ export const useGameStore = create<GameStore>()(
         const state = get();
         if (!state.gameState) return;
 
-        // 创建武将的深拷贝以避免状态共享
+        // Capture previous state for rollback
+        const previousGameState = JSON.parse(JSON.stringify(state.gameState));
+
+        // Create deep copy of hero to avoid state sharing
         const heroCopy = createHeroCopy(hero);
-        
+
         const newGameState = state.gameManager.selectHero(state.gameState, playerId, heroCopy);
-        set({ gameState: newGameState });
-        
-        if (newGameState.gamePhase === GamePhase.PLAYING) {
-          toast.success('武将选择完成，游戏开始！');
+
+        if (state.isOnline && state.roomId) {
+          // Online game - optimistically update
+          set({ gameState: newGameState });
+
+          // Send to server
+          socketSelectHero({ gameState: newGameState }, (response) => {
+            if (response.success) {
+              if (newGameState.gamePhase === GamePhase.PLAYING) {
+                toast.success('武将选择完成，游戏开始！');
+              }
+            } else {
+              // Rollback on failure
+              console.error('Hero selection failed, rolling back state:', response.error);
+              
+              // If we have a correct state from server (not currently returned by selectHero but good practice for future)
+              // For now, revert to previous local state
+              set({ gameState: reconstructBoard(previousGameState) });
+              
+              toast.error(response.error || '英雄选择失败，请重试');
+            }
+          });
+        } else {
+          // 本地游戏
+          set({ gameState: newGameState });
+
+          if (newGameState.gamePhase === GamePhase.PLAYING) {
+            toast.success('武将选择完成，游戏开始！');
+          }
         }
       },
 
@@ -236,9 +348,35 @@ export const useGameStore = create<GameStore>()(
         }
 
         if (state.isOnline && state.roomId) {
-          // 网络游戏 - 发送到服务器
-          console.log('Sending skill use to server:', skillId);
-          // TODO: 实现WebSocket通信
+          // 网络游戏 - 执行技能并发送到服务器
+          // Execute skill locally first (optimistic update)
+          const result = state.gameManager.useSkill(state.gameState, currentPlayer.id, skillId);
+
+          if (result.success && result.newGameState) {
+            // Update local state
+            set({
+              gameState: result.newGameState,
+              lastError: null
+            });
+
+            // Send to server with updated game state
+            const payload: UseSkillPayload = {
+              skillId,
+              gameState: result.newGameState,
+              targetPieceId: undefined // TODO: add target selection UI
+            };
+
+            socketUseSkill(payload, (response) => {
+              if (response.success) {
+                toast.success('技能使用成功！');
+              } else {
+                toast.error(response.error || '技能使用失败');
+                // Rollback if server rejects (though server should accept since we executed locally)
+              }
+            });
+          } else {
+            toast.error(result.error?.message || '技能使用失败');
+          }
         } else {
           // 本地游戏 - 执行技能
           const result = state.gameManager.useSkill(state.gameState, currentPlayer.id, skillId);
@@ -279,20 +417,102 @@ export const useGameStore = create<GameStore>()(
       },
 
       // Actions - 网络相关
-      connectToRoom: (roomId: string) => {
-        set({ isOnline: true, roomId });
+      connectToRoom: (roomId: string, playerColor: PlayerColor) => {
+        // Initialize Socket.IO connection
+        initializeSocket();
+
+        // Clean up existing game-specific listeners to prevent duplicates or stale closures
+        if (socketListenersCleanup) {
+          socketListenersCleanup();
+          socketListenersCleanup = null;
+        }
+
+        // Setup event listeners for game state updates
+        const cleanupGameState = onGameStateUpdate(({ gameState, lastMove }) => {
+          // 重建Board实例（Socket.IO传输会丢失类方法）
+          const reconstructedState = reconstructBoard(gameState);
+          set({ gameState: reconstructedState, lastError: null });
+          
+          // Show toast only if the move was made by the opponent
+          if (lastMove && lastMove.piece.color !== playerColor) {
+            toast.success('对手已移动');
+          }
+        });
+
+        // Listen for player status changes
+        const cleanupPlayerStatus = onPlayerStatus(({ status, displayName }) => {
+          if (status === 'connected') {
+            toast.success(`${displayName} 已加入`);
+          } else if (status === 'disconnected') {
+            toast.error(`${displayName} 已断开连接`);
+          } else if (status === 'reconnected') {
+            toast.success(`${displayName} 已重新连接`);
+          }
+        });
+
+        // Listen for game end
+        const cleanupGameEnd = onGameEnd(({ result, winner }) => {
+          const currentState = get().gameState;
+
+          if (currentState) {
+            // Update game state to GAME_OVER phase
+            currentState.gamePhase = GamePhase.GAME_OVER;
+            currentState.winner = winner;
+
+            set({
+              gameState: currentState,
+              isOnline: false,
+              roomId: null,
+              playerColor: null
+            });
+          }
+
+          // Clear current room ID from sessionStorage
+          if (typeof window !== 'undefined') {
+            sessionStorage.removeItem('current_room_id');
+          }
+
+          // Show appropriate message
+          if (result === 'checkmate') {
+            toast.success(`游戏结束！${winner === 'red' ? '红方' : '黑方'} 获胜！`);
+          } else if (result === 'stalemate') {
+            toast('游戏结束！和局');
+          } else if (result === 'forfeit') {
+            toast.success(`${winner === 'red' ? '红方' : '黑方'} 因对手弃权而获胜`);
+          } else if (result === 'timeout') {
+            toast('游戏因超时而结束');
+          }
+        });
+
+        // Store cleanup function
+        socketListenersCleanup = () => {
+          cleanupGameState();
+          cleanupPlayerStatus();
+          cleanupGameEnd();
+        };
+
+        set({ isOnline: true, roomId, playerColor });
         toast.success(`已连接到房间: ${roomId}`);
-        // TODO: 实现WebSocket连接
       },
 
       disconnectFromRoom: () => {
-        set({ isOnline: false, roomId: null });
+        // Clean up listeners
+        if (socketListenersCleanup) {
+          socketListenersCleanup();
+          socketListenersCleanup = null;
+        }
+
+        // Disconnect socket
+        disconnectSocket();
+
+        set({ isOnline: false, roomId: null, playerColor: null });
         toast('已断开网络连接');
-        // TODO: 断开WebSocket连接
       },
 
       updateGameState: (gameState: GameState) => {
-        set({ gameState, lastError: null });
+        // 重建Board实例（Socket.IO传输会丢失类方法）
+        const reconstructedState = reconstructBoard(gameState);
+        set({ gameState: reconstructedState, lastError: null });
       },
 
       // Actions - UI控制
@@ -321,7 +541,16 @@ export const useGameStore = create<GameStore>()(
       isCurrentPlayerTurn: (piece: Piece) => {
         const state = get();
         if (!state.gameState) return false;
-        return piece.color === state.gameState.currentPlayer;
+
+        // Check if it's this piece's color's turn
+        if (piece.color !== state.gameState.currentPlayer) return false;
+
+        // In multiplayer, also check if it's the player's color
+        if (state.isOnline && state.playerColor !== null) {
+          return piece.color === state.playerColor;
+        }
+
+        return true;
       },
 
       canUndoMove: () => {
