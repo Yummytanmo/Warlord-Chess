@@ -65,6 +65,132 @@ npm run test:e2e
 npm run lint
 ```
 
+## 部署
+
+### Docker 部署（推荐）
+
+使用 Docker 部署可以确保环境一致性和快速部署。
+
+#### 前置要求
+- Docker 20.10+
+- Docker Compose 2.0+
+
+#### 快速部署
+
+1. **配置环境变量**
+   ```bash
+   # 复制环境变量模板
+   cp .env.example .env.production
+
+   # 编辑环境变量，修改 NEXT_PUBLIC_APP_URL 为你的实际域名或服务器IP
+   nano .env.production
+   ```
+
+   关键配置项：
+   ```env
+   NODE_ENV=production
+   PORT=3000
+   NEXT_PUBLIC_APP_URL=http://your-server-ip:3000
+   NEXT_TELEMETRY_DISABLED=1
+   ```
+
+2. **构建并启动容器**
+   ```bash
+   # 构建镜像并启动服务
+   docker compose up -d --build
+
+   # 查看运行状态
+   docker compose ps
+
+   # 查看日志
+   docker compose logs -f warlord-chess
+   ```
+
+3. **访问应用**
+
+   部署成功后，通过浏览器访问：`http://your-server-ip:3000`
+
+#### 容器管理命令
+
+```bash
+# 查看容器状态
+docker compose ps
+
+# 查看实时日志
+docker compose logs -f warlord-chess
+
+# 停止服务
+docker compose down
+
+# 重启服务
+docker compose restart
+
+# 重新构建并启动
+docker compose up -d --build
+
+# 进入容器调试
+docker exec -it warlord-chess sh
+```
+
+#### 可选配置
+
+**启用 Redis 持久化**（用于生产环境房间数据持久化）：
+
+编辑 `docker-compose.yml`，取消 Redis 相关配置的注释：
+```yaml
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: warlord-chess-redis
+    restart: unless-stopped
+    ...
+```
+
+然后在环境变量中配置：
+```env
+REDIS_URL=redis://redis:6379/0
+```
+
+### 传统部署
+
+如果不使用 Docker，可以直接在服务器上运行：
+
+```bash
+# 安装依赖
+npm install
+
+# 构建项目
+npm run build
+
+# 生产环境启动
+NODE_ENV=production node server.js
+```
+
+使用 PM2 进程管理器（推荐）：
+```bash
+# 安装 PM2
+npm install -g pm2
+
+# 启动应用
+pm2 start server.js --name warlord-chess
+
+# 查看状态
+pm2 status
+
+# 查看日志
+pm2 logs warlord-chess
+
+# 设置开机自启
+pm2 startup
+pm2 save
+```
+
+### 安全建议
+
+1. **防火墙配置**：建议只开放必要的端口（如 3000）
+2. **反向代理**：使用 Nginx 配置 HTTPS
+3. **环境变量**：不要将敏感信息提交到代码仓库
+
 ### 游戏说明
 
 1. **多人对战**：访问首页点击“创建房间”，将链接分享给好友即可开始对战。

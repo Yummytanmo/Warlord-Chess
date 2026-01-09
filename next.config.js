@@ -8,6 +8,7 @@ const nextConfig = {
     // Enable strict ESLint checking
     ignoreDuringBuilds: false,
   },
+  output: 'standalone', // Enable standalone output for Docker deployment
   webpack: (config, { isServer }) => {
     // Fix for Konva.js in Next.js - handle both server and client
     if (isServer) {

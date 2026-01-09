@@ -1,0 +1,50 @@
+services:
+  warlord-chess:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: warlord-chess
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - NEXT_TELEMETRY_DISABLED=1
+      # Update NEXT_PUBLIC_APP_URL with your actual domain or server IP
+      - NEXT_PUBLIC_APP_URL=http://47.121.129.139:3000
+    # Optional: Mount a volume for persistent data if using Redis
+    # volumes:
+    #   - warlord-chess-data:/data
+    networks:
+      - warlord-chess-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Redis for production persistence
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: warlord-chess-redis
+  #   restart: unless-stopped
+  #   command: redis-server --appendonly yes
+  #   volumes:
+  #     - redis-data:/data
+  #   networks:
+  #     - warlord-chess-network
+  #   healthcheck:
+  #     test: ["CMD", "redis-cli", "ping"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+
+networks:
+  warlord-chess-network:
+    driver: bridge
+
+# volumes:
+#   warlord-chess-data:
+#   redis-data:
