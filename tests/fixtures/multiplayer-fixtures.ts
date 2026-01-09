@@ -4,7 +4,7 @@
  */
 
 import type { Room, RoomStatus, PlayerSession } from '@/types/multiplayer';
-import type { GameState, PlayerColor, GamePhase } from '@/types/game';
+import type { PlayerColor, GamePhase } from '@/types/game';
 
 /**
  * Create a test room with default or override values
@@ -51,27 +51,25 @@ export function createTestPlayer(
  * Create a test game state
  */
 export function createTestGameState(
-  overrides?: Partial<GameState>
-): GameState {
+  overrides?: any
+): any {
   return {
     id: 'test-game-state',
     board: {
       width: 9,
       height: 10,
       squares: [],
-    },
+    } as any,
     currentTurn: 'red' as PlayerColor,
     players: [
       {
         color: 'red' as PlayerColor,
-        hero: null,
-        capturedPieces: [],
-      },
+        hero: null as any,
+      } as any,
       {
         color: 'black' as PlayerColor,
-        hero: null,
-        capturedPieces: [],
-      },
+        hero: null as any,
+      } as any,
     ],
     moveHistory: [],
     capturedPieces: [],
@@ -127,9 +125,11 @@ export function createGameInProgress(moveCount: number = 5): Room {
           type: 'soldier',
           color: i % 2 === 0 ? ('red' as PlayerColor) : ('black' as PlayerColor),
           position: { x: i, y: i },
-        },
+          isAlive: true,
+        } as any,
         from: { x: i, y: i },
         to: { x: i + 1, y: i + 1 },
+        timestamp: Date.now() - (moveCount - i) * 1000,
       })),
     }),
   });

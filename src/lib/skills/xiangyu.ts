@@ -1,4 +1,4 @@
-import { Skill, SkillType, GameContext, SkillResult } from '@/types/game';
+import { Skill, SkillType } from '@/types/game';
 import { RuleContext } from '@/types/rules';
 
 export const beiShuiSkill: Skill = {

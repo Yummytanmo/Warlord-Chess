@@ -1,4 +1,4 @@
-import { Skill, SkillType, GameContext, SkillResult, PieceType, SkillTrigger, Piece, PlayerColor } from '@/types/game';
+import { Skill, SkillType, GameContext, SkillResult, PieceType, SkillTrigger, Piece } from '@/types/game';
 import { PieceSetup } from '../pieceSetup';
 
 export const yunChouSkill: Skill = {
@@ -39,7 +39,7 @@ export const jueShengSkill: Skill = {
   canUse: () => true, // canUse should ideally check customData
   execute: (context: GameContext): SkillResult => {
     const ctx = context as any;
-    const { skillState, player, gameState } = ctx;
+    const { skillState, player } = ctx;
 
     // Track checks
     if (ctx.trigger === SkillTrigger.ON_CHECK) {

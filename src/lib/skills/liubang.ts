@@ -1,4 +1,4 @@
-import { Skill, SkillType, GameContext, SkillResult, PieceType, PlayerColor } from '@/types/game';
+import { Skill, SkillType, GameContext, SkillResult } from '@/types/game';
 import { RuleContext } from '@/types/rules';
 import { PieceSetup } from '../pieceSetup';
 

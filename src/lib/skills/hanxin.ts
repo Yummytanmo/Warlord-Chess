@@ -64,7 +64,7 @@ export const dianBingSkill: Skill = {
 
     if (trigger === SkillTrigger.ON_GAME_START) {
       const pieces = gameState.board.getAllPieces();
-      pieces.forEach(p => {
+      pieces.forEach((p: Piece) => {
         if (p.color === player.color && p.type === PieceType.PAWN) {
           gameState.board.setPiece(p.position, null);
           p.isAlive = false;
@@ -148,8 +148,8 @@ export const yongBingSkill: Skill = {
       const { gameState, player } = ctx;
       const board = gameState.board;
       
-      const p1 = player.pieces.find(p => p.id === pieceId1);
-      const p2 = player.pieces.find(p => p.id === pieceId2);
+      const p1 = player.pieces.find((p: Piece) => p.id === pieceId1);
+      const p2 = player.pieces.find((p: Piece) => p.id === pieceId2);
       
       if (!p1 || !p2) return { success: false, message: '棋子不存在' };
       

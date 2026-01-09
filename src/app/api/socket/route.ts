@@ -51,9 +51,9 @@ function initializeSocketServer(): SocketIOServer {
  *
  * This endpoint initializes the Socket.IO server and returns status
  */
-export async function GET(req: NextRequest) {
+export async function GET(_req: NextRequest) {
   try {
-    const socketServer = initializeSocketServer();
+    initializeSocketServer();
 
     return new Response(
       JSON.stringify({

@@ -17,17 +17,7 @@ export const SkillInteraction: React.FC<SkillInteractionProps> = ({
   onCancel,
   description 
 }) => {
-  const [selectedPositions, setSelectedPositions] = useState<Position[]>([]);
-
-  const handlePositionSelect = (pos: Position) => {
-    if (selectedPositions.some(p => p.x === pos.x && p.y === pos.y)) {
-      setSelectedPositions(prev => prev.filter(p => p.x !== pos.x || p.y !== pos.y));
-    } else {
-      if (selectedPositions.length < maxSelections) {
-        setSelectedPositions(prev => [...prev, pos]);
-      }
-    }
-  };
+  const [selectedPositions] = useState<Position[]>([]);
 
   const handleConfirm = () => {
     onConfirm({ positions: selectedPositions });

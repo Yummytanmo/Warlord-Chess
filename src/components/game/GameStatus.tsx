@@ -18,7 +18,6 @@ import {
   Users
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import toast from 'react-hot-toast';
 
 interface GameStatusProps {
   className?: string;

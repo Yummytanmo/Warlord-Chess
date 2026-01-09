@@ -4,7 +4,6 @@
  */
 
 import { spawn, ChildProcess } from 'child_process';
-import { createServer } from 'http';
 
 let serverProcess: ChildProcess | null = null;
 const TEST_PORT = 3001;

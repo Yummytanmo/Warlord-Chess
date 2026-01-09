@@ -3,15 +3,15 @@
  * Provides helper functions to compare and validate game states
  */
 
-import type { GameState, PlayerColor, Move, Piece, Position } from '@/types/game';
-import type { Room, PlayerSession } from '@/types/multiplayer';
+import type { PlayerColor, Position } from '@/types/game';
+import type { PlayerSession } from '@/types/multiplayer';
 
 /**
  * Deep equality check for game states (ignoring timestamps)
  */
 export function assertGameStatesEqual(
-  actual: GameState,
-  expected: GameState,
+  actual: any,
+  expected: any,
   message?: string
 ): void {
   const errors: string[] = [];
@@ -30,16 +30,16 @@ export function assertGameStatesEqual(
   }
 
   // Check players
-  if (actual.players.length !== expected.players.length) {
+  if (actual.players?.length !== expected.players?.length) {
     errors.push(
-      `Player count mismatch: expected ${expected.players.length}, got ${actual.players.length}`
+      `Player count mismatch: expected ${expected.players?.length}, got ${actual.players?.length}`
     );
   }
 
   // Check move history length
-  if (actual.moveHistory.length !== expected.moveHistory.length) {
+  if (actual.moveHistory?.length !== expected.moveHistory?.length) {
     errors.push(
-      `Move history length mismatch: expected ${expected.moveHistory.length}, got ${actual.moveHistory.length}`
+      `Move history length mismatch: expected ${expected.moveHistory?.length}, got ${actual.moveHistory?.length}`
     );
   }
 
@@ -72,14 +72,14 @@ export function assertGameStatesEqual(
 /**
  * Assert that two rooms have identical game states
  */
-export function assertRoomGameStatesMatch(room1: Room, room2: Room, message?: string): void {
+export function assertRoomGameStatesMatch(room1: any, room2: any, message?: string): void {
   assertGameStatesEqual(room1.gameState, room2.gameState, message);
 }
 
 /**
  * Assert room has expected number of players
  */
-export function assertPlayerCount(room: Room, expectedCount: number, message?: string): void {
+export function assertPlayerCount(room: any, expectedCount: number, message?: string): void {
   const actual = room.players.length;
   if (actual !== expectedCount) {
     const prefix = message ? `${message}\n` : '';
@@ -92,7 +92,7 @@ export function assertPlayerCount(room: Room, expectedCount: number, message?: s
 /**
  * Assert room is in expected status
  */
-export function assertRoomStatus(room: Room, expectedStatus: string, message?: string): void {
+export function assertRoomStatus(room: any, expectedStatus: string, message?: string): void {
   if (room.status !== expectedStatus) {
     const prefix = message ? `${message}\n` : '';
     throw new Error(
@@ -140,7 +140,7 @@ export function assertPlayerSession(
 /**
  * Assert move is valid and matches expected properties
  */
-export function assertMove(move: Move, expected: Partial<Move>, message?: string): void {
+export function assertMove(move: any, expected: any, message?: string): void {
   const errors: string[] = [];
 
   if (expected.from && !positionsEqual(move.from, expected.from)) {
@@ -186,7 +186,7 @@ export function positionsEqual(pos1: Position, pos2: Position): boolean {
  * Assert that game state has expected turn
  */
 export function assertCurrentTurn(
-  gameState: GameState,
+  gameState: any,
   expectedColor: PlayerColor,
   message?: string
 ): void {
@@ -202,7 +202,7 @@ export function assertCurrentTurn(
  * Assert that game is in expected phase
  */
 export function assertGamePhase(
-  gameState: GameState,
+  gameState: any,
   expectedPhase: string,
   message?: string
 ): void {
@@ -218,7 +218,7 @@ export function assertGamePhase(
  * Assert that move history has expected length
  */
 export function assertMoveHistoryLength(
-  gameState: GameState,
+  gameState: any,
   expectedLength: number,
   message?: string
 ): void {
@@ -235,7 +235,7 @@ export function assertMoveHistoryLength(
  * Assert that room has disconnected players
  */
 export function assertDisconnectedPlayers(
-  room: Room,
+  room: any,
   expectedCount: number,
   message?: string
 ): void {
@@ -251,7 +251,7 @@ export function assertDisconnectedPlayers(
 /**
  * Assert that room activity timestamp is recent
  */
-export function assertRecentActivity(room: Room, maxAgeMs: number = 5000, message?: string): void {
+export function assertRecentActivity(room: any, maxAgeMs: number = 5000, message?: string): void {
   const age = Date.now() - room.lastActivityAt;
   if (age > maxAgeMs) {
     const prefix = message ? `${message}\n` : '';
@@ -289,7 +289,7 @@ export function assertArraysEqualUnordered<T>(
 /**
  * Pretty-print game state for debugging
  */
-export function formatGameState(gameState: GameState): string {
+export function formatGameState(gameState: any): string {
   return JSON.stringify(
     {
       id: gameState.id,
@@ -309,14 +309,14 @@ export function formatGameState(gameState: GameState): string {
 /**
  * Pretty-print room for debugging
  */
-export function formatRoom(room: Room): string {
+export function formatRoom(room: any): string {
   return JSON.stringify(
     {
       id: room.id,
       status: room.status,
       playerCount: room.players.length,
       disconnectedCount: room.disconnectedPlayers.size,
-      gamePhase: room.gameState.phase,
+      gamePhase: room.gameState?.phase,
       createdAt: new Date(room.createdAt).toISOString(),
       lastActivityAt: new Date(room.lastActivityAt).toISOString(),
     },

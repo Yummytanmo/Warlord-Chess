@@ -630,36 +630,6 @@ export class GameManager {
   }
 
   /**
-   * 获取连续将军次数
-   * 返回值对应"半回合"数 (checks * 2)，以便与 checkGameEnd 中的 >= 6 阈值匹配
-   */
-  private getConsecutiveChecks(gameState: GameState): number {
-    const history = gameState.moveHistory;
-    if (history.length === 0) return 0;
-
-    const lastMove = history[history.length - 1];
-    const checkingPlayer = lastMove.piece.color;
-
-    let checks = 0;
-
-    // 检查该玩家最近的连续移动
-    for (let i = history.length - 1; i >= 0; i -= 2) {
-      const move = history[i];
-      // 确保是同一玩家的移动
-      if (move.piece.color !== checkingPlayer) break;
-
-      if (move.isCheck) {
-        checks++;
-      } else {
-        break;
-      }
-    }
-
-    // 将将军次数转换为"步数" (1次将军 = 2步: 将军+应将)
-    return checks * 2;
-  }
-
-  /**
    * 检查指定玩家是否被将军（但游戏未结束）
    */
   isPlayerInCheck(gameState: GameState, playerColor: PlayerColor): boolean {

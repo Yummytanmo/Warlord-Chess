@@ -88,7 +88,7 @@ export class ChessMoveValidator implements MoveValidator {
   /**
    * 检查武将技能是否允许特殊移动
    */
-  private checkSkillModifiedMove(move: Move, gameState: GameState, player: Player, ruleContext?: RuleContext): MoveValidationResult {
+  private checkSkillModifiedMove(_move: Move, _gameState: GameState, _player: Player, _ruleContext?: RuleContext): MoveValidationResult {
     if (!this.skillEngine) {
       return { isValid: false };
     }
@@ -103,7 +103,7 @@ export class ChessMoveValidator implements MoveValidator {
    * 验证将/帅的移动
    * 只能在九宫内移动，每次只能走一格（横或竖）
    */
-  private validateKingMove(from: Position, to: Position, piece: Piece, board: any, player?: Player, ruleContext?: RuleContext): MoveValidationResult {
+  private validateKingMove(from: Position, to: Position, piece: Piece, board: any, _player?: Player, ruleContext?: RuleContext): MoveValidationResult {
     // 只能走一格，且只能横走或竖走
     const dx = Math.abs(to.x - from.x);
     const dy = Math.abs(to.y - from.y);
@@ -129,7 +129,7 @@ export class ChessMoveValidator implements MoveValidator {
    * 验证士的移动
    * 只能在九宫内斜走，每次只能走一格
    */
-  private validateAdvisorMove(from: Position, to: Position, piece: Piece, board: any, player?: Player, ruleContext?: RuleContext): MoveValidationResult {
+  private validateAdvisorMove(from: Position, to: Position, piece: Piece, board: any, _player?: Player, ruleContext?: RuleContext): MoveValidationResult {
     // 检查鸿门技能：士可以出九宫但不能过河
     if (ruleContext?.moveRules.advisor.canLeavePalace) {
       // 鸿门技能：士可以出九宫但不能过河
@@ -166,7 +166,7 @@ export class ChessMoveValidator implements MoveValidator {
    * 验证象的移动
    * 只能斜走两格（田字格），不能过河，不能被象心阻挡
    */
-  private validateElephantMove(from: Position, to: Position, piece: Piece, board: any, player?: Player, ruleContext?: RuleContext): MoveValidationResult {
+  private validateElephantMove(from: Position, to: Position, piece: Piece, board: any, _player?: Player, ruleContext?: RuleContext): MoveValidationResult {
     // 不能过河
     if (board.hasRiverCrossed(to, piece.color)) {
       return { isValid: false, reason: '象不能过河' };
@@ -292,30 +292,10 @@ export class ChessMoveValidator implements MoveValidator {
   }
 
   /**
-   * 验证马的移动（霸王技能：不受拌马腿影响）
-   */
-  private validateHorseMoveWithoutLegBlock(from: Position, to: Position, _piece: Piece, _board: any): MoveValidationResult {
-    const dx = to.x - from.x;
-    const dy = to.y - from.y;
-
-    // 检查是否是日字格移动
-    const isValidLShape =
-      (Math.abs(dx) === 2 && Math.abs(dy) === 1) ||
-      (Math.abs(dx) === 1 && Math.abs(dy) === 2);
-
-    if (!isValidLShape) {
-      return { isValid: false, reason: '马只能走日字格' };
-    }
-
-    // 霸王技能：不检查拌马腿
-    return { isValid: true, reason: '霸王技能：马不受拌马腿影响' };
-  }
-
-  /**
    * 验证车的移动
    * 只能直线移动，路径不能被阻挡
    */
-  private validateChariotMove(from: Position, to: Position, _piece: Piece, board: any, ruleContext?: RuleContext): MoveValidationResult {
+  private validateChariotMove(from: Position, to: Position, _piece: Piece, board: any, _ruleContext?: RuleContext): MoveValidationResult {
     // 只能直线移动
     if (!board.isOnSameLine(from, to)) {
       return { isValid: false, reason: '车只能直线移动' };
@@ -334,7 +314,7 @@ export class ChessMoveValidator implements MoveValidator {
    * 不吃子时直线移动且路径不能被阻挡
    * 吃子时必须隔一个棋子
    */
-  private validateCannonMove(from: Position, to: Position, _piece: Piece, board: any, ruleContext?: RuleContext): MoveValidationResult {
+  private validateCannonMove(from: Position, to: Position, _piece: Piece, board: any, _ruleContext?: RuleContext): MoveValidationResult {
     // 只能直线移动
     if (!board.isOnSameLine(from, to)) {
       return { isValid: false, reason: '炮只能直线移动' };

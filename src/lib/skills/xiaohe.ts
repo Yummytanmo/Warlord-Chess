@@ -1,4 +1,4 @@
-import { Skill, SkillType, GameContext, SkillResult, PieceType, SkillTrigger } from '@/types/game';
+import { Skill, SkillType, GameContext, SkillResult, PieceType, SkillTrigger, Piece } from '@/types/game';
 import { PieceSetup } from '../pieceSetup';
 
 export const yueXiaSkill: Skill = {
@@ -37,7 +37,7 @@ export const yueXiaSkill: Skill = {
              let targetPiece: any = null;
              
              for (const p of gameState.players) {
-               const found = p.pieces.find(pp => pp.id === id);
+               const found = p.pieces.find((pp: Piece) => pp.id === id);
                if (found) {
                  targetPiece = found;
                  break;
@@ -47,9 +47,9 @@ export const yueXiaSkill: Skill = {
              if (targetPiece) {
                const occupant = gameState.board.getPiece(pos);
                if (occupant) {
-                 const occOwner = gameState.players.find(p => p.color === occupant.color);
+                 const occOwner = gameState.players.find((p: any) => p.color === occupant.color);
                  if (occOwner) {
-                   const occP = occOwner.pieces.find(p => p.id === occupant.id);
+                   const occP = occOwner.pieces.find((p: Piece) => p.id === occupant.id);
                    if (occP) occP.isAlive = false;
                  }
                  gameState.board.setPiece(pos, null);
@@ -115,7 +115,7 @@ export const chengYeSkill: Skill = {
   canUse: () => true, // Condition checked in execute/engine
   execute: (context: GameContext): SkillResult => {
     const ctx = context as any;
-    const { trigger, gameState, piece, move, skillEngine } = ctx;
+    const { trigger, piece, move, skillEngine } = ctx;
 
     if (trigger === SkillTrigger.AFTER_MOVE && move?.capturedPiece) {
       // Check if YueXia used
