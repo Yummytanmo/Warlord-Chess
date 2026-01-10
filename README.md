@@ -69,7 +69,7 @@ npm run lint
 
 ### Docker 部署（推荐）
 
-使用 Docker 部署可以确保环境一致性和快速部署。
+使用 Docker 部署可以确保环境一致性和快速部署。当前配置已集成 Nginx 反向代理，支持通过 80/443 端口直接访问。
 
 #### 前置要求
 - Docker 20.10+
@@ -82,7 +82,7 @@ npm run lint
    # 复制环境变量模板
    cp .env.example .env.production
 
-   # 编辑环境变量，修改 NEXT_PUBLIC_APP_URL 为你的实际域名或服务器IP
+   # 编辑环境变量，修改 NEXT_PUBLIC_APP_URL 为你的实际域名或服务器IP（无需端口号）
    nano .env.production
    ```
 
@@ -90,25 +90,34 @@ npm run lint
    ```env
    NODE_ENV=production
    PORT=3000
-   NEXT_PUBLIC_APP_URL=http://your-server-ip:3000
+   NEXT_PUBLIC_APP_URL=http://47.121.129.139
    NEXT_TELEMETRY_DISABLED=1
    ```
 
 2. **构建并启动容器**
    ```bash
-   # 构建镜像并启动服务
+   # 构建镜像并启动服务（包含 Nginx 反向代理）
    docker compose up -d --build
 
    # 查看运行状态
    docker compose ps
 
    # 查看日志
-   docker compose logs -f warlord-chess
+   docker compose logs -f
    ```
 
 3. **访问应用**
 
-   部署成功后，通过浏览器访问：`http://your-server-ip:3000`
+   部署成功后，通过浏览器访问：
+   - **HTTP**: `http://47.121.129.139` （无需端口号）
+   - 如需 HTTPS，请参考 [SSL_SETUP.md](SSL_SETUP.md) 配置 HTTPS 证书
+
+#### 架构说明
+
+当前部署架构包含：
+- **Nginx** (端口 80/443): 反向代理，处理 HTTP/HTTPS 请求和 WebSocket 连接
+- **Warlord Chess** (内部端口 3000): Next.js 应用，仅在内网可访问
+- 两个服务通过 Docker 网络通信，确保安全性
 
 #### 容器管理命令
 
@@ -185,11 +194,20 @@ pm2 startup
 pm2 save
 ```
 
+### HTTPS 配置
+
+如果需要配置 HTTPS（推荐用于生产环境），请参考 [SSL_SETUP.md](SSL_SETUP.md) 文档，支持以下方案：
+- Let's Encrypt 免费证书（推荐）
+- 自签名证书（仅用于测试）
+- 商业 SSL 证书
+
 ### 安全建议
 
-1. **防火墙配置**：建议只开放必要的端口（如 3000）
-2. **反向代理**：使用 Nginx 配置 HTTPS
+1. **防火墙配置**：只开放 80 和 443 端口
+2. **HTTPS 加密**：使用 SSL/TLS 证书保护数据传输
 3. **环境变量**：不要将敏感信息提交到代码仓库
+4. **定期更新**：保持 Docker 镜像和依赖包更新
+5. **监控日志**：定期检查访问日志和错误日志
 
 ### 游戏说明
 

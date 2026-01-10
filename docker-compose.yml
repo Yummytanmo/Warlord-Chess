@@ -1,18 +1,41 @@
 services:
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: warlord-chess-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro  # SSL certificates (optional)
+    networks:
+      - warlord-chess-network
+    depends_on:
+      - warlord-chess
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Main application
   warlord-chess:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: warlord-chess
     restart: unless-stopped
-    ports:
-      - "3000:3000"
+    # Remove exposed ports, only accessible through nginx
+    expose:
+      - "3000"
     environment:
       - NODE_ENV=production
       - PORT=3000
       - NEXT_TELEMETRY_DISABLED=1
-      # Update NEXT_PUBLIC_APP_URL with your actual domain or server IP
-      - NEXT_PUBLIC_APP_URL=http://47.121.129.139:3000
+      # Update NEXT_PUBLIC_APP_URL with your actual domain or server IP (no port needed)
+      - NEXT_PUBLIC_APP_URL=http://47.121.129.139
     # Optional: Mount a volume for persistent data if using Redis
     # volumes:
     #   - warlord-chess-data:/data
